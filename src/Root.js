@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
-import Layout from './components/Layout';
+import { Provider } from 'react-redux';
+import configureStore from './components/store/configureStore';
+import RoomIdeas from './components/RoomIdeas';
+
+const store = configureStore();
 
 class Root extends Component {
-
     render() {
         return (
-            <Layout/>
-        );
+          <Provider store={store}>
+              <RoomIdeas/>
+          </Provider>
+        )
     }
 }
 
