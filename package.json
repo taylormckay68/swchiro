@@ -4,24 +4,23 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "NODE_ENV=production babel src --out-dir build",
+    "bundle": "rm -rf dist && NODE_ENV=production webpack -p",
+    "build": "rm -rf build && NODE_ENV=production babel src --out-dir build",
     "start": "node build/index.js",
     "test": "echo 'done'"
   },
   "dependencies": {
     "babel-polyfill": "^6.23.0",
+    "compression": "^1.7.3",
     "cross-fetch": "^2.2.2",
     "express": "^4.16.3",
-    "isomorphic-fetch": "^2.2.1",
-    "overstock-marketing-component-library": "^1.0.11",
+    "lpo-component-library": "^3.2.0",
+    "node-fetch": "^2.2.0",
+    "overstock-component-library": "^3.4.1",
+    "overstock-marketing-component-library": "^1.1.0",
     "react": "^16.4.2",
     "react-dom": "^16.0.0",
-    "react-inview-monitor": "^2.2.0",
-    "react-redux": "^5.0.7",
-    "react-resize-detector": "^3.0.1",
     "redux": "^4.0.0",
-    "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.3.0",
     "shortid": "^2.2.13",
     "styled-components": "^3.3.3"
   },
@@ -29,6 +28,7 @@
     "babel-cli": "^6.24.1",
     "babel-eslint": "^8.0.2",
     "babel-loader": "^7.1.2",
+    "babel-plugin-lodash": "^3.3.4",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-assign": "^6.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
@@ -39,9 +39,11 @@
     "babelify": "^7.3.0",
     "eslint": "^4.12.0",
     "eslint-config-overstock": "^1.2.1",
-    "extract-text-webpack-plugin": "^3.0.0",
+    "extract-text-webpack-plugin": "^3.0.2",
     "friendly-errors-webpack-plugin": "^1.6.1",
-    "html-webpack-plugin": "^3.0.0"
+    "webpack": "^4.20.2",
+    "webpack-bundle-analyzer": "^3.0.2",
+    "webpack-cli": "^3.1.2"
   },
   "author": "Marucci",
   "license": "MIT"
