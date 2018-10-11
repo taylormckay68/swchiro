@@ -14,6 +14,12 @@ var _RoomIdeas = require('./styled-components/RoomIdeas');
 
 var _RoomIdeas2 = _interopRequireDefault(_RoomIdeas);
 
+var _FilterBar = require('./FilterBar');
+
+var _FilterBar2 = _interopRequireDefault(_FilterBar);
+
+var _FilterBar3 = require('./styled-components/FilterBar');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -37,11 +43,7 @@ var RoomIdeas = function (_Component) {
             return _react2.default.createElement(
                 _RoomIdeas2.default,
                 null,
-                _react2.default.createElement(
-                    'div',
-                    { className: 'mainDiv' },
-                    'Rooms'
-                )
+                _react2.default.createElement(_FilterBar2.default, null)
             );
         }
     }]);
