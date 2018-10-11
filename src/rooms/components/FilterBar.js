@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {FilterBarWrapper, ArrowWrapper, RoomIdeasText, TextWrapper, MainText, FilterButton, FilterButtonWrapper, FilterButtonInnerCont, FilterButtonText, FilterButtonArrow} from './styled-components/FilterBar';
+import {FilterBarWrapper, ArrowWrapper, RoomIdeasText, TextWrapper, MainText, FilterButton, FilterButtonWrapper, FilterButtonInnerCont, FilterButtonText, FilterButtonArrow, FixedFilterButton} from './styled-components/FilterBar';
 import ArrowsMinimalLeft from 'overstock-component-library/lib/Icons/arrows/Minimal_Left';
 import ArrowsMinimalDown from 'overstock-component-library/lib/Icons/arrows/Minimal_Down';
 
@@ -44,6 +44,7 @@ class FilterBar extends Component {
                         </FilterButtonInnerCont>
                     </FilterButton>                    
                 </FilterButtonWrapper>
+                <FixedFilterButton className="fixed-filter-button">Filters</FixedFilterButton>
             </FilterBarWrapper>
         )
     }

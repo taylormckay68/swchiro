@@ -70,6 +70,25 @@ export const FilterButtonWrapper = styled.div`
         align-items: flex-end;
     }
 `
+export const FixedFilterButton = styled.div`
+    position: fixed;
+    width: calc(100vw - 80px);
+    height: 48px;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    bottom: 22px;
+    left: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: HelveticaNeue;
+    font-size: 14px;
+    font-weight: normal;
+    color: #545658;
+    @media(min-width: 569px) {
+        display: none;
+    }
+`
 export const MainText = styled.div`
     height: 44px;
     font-family: HelveticaNeue;

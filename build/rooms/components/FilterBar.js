@@ -123,6 +123,11 @@ var FilterBar = function (_Component) {
                             )
                         )
                     )
+                ),
+                _react2.default.createElement(
+                    _FilterBar.FixedFilterButton,
+                    { className: 'fixed-filter-button' },
+                    'Filters'
                 )
             );
         }
