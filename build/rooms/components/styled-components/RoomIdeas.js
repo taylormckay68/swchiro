@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _templateObject = _taggedTemplateLiteral(['\n    width: 100vw;\n    overflow-x: hidden;\n    position: relative;\n    & .mainDiv {\n      width: 100vw;\n      margin-bottom: 40px;\n      text-align: center;\n    }\n'], ['\n    width: 100vw;\n    overflow-x: hidden;\n    position: relative;\n    & .mainDiv {\n      width: 100vw;\n      margin-bottom: 40px;\n      text-align: center;\n    }\n']);
+var _templateObject = _taggedTemplateLiteral(['\n    width: 100vw;\n    /* overflow-x: hidden; */\n    position: relative;\n    & .mainDiv {\n      width: 100vw;\n      margin-bottom: 40px;\n      text-align: center;\n    }\n'], ['\n    width: 100vw;\n    /* overflow-x: hidden; */\n    position: relative;\n    & .mainDiv {\n      width: 100vw;\n      margin-bottom: 40px;\n      text-align: center;\n    }\n']);
 
 var _styledComponents = require('styled-components');
 

@@ -21,7 +21,10 @@ fs.readFile('./dist/js/bundle.min.js', "utf8", function(err, data) {
   bundle = data || "";
 })
 
-app.get('/rooms', function(req, res){
+app.get('/rooms/:id', function(req, res){
+    let rooms = dataObj.rooms = {};
+    rooms.queries = req.query;
+    rooms.id = req.params.id;
     res.set('Cache-Control', 'public, max-age=31557600');
     res.send(returnHTML(dataObj, RoomsRoot));
 });

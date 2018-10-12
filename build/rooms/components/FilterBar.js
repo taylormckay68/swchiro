@@ -16,9 +16,9 @@ var _Minimal_Left = require('overstock-component-library/lib/Icons/arrows/Minima
 
 var _Minimal_Left2 = _interopRequireDefault(_Minimal_Left);
 
-var _Minimal_Down = require('overstock-component-library/lib/Icons/arrows/Minimal_Down');
+var _FilterButtons = require('./FilterButtons');
 
-var _Minimal_Down2 = _interopRequireDefault(_Minimal_Down);
+var _FilterButtons2 = _interopRequireDefault(_FilterButtons);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -34,7 +34,10 @@ var FilterBar = function (_Component) {
     function FilterBar(props) {
         _classCallCheck(this, FilterBar);
 
-        return _possibleConstructorReturn(this, (FilterBar.__proto__ || Object.getPrototypeOf(FilterBar)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (FilterBar.__proto__ || Object.getPrototypeOf(FilterBar)).call(this, props));
+
+        _this.state = {};
+        return _this;
     }
 
     _createClass(FilterBar, [{
@@ -66,67 +69,10 @@ var FilterBar = function (_Component) {
                         'Search by Item'
                     )
                 ),
-                _react2.default.createElement(
-                    _FilterBar.FilterButtonWrapper,
-                    { className: 'filter-button-wrapper' },
-                    _react2.default.createElement(
-                        _FilterBar.FilterButton,
-                        { className: 'filter-button' },
-                        _react2.default.createElement(
-                            _FilterBar.FilterButtonInnerCont,
-                            { className: 'filter-button-inner-cont' },
-                            _react2.default.createElement(
-                                _FilterBar.FilterButtonText,
-                                { className: 'filter-button-text' },
-                                'Room'
-                            ),
-                            _react2.default.createElement(
-                                _FilterBar.FilterButtonArrow,
-                                { className: 'filter-button-arrow' },
-                                _react2.default.createElement(_Minimal_Down2.default, { className: 'downArrow', style: { width: '13px' }, color: '#545658' })
-                            )
-                        )
-                    ),
-                    _react2.default.createElement(
-                        _FilterBar.FilterButton,
-                        { className: 'filter-button' },
-                        _react2.default.createElement(
-                            _FilterBar.FilterButtonInnerCont,
-                            { className: 'filter-button-inner-cont' },
-                            _react2.default.createElement(
-                                _FilterBar.FilterButtonText,
-                                { className: 'filter-button-text' },
-                                'Color'
-                            ),
-                            _react2.default.createElement(
-                                _FilterBar.FilterButtonArrow,
-                                { className: 'filter-button-arrow' },
-                                _react2.default.createElement(_Minimal_Down2.default, { className: 'downArrow', style: { width: '13px' }, color: '#545658' })
-                            )
-                        )
-                    ),
-                    _react2.default.createElement(
-                        _FilterBar.FilterButton,
-                        { className: 'filter-button' },
-                        _react2.default.createElement(
-                            _FilterBar.FilterButtonInnerCont,
-                            { className: 'filter-button-inner-cont' },
-                            _react2.default.createElement(
-                                _FilterBar.FilterButtonText,
-                                { className: 'filter-button-text' },
-                                'Style'
-                            ),
-                            _react2.default.createElement(
-                                _FilterBar.FilterButtonArrow,
-                                { className: 'filter-button-arrow' },
-                                _react2.default.createElement(_Minimal_Down2.default, { className: 'downArrow', style: { width: '13px' }, color: '#545658' })
-                            )
-                        )
-                    )
-                ),
+                _react2.default.createElement(_FilterButtons2.default, null),
                 _react2.default.createElement(
                     _FilterBar.FixedFilterButton,
-                    { className: 'fixed-filter-button' },
+                    { onClick: this.props.toggleMobileFitler, className: 'fixed-filter-button' },
                     'Filters'
                 )
             );

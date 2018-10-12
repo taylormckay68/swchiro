@@ -3,7 +3,7 @@ import styled, {keyframes} from 'styled-components';
 
 export default styled.div`
     width: 100vw;
-    overflow-x: hidden;
+    /* overflow-x: hidden; */
     position: relative;
     & .mainDiv {
       width: 100vw;

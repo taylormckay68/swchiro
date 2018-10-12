@@ -7,9 +7,11 @@ export const ArrowContainer = styled.div`
     `
 export const ArrowWrapper = styled.div`
     height: 24px;
+    width: max-content;
     display: flex;
     align-items: center;
     margin-bottom: 16px;
+    cursor: pointer;
     @media(min-width: 1128px) {
         margin-left: -24px;
     }
@@ -27,47 +29,6 @@ export const FilterBarWrapper = styled.div`
     }
     @media(min-width: 1128px) {
         padding: 16px 80px;
-    }
-`
-export const FilterButton = styled.div`
-    height: 44px;
-    width: 100px;
-    border-radius: 22px;
-    border: solid 1px #d5d5d5;
-    display: flex;
-    align-items: center;
-    &:nth-child(n+2){
-        margin-left: 8px;
-    }
-`
-export const FilterButtonArrow = styled.div`
-    margin-right: 16px;
-`
-export const FilterButtonInnerCont = styled.div`
-    display: flex;
-    align-items: center;
-    margin-left: 16px;
-    justify-content: space-between;
-    width: 100%;
-`
-export const FilterButtonText = styled.div`
-    font-family: HelveticaNeue;
-    font-size: 14px;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 1.71;
-    letter-spacing: normal;
-    color: #545658;
-`
-export const FilterButtonWrapper = styled.div`
-    display: none;
-    margin-top: 16px;
-    @media(min-width: 569px) {
-        display: flex;
-    }
-    @media(min-width:743px) {
-        align-items: flex-end;
     }
 `
 export const FixedFilterButton = styled.div`
@@ -109,6 +70,5 @@ export const RoomIdeasText = styled.div`
     margin-left: 12px;
 `
 export const TextWrapper = styled.div`
-    /* height: 100%; */
 `
 
