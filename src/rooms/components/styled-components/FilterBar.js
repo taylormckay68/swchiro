@@ -46,6 +46,7 @@ export const FixedFilterButton = styled.div`
     font-size: 14px;
     font-weight: normal;
     color: #545658;
+    cursor: pointer;
     @media(min-width: 569px) {
         display: none;
     }

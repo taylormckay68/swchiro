@@ -14,8 +14,6 @@ var _react2 = _interopRequireDefault(_react);
 
 var _RoomIdeas = require('./styled-components/RoomIdeas');
 
-var _RoomIdeas2 = _interopRequireDefault(_RoomIdeas);
-
 var _FilterBar = require('./FilterBar');
 
 var _FilterBar2 = _interopRequireDefault(_FilterBar);
@@ -41,27 +39,44 @@ var RoomIdeas = function (_Component) {
         var _this = _possibleConstructorReturn(this, (RoomIdeas.__proto__ || Object.getPrototypeOf(RoomIdeas)).call(this, props));
 
         _this.state = {
-            mobileFilter: false
+            mobileMenu: false,
+            roomMenu: false,
+            styleMenu: false
         };
-        _this.toggleMobileFitler = _this.toggleMobileFitler.bind(_this);
+        _this.toggleMenu = _this.toggleMenu.bind(_this);
+        _this.offClick = _this.offClick.bind(_this);
         return _this;
     }
 
     _createClass(RoomIdeas, [{
-        key: 'toggleMobileFitler',
-        value: function toggleMobileFitler() {
+        key: 'offClick',
+        value: function offClick() {
             this.setState({
-                mobileFilter: !this.state.mobileFilter
+                roomMenu: false,
+                styleMenu: false
             });
+        }
+    }, {
+        key: 'toggleMenu',
+        value: function toggleMenu(menu) {
+            if (menu === "mobileMenu") this.setState({ mobileMenu: !this.state.mobileMenu, roomMenu: false, styleMenu: false });
+            if (menu === "roomMenu") this.setState({ mobileMenu: false, roomMenu: !this.state.roomMenu, styleMenu: false });
+            if (menu === "styleMenu") this.setState({ mobileMenu: false, roomMenu: false, styleMenu: !this.state.styleMenu });
         }
     }, {
         key: 'render',
         value: function render() {
             return _react2.default.createElement(
-                _RoomIdeas2.default,
+                _RoomIdeas.RoomIdeasDiv,
                 null,
-                _react2.default.createElement(_MobileFilter2.default, { visible: this.state.mobileFilter, toggleMobileFitler: this.toggleMobileFitler }),
-                _react2.default.createElement(_FilterBar2.default, _extends({}, this.props, { toggleMobileFitler: this.toggleMobileFitler }))
+                this.state.roomMenu || this.state.styleMenu ? _react2.default.createElement(_RoomIdeas.OffClick, { onClick: this.offClick, className: 'offclick' }) : '',
+                _react2.default.createElement(_MobileFilter2.default, {
+                    visible: this.state.mobileMenu,
+                    toggleMenu: this.toggleMenu }),
+                _react2.default.createElement(_FilterBar2.default, _extends({}, this.props, {
+                    toggleMenu: this.toggleMenu,
+                    roomMenu: this.state.roomMenu,
+                    styleMenu: this.state.styleMenu }))
             );
         }
     }]);

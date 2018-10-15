@@ -24,6 +24,7 @@ export const FilterButton = styled.div`
 `
 export const FilterButtonArrow = styled.div`
     margin-right: 16px;
+    transform: ${props => props.open && 'rotate(180deg)'};
 `
 export const FilterButtonInnerCont = styled.div`
     display: flex;
@@ -31,6 +32,12 @@ export const FilterButtonInnerCont = styled.div`
     margin-left: 16px;
     justify-content: space-between;
     width: 100%;
+`
+export const FilterButtonInnerWrapper = styled.div`
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
 `
 export const FilterButtonText = styled.div`
     font-family: HelveticaNeue;
@@ -53,33 +60,31 @@ export const FilterButtonWrapper = styled.div`
     }
 `
 //Drop Downs
-export const ColorDropDown = styled.div`
-    height: ${props => props.open ? '256px' : '0px'};
-    width: 231px;
-    position: fixed;
-    background: black;
-    position: absolute;
-    right: 0;
-    top: 60px;
-    transition: height .3s ease-in;
-`
 export const RoomDropDown = styled.div`
     height: ${props => props.open ? '256px' : '0px'};
     width: 231px;
+    visibility: ${props => props.open ? 'visible' : 'hidden'};
     position: fixed;
-    background: black;
+    background-color: #f5f5f5;
     position: absolute;
     right: 0;
-    top: 60px;
-    transition: height .3s ease-in;
+    top: 61px;
+    transition: height .3s;
+    @media(max-width:743px) {
+        left: 0
+    }
 `
 export const StyleDropDown = styled.div`
     height: ${props => props.open ? '256px' : '0px'};
     width: 231px;
+    visibility: ${props => props.open ? 'visible' : 'hidden'};
     position: fixed;
-    background: black;
+    background-color: #f5f5f5;
     position: absolute;
     right: 0;
-    top: 60px;
-    transition: height .3s ease-in;
+    top: 61px;
+    transition: height .3s ;
+    @media(max-width:743px) {
+        left: 0;
+    }
 `

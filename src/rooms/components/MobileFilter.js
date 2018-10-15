@@ -5,7 +5,7 @@ class MobileFilter extends Component{
     render(){
         return(
             <MobFilterWrapper visible={this.props.visible}>
-                <button onClick={this.props.toggleMobileFitler}>Close</button>
+                <button onClick={() => this.props.toggleMenu('mobileMenu')}>Close</button>
             </MobFilterWrapper>
         )
     }

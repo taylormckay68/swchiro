@@ -43,6 +43,8 @@ var FilterBar = function (_Component) {
     _createClass(FilterBar, [{
         key: 'render',
         value: function render() {
+            var _this2 = this;
+
             return _react2.default.createElement(
                 _FilterBar.FilterBarWrapper,
                 { className: 'filter-bar-wrapper' },
@@ -66,13 +68,15 @@ var FilterBar = function (_Component) {
                     _react2.default.createElement(
                         _FilterBar.MainText,
                         { className: 'main-text' },
-                        'Search by Item'
+                        'Room Ideas'
                     )
                 ),
-                _react2.default.createElement(_FilterButtons2.default, null),
+                _react2.default.createElement(_FilterButtons2.default, this.props),
                 _react2.default.createElement(
                     _FilterBar.FixedFilterButton,
-                    { onClick: this.props.toggleMobileFitler, className: 'fixed-filter-button' },
+                    { onClick: function onClick() {
+                            return _this2.props.toggleMenu('mobileMenu');
+                        }, className: 'fixed-filter-button' },
                     'Filters'
                 )
             );

@@ -32,12 +32,16 @@ var MobileFilter = function (_Component) {
     _createClass(MobileFilter, [{
         key: 'render',
         value: function render() {
+            var _this2 = this;
+
             return _react2.default.createElement(
                 _MobileFilter.MobFilterWrapper,
                 { visible: this.props.visible },
                 _react2.default.createElement(
                     'button',
-                    { onClick: this.props.toggleMobileFitler },
+                    { onClick: function onClick() {
+                            return _this2.props.toggleMenu('mobileMenu');
+                        } },
                     'Close'
                 )
             );
