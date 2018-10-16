@@ -50,13 +50,8 @@ _fs2.default.readFile('./dist/js/bundle.min.js', "utf8", function (err, data) {
   bundle = data || "";
 });
 
-app.get('/rooms/:id', function (req, res) {
-  var rooms = dataObj.rooms = {};
-  rooms.queries = req.query;
-  rooms.id = req.params.id;
-  res.set('Cache-Control', 'public, max-age=31557600');
-  res.send(returnHTML(dataObj, _Root6.default));
-});
+app.get('/rooms/:id', roomsHandler);
+app.get('/rooms/', roomsHandler);
 
 app.get('/room/:id', function (req, res) {
   dataObj.params = req.params.id;
@@ -112,4 +107,18 @@ function returnHTML(data, Root) {
 function errHandle(err) {
   console.log(err);
   res.send(returnHTML(dataObj));
+}
+
+function roomsHandler(req, res) {
+  var rooms = dataObj.rooms = {};
+  rooms.queries = req.query;
+  rooms.id = req.params.id;
+  fetcher('https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?sort=Optimized&limit=50').then(function (response) {
+    rooms.data = response.data;
+    // rooms.data.items.map(e => console.log(e.labels))
+  }).catch(errHandle).then(function () {
+    // console.log(dataObj)
+    res.set('Cache-Control', 'public, max-age=31557600');
+    res.send(returnHTML(dataObj, _Root6.default));
+  });
 }

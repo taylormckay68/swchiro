@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const FilterButton = styled.div`
     height: 44px;
-    width: 100px;
+    min-width: 100px;
     border-radius: 22px;
     border: solid 1px #d5d5d5;
     display: flex;
@@ -48,6 +48,7 @@ export const FilterButtonText = styled.div`
     line-height: 1.71;
     letter-spacing: normal;
     color: #545658;
+    margin-right: 8px;
 `
 export const FilterButtonWrapper = styled.div`
     display: none;
@@ -61,21 +62,24 @@ export const FilterButtonWrapper = styled.div`
 `
 //Drop Downs
 export const RoomDropDown = styled.div`
-    height: ${props => props.open ? '256px' : '0px'};
+    height: ${props => props.open ? '248px' : '0px'};
     width: 231px;
-    visibility: ${props => props.open ? 'visible' : 'hidden'};
+    display: ${props => props.open ? 'flex' : 'none'};
     position: fixed;
     background-color: #f5f5f5;
     position: absolute;
     right: 0;
     top: 61px;
-    transition: height .3s;
+    transition: all .3s;
+    padding: 4px;
+    box-sizing: border-box;
+    border-radius: 4px;
     @media(max-width:743px) {
         left: 0
     }
 `
 export const StyleDropDown = styled.div`
-    height: ${props => props.open ? '256px' : '0px'};
+    height: ${props => props.open ? '248px' : '0px'};
     width: 231px;
     visibility: ${props => props.open ? 'visible' : 'hidden'};
     position: fixed;
@@ -84,6 +88,7 @@ export const StyleDropDown = styled.div`
     right: 0;
     top: 61px;
     transition: height .3s ;
+    border-radius: 4px;
     @media(max-width:743px) {
         left: 0;
     }
