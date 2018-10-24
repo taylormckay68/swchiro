@@ -10,7 +10,19 @@ var _RoomIdeas = require('./components/RoomIdeas');
 
 var _RoomIdeas2 = _interopRequireDefault(_RoomIdeas);
 
+var _reactRedux = require('react-redux');
+
+var _store = require('./components/redux/store');
+
+var _store2 = _interopRequireDefault(_store);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var store = (0, _store2.default)();
+
 var rooms = document.getElementById('userActiveRooms');
-if (rooms && window) (0, _reactDom.hydrate)(_react2.default.createElement(_RoomIdeas2.default, { data: window.__LPO__ }), document.getElementById('userActiveRooms'));
+if (rooms && window) (0, _reactDom.hydrate)(_react2.default.createElement(
+  _reactRedux.Provider,
+  { store: store },
+  _react2.default.createElement(_RoomIdeas2.default, { data: window.__LPO__ })
+), document.getElementById('userActiveRooms'));

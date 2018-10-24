@@ -68,7 +68,8 @@ var FilterBar = function (_Component) {
                     _react2.default.createElement(
                         _FilterBar.MainText,
                         { className: 'main-text' },
-                        'Room Ideas'
+                        this.props.selectedRoom ? this.props.selectedRoom : 'Room',
+                        ' Ideas'
                     )
                 ),
                 _react2.default.createElement(_FilterButtons2.default, this.props),

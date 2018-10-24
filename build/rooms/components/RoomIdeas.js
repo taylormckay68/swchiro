@@ -12,6 +12,8 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRedux = require('react-redux');
+
 var _RoomIdeas = require('./styled-components/RoomIdeas');
 
 var _FilterBar = require('./FilterBar');
@@ -21,6 +23,8 @@ var _FilterBar2 = _interopRequireDefault(_FilterBar);
 var _MobileFilter = require('./MobileFilter');
 
 var _MobileFilter2 = _interopRequireDefault(_MobileFilter);
+
+var _actions = require('./redux/actions');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -41,14 +45,38 @@ var RoomIdeas = function (_Component) {
         _this.state = {
             mobileMenu: false,
             roomMenu: false,
-            styleMenu: false
+            styleMenu: false,
+            selectedRoom: ''
         };
         _this.toggleMenu = _this.toggleMenu.bind(_this);
         _this.offClick = _this.offClick.bind(_this);
+        _this.selectRoom = _this.selectRoom.bind(_this);
+        _this.mobileSelectRoom = _this.mobileSelectRoom.bind(_this);
         return _this;
     }
 
     _createClass(RoomIdeas, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var lpo = window.__LPO__ || {};
+            var rooms = lpo.rooms || {};
+            var id = rooms.id || '';
+            id && this.setState({ selectedRoom: id });
+        }
+    }, {
+        key: 'selectRoom',
+        value: function selectRoom(room) {
+            room && this.props.fetchModsData(room);
+            this.setState({ selectedRoom: room });
+            this.toggleMenu('roomMenu');
+        }
+    }, {
+        key: 'mobileSelectRoom',
+        value: function mobileSelectRoom(room) {
+            room && this.props.fetchModsData(room);
+            this.setState({ selectedRoom: room });
+        }
+    }, {
         key: 'offClick',
         value: function offClick() {
             this.setState({
@@ -68,15 +96,20 @@ var RoomIdeas = function (_Component) {
         value: function render() {
             return _react2.default.createElement(
                 _RoomIdeas.RoomIdeasDiv,
-                null,
+                { className: 'room-ideas-div' },
                 this.state.roomMenu || this.state.styleMenu ? _react2.default.createElement(_RoomIdeas.OffClick, { onClick: this.offClick, className: 'offclick' }) : '',
                 _react2.default.createElement(_MobileFilter2.default, {
+                    className: 'mobile-filter',
                     visible: this.state.mobileMenu,
-                    toggleMenu: this.toggleMenu }),
+                    toggleMenu: this.toggleMenu,
+                    selectedRoom: this.state.selectedRoom,
+                    selectRoom: this.mobileSelectRoom }),
                 _react2.default.createElement(_FilterBar2.default, _extends({}, this.props, {
                     toggleMenu: this.toggleMenu,
                     roomMenu: this.state.roomMenu,
-                    styleMenu: this.state.styleMenu }))
+                    styleMenu: this.state.styleMenu,
+                    selectedRoom: this.state.selectedRoom,
+                    selectRoom: this.selectRoom }))
             );
         }
     }]);
@@ -84,4 +117,8 @@ var RoomIdeas = function (_Component) {
     return RoomIdeas;
 }(_react.Component);
 
-exports.default = RoomIdeas;
+function mapStateToProps(state) {
+    return state;
+}
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, { fetchModsData: _actions.fetchModsData })(RoomIdeas);

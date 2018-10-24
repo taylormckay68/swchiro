@@ -40,31 +40,11 @@ var FilterButtons = function (_Component) {
 
         var _this = _possibleConstructorReturn(this, (FilterButtons.__proto__ || Object.getPrototypeOf(FilterButtons)).call(this, props));
 
-        _this.state = {
-            selectedRoom: ''
-        };
+        _this.state = {};
         return _this;
     }
 
     _createClass(FilterButtons, [{
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-            var id = this.props.data.rooms.id ? this.props.data.rooms.id : '';
-            var lowercase = id ? id.toLowerCase() : '';
-            var capFirst = lowercase ? lowercase.slice(0, 1).toUpperCase() + lowercase.slice(1) : '';
-            var selectedRoom = capFirst ? capFirst.replace('-', ' ') : '';
-            var validRoom = _utils.filterData.rooms.indexOf(selectedRoom) !== -1;
-            this.setState({
-                selectedRoom: validRoom ? selectedRoom : ''
-            });
-        }
-    }, {
-        key: 'selectRoom',
-        value: function selectRoom(room) {
-            this.setState({ selectedRoom: room });
-            this.props.toggleMenu("roomMenu");
-        }
-    }, {
         key: 'renderRoomFilter',
         value: function renderRoomFilter() {
             var _this2 = this;
@@ -72,10 +52,10 @@ var FilterButtons = function (_Component) {
             var rooms = _utils.filterData.rooms;
 
             return rooms.map(function (e, i, arr) {
-                var selected = e === _this2.state.selectedRoom;
+                var selected = e === _this2.props.selectedRoom;
                 return _react2.default.createElement(
                     _Filters.FilterOptionContainer,
-                    { key: e, className: 'filter-option-container', onClick: _this2.selectRoom.bind(_this2, e) },
+                    { key: e, className: 'filter-option-container', onClick: _this2.props.selectRoom.bind(_this2, e) },
                     _react2.default.createElement(
                         _Filters.FilterOptionWrapper,
                         { className: 'filter-option-wrapper' },
@@ -86,7 +66,7 @@ var FilterButtons = function (_Component) {
                         ),
                         _react2.default.createElement(
                             _Filters.FilterOptionText,
-                            { key: e, className: 'filter-option-text' },
+                            { key: e, className: 'filter-option-text', bold: selected },
                             e
                         )
                     )
@@ -115,7 +95,7 @@ var FilterButtons = function (_Component) {
                             _react2.default.createElement(
                                 _FilterButtons.FilterButtonText,
                                 { className: 'filter-button-text' },
-                                this.state.selectedRoom ? this.state.selectedRoom : 'Room'
+                                this.props.selectedRoom ? this.props.selectedRoom : 'Room'
                             ),
                             _react2.default.createElement(
                                 _FilterButtons.FilterButtonArrow,

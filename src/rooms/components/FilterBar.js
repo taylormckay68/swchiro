@@ -20,7 +20,7 @@ class FilterBar extends Component {
                         <a><ArrowsMinimalLeft className="leftArrow" style={{height: '13px'}} color="#545658" /></a>
                         <RoomIdeasText className="room-ideas-text">Room Ideas</RoomIdeasText>
                     </ArrowWrapper>
-                    <MainText className="main-text">Room Ideas</MainText>
+                    <MainText className="main-text">{this.props.selectedRoom ? this.props.selectedRoom : 'Room'} Ideas</MainText>
                 </TextWrapper>
                 <FilterButtons {...this.props}/>
                 <FixedFilterButton onClick={() => this.props.toggleMenu('mobileMenu')} className="fixed-filter-button">Filters</FixedFilterButton>

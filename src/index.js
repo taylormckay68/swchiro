@@ -8,6 +8,12 @@ import RoomsRoot from "./rooms/Root";
 import { ServerStyleSheet } from 'styled-components';
 import fs from 'fs';
 import compression from 'compression';
+import {filterData} from './rooms/utils'
+import { runInNewContext } from "vm";
+import configureStore from './rooms/components/redux/store';
+import {Provider} from 'react-redux';
+
+const store = configureStore();
 
 var PORT = process.env.PORT || 3000;
 
@@ -70,7 +76,7 @@ function fetcher(url){
 function returnHTML(data, Root){
     const dataString = JSON.stringify(data);
     const sheet = new ServerStyleSheet();
-    const body = renderToString(sheet.collectStyles(<Root data={data}/>));
+    const body = renderToString(sheet.collectStyles(<Provider store={store}><Root data={data}/></Provider>));
     const styles = sheet.getStyleTags();
     return `
       <html>
@@ -96,15 +102,21 @@ function errHandle(err){
 function roomsHandler(req, res){
   let rooms = dataObj.rooms = {};
   rooms.queries = req.query;
-  rooms.id = req.params.id;
-  fetcher('https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?sort=Optimized&limit=50')
+  let id = req.params.id || '';
+  let query = id ? `&filter=label:${id}` : '';
+  let noDash = id ? id.replace('-', ' ') : '';
+  let uppercase = noDash ? noDash.toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' ') : '';
+  rooms.id = uppercase;
+  fetcher(`https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?sort=Optimized&limit=50${query}`)
     .then((response) => {
       rooms.data = response.data;
-      // rooms.data.items.map(e => console.log(e.labels))
     }).catch(errHandle)
     .then(() => {
-      // console.log(dataObj)
-      res.set('Cache-Control', 'public, max-age=31557600');
-      res.send(returnHTML(dataObj, RoomsRoot));
-    })
+      if(filterData.rooms.indexOf(uppercase) !== -1 || !uppercase) {
+        res.set('Cache-Control', 'public, max-age=31557600');
+        res.send(returnHTML(dataObj, RoomsRoot));
+      } else {
+        res.redirect('/rooms')
+      }
+    }).catch(errHandle);
 }

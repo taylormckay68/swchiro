@@ -34,7 +34,7 @@ export const FilterOptionWrapper = styled.div`
 export const FilterOptionText = styled.p`
     font-family: HelveticaNeue;
     font-size: 14px;
-    font-weight: normal;
+    font-weight: ${props => props.bold ? 'bold' : 'normal'};
     font-style: normal;
     font-stretch: normal;
     line-height: 1.71;

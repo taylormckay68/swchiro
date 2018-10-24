@@ -10,35 +10,21 @@ class FilterButtons extends Component{
         super(props);
 
         this.state = {
-            selectedRoom: '',
         }
     }
-    componentDidMount(){
-        let id = this.props.data.rooms.id ? this.props.data.rooms.id : '';
-        let lowercase = id ? id.toLowerCase() : '';
-        let capFirst = lowercase ? lowercase.slice(0,1).toUpperCase() + lowercase.slice(1) : '';
-        let selectedRoom = capFirst ? capFirst.replace('-', ' ') : '';
-        let validRoom = filterData.rooms.indexOf(selectedRoom) !== -1;
-        this.setState({
-            selectedRoom: validRoom ? selectedRoom : ''
-        })
-    }
-    selectRoom(room) {
-        this.setState({selectedRoom: room})
-        this.props.toggleMenu("roomMenu");
-    }
+
     renderRoomFilter() {
         let {rooms} = filterData;
         return (
             rooms.map((e, i, arr) => {
-                let selected = e === this.state.selectedRoom;
+                let selected = e === this.props.selectedRoom;
                 return(
-                    <FilterOptionContainer key={e} className="filter-option-container" onClick={this.selectRoom.bind(this, e)}>
+                    <FilterOptionContainer key={e} className="filter-option-container" onClick={this.props.selectRoom.bind(this, e)}>
                         <FilterOptionWrapper className="filter-option-wrapper">
                             <CheckWrapper className="check-wrapper" visible={selected}>
                                 <ActionCheckThin className="checkmark" fill="#545658" height="100%" width="100%"/>
                             </CheckWrapper>
-                            <FilterOptionText key={e} className="filter-option-text">{e}</FilterOptionText>
+                            <FilterOptionText key={e} className="filter-option-text" bold={selected}>{e}</FilterOptionText>
                         </FilterOptionWrapper>
                     </FilterOptionContainer>
                 )
@@ -52,7 +38,7 @@ class FilterButtons extends Component{
                 <FilterButton className="filter-button">
                     <FilterButtonInnerWrapper className="filter-button-inner-wrapper" onClick={() => this.props.toggleMenu("roomMenu")} >
                         <FilterButtonInnerCont className="filter-button-inner-cont">
-                            <FilterButtonText className="filter-button-text">{this.state.selectedRoom ? this.state.selectedRoom : 'Room'}</FilterButtonText>
+                            <FilterButtonText className="filter-button-text">{this.props.selectedRoom ? this.props.selectedRoom : 'Room'}</FilterButtonText>
                             <FilterButtonArrow className="filter-button-arrow" open={this.props.roomMenu}>
                                 <ArrowsMinimalDown className="downArrow" style={{width: '13px'}} color="#545658" />
                             </FilterButtonArrow>
