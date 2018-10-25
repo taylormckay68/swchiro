@@ -28,7 +28,7 @@ fs.readFile('./dist/js/bundle.min.js', "utf8", function(err, data) {
 })
 
 // app.get('/rooms/:id', roomsHandler);
-app.get('/rooms/', roomsHandler);
+app.get('/rooms', roomsHandler);
 
 app.get('/room/:id', function(req, res){
   dataObj.params = req.params.id

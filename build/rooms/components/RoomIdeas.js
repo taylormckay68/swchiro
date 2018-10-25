@@ -4,8 +4,6 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = require('react');
@@ -47,69 +45,51 @@ var RoomIdeas = function (_Component) {
             roomMenu: false,
             styleMenu: false,
             selectedRoom: ''
-        };
-        _this.toggleMenu = _this.toggleMenu.bind(_this);
-        _this.offClick = _this.offClick.bind(_this);
-        _this.selectRoom = _this.selectRoom.bind(_this);
-        _this.mobileSelectRoom = _this.mobileSelectRoom.bind(_this);
-        return _this;
+            // this.toggleMenu = this.toggleMenu.bind(this);
+            // this.offClick = this.offClick.bind(this);
+            // this.selectRoom = this.selectRoom.bind(this);
+            // this.mobileSelectRoom = this.mobileSelectRoom.bind(this);
+        };return _this;
     }
+    // componentDidMount(){
+    //     let lpo = window.__LPO__ || {};
+    //     let rooms = lpo.rooms || {};
+    //     let id = rooms.id || '';
+    //     id && this.setState({selectedRoom: id});
+    // }
+    // selectRoom(room){
+    //     room && this.props.fetchModsData(room);
+    //     this.setState({selectedRoom: room});
+    //     this.toggleMenu('roomMenu');
+    // }
+    // mobileSelectRoom(room){
+    //     room && this.props.fetchModsData(room);
+    //     this.setState({selectedRoom: room})
+    // }
+
+    // offClick(){
+    //     this.setState({
+    //         roomMenu: false,
+    //         styleMenu: false
+    //     })
+    // }
+    // toggleMenu(menu){
+    //     if(menu === "mobileMenu") this.setState({mobileMenu: !this.state.mobileMenu, roomMenu: false, styleMenu: false});
+    //     if(menu === "roomMenu") this.setState({mobileMenu: false, roomMenu: !this.state.roomMenu, styleMenu: false});
+    //     if(menu === "styleMenu") this.setState({mobileMenu: false, roomMenu: false, styleMenu: !this.state.styleMenu});
+    // }
 
     _createClass(RoomIdeas, [{
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-            var lpo = window.__LPO__ || {};
-            var rooms = lpo.rooms || {};
-            var id = rooms.id || '';
-            id && this.setState({ selectedRoom: id });
-        }
-    }, {
-        key: 'selectRoom',
-        value: function selectRoom(room) {
-            room && this.props.fetchModsData(room);
-            this.setState({ selectedRoom: room });
-            this.toggleMenu('roomMenu');
-        }
-    }, {
-        key: 'mobileSelectRoom',
-        value: function mobileSelectRoom(room) {
-            room && this.props.fetchModsData(room);
-            this.setState({ selectedRoom: room });
-        }
-    }, {
-        key: 'offClick',
-        value: function offClick() {
-            this.setState({
-                roomMenu: false,
-                styleMenu: false
-            });
-        }
-    }, {
-        key: 'toggleMenu',
-        value: function toggleMenu(menu) {
-            if (menu === "mobileMenu") this.setState({ mobileMenu: !this.state.mobileMenu, roomMenu: false, styleMenu: false });
-            if (menu === "roomMenu") this.setState({ mobileMenu: false, roomMenu: !this.state.roomMenu, styleMenu: false });
-            if (menu === "styleMenu") this.setState({ mobileMenu: false, roomMenu: false, styleMenu: !this.state.styleMenu });
-        }
-    }, {
         key: 'render',
         value: function render() {
             return _react2.default.createElement(
                 _RoomIdeas.RoomIdeasDiv,
                 { className: 'room-ideas-div' },
-                this.state.roomMenu || this.state.styleMenu ? _react2.default.createElement(_RoomIdeas.OffClick, { onClick: this.offClick, className: 'offclick' }) : '',
-                _react2.default.createElement(_MobileFilter2.default, {
-                    className: 'mobile-filter',
-                    visible: this.state.mobileMenu,
-                    toggleMenu: this.toggleMenu,
-                    selectedRoom: this.state.selectedRoom,
-                    selectRoom: this.mobileSelectRoom }),
-                _react2.default.createElement(_FilterBar2.default, _extends({}, this.props, {
-                    toggleMenu: this.toggleMenu,
-                    roomMenu: this.state.roomMenu,
-                    styleMenu: this.state.styleMenu,
-                    selectedRoom: this.state.selectedRoom,
-                    selectRoom: this.selectRoom }))
+                _react2.default.createElement(
+                    'div',
+                    null,
+                    'Rooms'
+                )
             );
         }
     }]);

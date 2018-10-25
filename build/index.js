@@ -62,8 +62,8 @@ _fs2.default.readFile('./dist/js/bundle.min.js', "utf8", function (err, data) {
   bundle = data || "";
 });
 
-app.get('/rooms/:id', roomsHandler);
-app.get('/rooms/', roomsHandler);
+// app.get('/rooms/:id', roomsHandler);
+app.get('/rooms', roomsHandler);
 
 app.get('/room/:id', function (req, res) {
   dataObj.params = req.params.id;
@@ -127,22 +127,22 @@ function errHandle(err) {
 
 function roomsHandler(req, res) {
   var rooms = dataObj.rooms = {};
-  rooms.queries = req.query;
-  var id = req.params.id || '';
-  var query = id ? "&filter=label:" + id : '';
-  var noDash = id ? id.replace('-', ' ') : '';
-  var uppercase = noDash ? noDash.toLowerCase().split(' ').map(function (s) {
-    return s.charAt(0).toUpperCase() + s.substring(1);
-  }).join(' ') : '';
-  rooms.id = uppercase;
-  fetcher("https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?sort=Optimized&limit=50" + query).then(function (response) {
+  // rooms.queries = req.query;
+  // let id = req.params.id || '';
+  // let query = id ? `&filter=label:${id}` : '';
+  // let noDash = id ? id.replace('-', ' ') : '';
+  // let uppercase = noDash ? noDash.toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' ') : '';
+  // rooms.id = uppercase;
+  fetcher("https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?sort=Optimized&limit=50").then(function (response) {
     rooms.data = response.data;
   }).catch(errHandle).then(function () {
-    if (_utils.filterData.rooms.indexOf(uppercase) !== -1 || !uppercase) {
-      res.set('Cache-Control', 'public, max-age=31557600');
-      res.send(returnHTML(dataObj, _Root6.default));
-    } else {
-      res.redirect('/rooms');
-    }
+    res.set('Cache-Control', 'public, max-age=31557600');
+    res.send(returnHTML(dataObj, _Root6.default));
+    // if(filterData.rooms.indexOf(uppercase) !== -1 || !uppercase) {
+    //   res.set('Cache-Control', 'public, max-age=31557600');
+    //   res.send(returnHTML(dataObj, RoomsRoot));
+    // } else {
+    //   res.redirect('/rooms')
+    // }
   }).catch(errHandle);
 }
