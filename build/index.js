@@ -36,7 +36,19 @@ var _compression = require("compression");
 
 var _compression2 = _interopRequireDefault(_compression);
 
+var _utils = require("./rooms/utils");
+
+var _vm = require("vm");
+
+var _store = require("./rooms/components/redux/store");
+
+var _store2 = _interopRequireDefault(_store);
+
+var _reactRedux = require("react-redux");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var store = (0, _store2.default)();
 
 var PORT = process.env.PORT || 3000;
 
@@ -50,10 +62,8 @@ _fs2.default.readFile('./dist/js/bundle.min.js', "utf8", function (err, data) {
   bundle = data || "";
 });
 
-app.get('/rooms', function (req, res) {
-  res.set('Cache-Control', 'public, max-age=31557600');
-  res.send(returnHTML(dataObj, _Root6.default));
-});
+app.get('/rooms/:id', roomsHandler);
+app.get('/rooms/', roomsHandler);
 
 app.get('/room/:id', function (req, res) {
   dataObj.params = req.params.id;
@@ -101,7 +111,11 @@ function fetcher(url) {
 function returnHTML(data, Root) {
   var dataString = JSON.stringify(data);
   var sheet = new _styledComponents.ServerStyleSheet();
-  var body = (0, _server.renderToString)(sheet.collectStyles(_react2.default.createElement(Root, { data: data })));
+  var body = (0, _server.renderToString)(sheet.collectStyles(_react2.default.createElement(
+    _reactRedux.Provider,
+    { store: store },
+    _react2.default.createElement(Root, { data: data })
+  )));
   var styles = sheet.getStyleTags();
   return "\n      <html>\n        <head>\n          <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n          <title>Overstock Shop By Room</title>\n          <meta name=\"Description\" content=\"Welcome new movers. Overstock provides you will all of your moving needs and new home styles.\">\n        </head>\n        <script>window.__LPO__=" + dataString + "</script>\n        " + styles + "\n        <style>body {margin: 0;}</style>\n        <div id=\"app\">" + body + "</div>\n        <script defer>" + bundle + "</script>\n      </html>\n    ";
 }
@@ -109,4 +123,26 @@ function returnHTML(data, Root) {
 function errHandle(err) {
   console.log(err);
   res.send(returnHTML(dataObj));
+}
+
+function roomsHandler(req, res) {
+  var rooms = dataObj.rooms = {};
+  rooms.queries = req.query;
+  var id = req.params.id || '';
+  var query = id ? "&filter=label:" + id : '';
+  var noDash = id ? id.replace('-', ' ') : '';
+  var uppercase = noDash ? noDash.toLowerCase().split(' ').map(function (s) {
+    return s.charAt(0).toUpperCase() + s.substring(1);
+  }).join(' ') : '';
+  rooms.id = uppercase;
+  fetcher("https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?sort=Optimized&limit=50" + query).then(function (response) {
+    rooms.data = response.data;
+  }).catch(errHandle).then(function () {
+    if (_utils.filterData.rooms.indexOf(uppercase) !== -1 || !uppercase) {
+      res.set('Cache-Control', 'public, max-age=31557600');
+      res.send(returnHTML(dataObj, _Root6.default));
+    } else {
+      res.redirect('/rooms');
+    }
+  }).catch(errHandle);
 }

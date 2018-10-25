@@ -3,8 +3,10 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.OffClick = exports.RoomIdeasDiv = undefined;
 
-var _templateObject = _taggedTemplateLiteral(['\n    width: 100vw;\n    overflow-x: hidden;\n    position: relative;\n    & .mainDiv {\n      width: 100vw;\n      margin-bottom: 40px;\n      text-align: center;\n    }\n'], ['\n    width: 100vw;\n    overflow-x: hidden;\n    position: relative;\n    & .mainDiv {\n      width: 100vw;\n      margin-bottom: 40px;\n      text-align: center;\n    }\n']);
+var _templateObject = _taggedTemplateLiteral(['\n    width: 100vw;\n    /* overflow-x: hidden; */\n    position: relative;\n'], ['\n    width: 100vw;\n    /* overflow-x: hidden; */\n    position: relative;\n']),
+    _templateObject2 = _taggedTemplateLiteral(['\n    position: fixed;\n    height: 100vh;\n    width: 100vw;\n'], ['\n    position: fixed;\n    height: 100vh;\n    width: 100vw;\n']);
 
 var _styledComponents = require('styled-components');
 
@@ -14,4 +16,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-exports.default = _styledComponents2.default.div(_templateObject);
+var RoomIdeasDiv = exports.RoomIdeasDiv = _styledComponents2.default.div(_templateObject);
+
+var OffClick = exports.OffClick = _styledComponents2.default.div(_templateObject2);
