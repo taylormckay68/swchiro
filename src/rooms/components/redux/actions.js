@@ -35,7 +35,16 @@ export const fetchModsData = (room) => {
         dispatch(requestModsData());
         fetch(`https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?sort=Optimized&limit=50${query}`)
             .then(response => response.status !== 200 ? Error(response.statusText) : response.json())
-            .then(json => dispatch(receiveModsData(json.data.items)))
+            .then(json => {
+                let items = json.data ? (json.data.items.length ? json.data.items : []) : {};
+                let newData = items.map(e => {
+                    return({
+                      imageUrl: e.media.large.link, 
+                      redirectUrl: 'https://overstock.com/room'
+                    })
+                  });
+                dispatch(receiveModsData(newData))
+            })
             .catch(error => dispatch(requestModsDataFailure(error)))
     }
 }

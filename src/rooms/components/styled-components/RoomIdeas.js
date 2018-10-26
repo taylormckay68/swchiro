@@ -11,4 +11,5 @@ export const OffClick = styled.div`
     position: fixed;
     height: 100vh;
     width: 100vw;
+    z-index: 3;
 `

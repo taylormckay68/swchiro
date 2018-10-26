@@ -53,6 +53,7 @@ export const FilterButtonText = styled.div`
 export const FilterButtonWrapper = styled.div`
     display: none;
     margin-top: 16px;
+    z-index: 4;
     @media(min-width: 569px) {
         display: flex;
     }
@@ -74,6 +75,7 @@ export const RoomDropDown = styled.div`
     padding: 4px;
     box-sizing: border-box;
     border-radius: 4px;
+    z-index: 4;
     @media(max-width:743px) {
         left: 0
     }
@@ -89,6 +91,7 @@ export const StyleDropDown = styled.div`
     top: 61px;
     transition: height .3s ;
     border-radius: 4px;
+    z-index: 4;
     @media(max-width:743px) {
         left: 0;
     }

@@ -58,7 +58,14 @@ var fetchModsData = exports.fetchModsData = function fetchModsData(room) {
         (0, _crossFetch2.default)('https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?sort=Optimized&limit=50' + query).then(function (response) {
             return response.status !== 200 ? Error(response.statusText) : response.json();
         }).then(function (json) {
-            return dispatch(receiveModsData(json.data.items));
+            var items = json.data ? json.data.items.length ? json.data.items : [] : {};
+            var newData = items.map(function (e) {
+                return {
+                    imageUrl: e.media.large.link,
+                    redirectUrl: 'https://overstock.com/room'
+                };
+            });
+            dispatch(receiveModsData(newData));
         }).catch(function (error) {
             return dispatch(requestModsDataFailure(error));
         });

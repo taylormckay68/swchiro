@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.OffClick = exports.RoomIdeasDiv = undefined;
 
 var _templateObject = _taggedTemplateLiteral(['\n    width: 100vw;\n    /* overflow-x: hidden; */\n    position: relative;\n'], ['\n    width: 100vw;\n    /* overflow-x: hidden; */\n    position: relative;\n']),
-    _templateObject2 = _taggedTemplateLiteral(['\n    position: fixed;\n    height: 100vh;\n    width: 100vw;\n'], ['\n    position: fixed;\n    height: 100vh;\n    width: 100vw;\n']);
+    _templateObject2 = _taggedTemplateLiteral(['\n    position: fixed;\n    height: 100vh;\n    width: 100vw;\n    z-index: 3;\n'], ['\n    position: fixed;\n    height: 100vh;\n    width: 100vw;\n    z-index: 3;\n']);
 
 var _styledComponents = require('styled-components');
 

@@ -20,8 +20,8 @@ class MobileFilter extends Component{
         this.setState({pending: ''});
     }
     clearFilters() {
-        this.setState({pending: ''})
         this.props.selectRoom('');
+        this.setState({pending: ''})
     }
     renderRoomsFilters() {
         let {rooms} = filterData;
@@ -59,7 +59,7 @@ class MobileFilter extends Component{
                             <ActionCloseThin className="close-logo" height="16px" fill="#545658"/>
                             <CloseButtonText className="close-button-text">Close</CloseButtonText>
                         </CloseButtonWrapper>
-                        <ResultsButton onClick={() => this.applyResults()}>Show Results</ResultsButton>
+                        <ResultsButton className="results-button" onClick={() => this.applyResults()}>Show Results</ResultsButton>
                     </MobFilterFooter>
             </MobFilterWrapper>
         )

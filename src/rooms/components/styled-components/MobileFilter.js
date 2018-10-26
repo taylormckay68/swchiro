@@ -45,6 +45,7 @@ export const HeaderClear = styled.p`
     line-height: 1.71;
     letter-spacing: normal;
     color: #545658;
+    cursor: pointer;
 `
 export const MobFilterWrapper = styled.div`
     height: 100vh;
@@ -57,7 +58,7 @@ export const MobFilterWrapper = styled.div`
     visibility: ${props => props.visible ? 'visible' : 'hidden'};
     transform: ${props => props.visible ? 'translateX(0)' : 'translateX(-100vw)'};
     transition: all .3s ease-in-out;
-    z-index: 1;
+    z-index: 5;
     overflow-y: scroll;
 ` 
 export const MobFilterHeader = styled.div`
@@ -92,10 +93,12 @@ export const ResultsButton = styled.div`
     line-height: 1.71;
     letter-spacing: normal;
     color: #ffffff;
+    cursor: pointer;
 `
 export const CloseButtonWrapper = styled.div`
     display: flex;
     align-items: center;
+    cursor: pointer;
 `
 export const CloseButtonText = styled.p`
     margin-left: 10px;

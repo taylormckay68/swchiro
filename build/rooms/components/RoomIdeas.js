@@ -26,6 +26,12 @@ var _MobileFilter2 = _interopRequireDefault(_MobileFilter);
 
 var _actions = require('./redux/actions');
 
+var _ProductGrid = require('lpo-component-library/module/ProductGrid');
+
+var _ProductGrid2 = _interopRequireDefault(_ProductGrid);
+
+var _utils = require('../utils');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -73,7 +79,7 @@ var RoomIdeas = function (_Component) {
     }, {
         key: 'mobileSelectRoom',
         value: function mobileSelectRoom(room) {
-            room && this.props.fetchModsData(room);
+            this.props.fetchModsData(room);
             this.setState({ selectedRoom: room });
         }
     }, {
@@ -94,6 +100,8 @@ var RoomIdeas = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
+            var data = this.props.modsData.length ? this.props.modsData : this.props.data && this.props.data.rooms && this.props.data.rooms.data && this.props.data.rooms.data;
+            _utils.config.data = data;
             return _react2.default.createElement(
                 _RoomIdeas.RoomIdeasDiv,
                 { className: 'room-ideas-div' },
@@ -109,7 +117,10 @@ var RoomIdeas = function (_Component) {
                     roomMenu: this.state.roomMenu,
                     styleMenu: this.state.styleMenu,
                     selectedRoom: this.state.selectedRoom,
-                    selectRoom: this.selectRoom }))
+                    selectRoom: this.selectRoom })),
+                _react2.default.createElement(_ProductGrid2.default, {
+                    className: 'product-grid',
+                    config: _utils.config })
             );
         }
     }]);

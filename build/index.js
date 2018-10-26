@@ -136,7 +136,15 @@ function roomsHandler(req, res) {
   }).join(' ') : '';
   rooms.id = uppercase;
   fetcher("https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?sort=Optimized&limit=50" + query).then(function (response) {
-    rooms.data = response.data;
+    // console.log(response.data.items);
+    var items = response.data ? response.data.items.length ? response.data.items : [] : {};
+    var newData = items.map(function (e) {
+      return {
+        imageUrl: e.media.large.link,
+        redirectUrl: 'https://overstock.com/room'
+      };
+    });
+    rooms.data = newData.length ? newData : [];
   }).catch(errHandle).then(function () {
     if (_utils.filterData.rooms.indexOf(uppercase) !== -1 || !uppercase) {
       res.set('Cache-Control', 'public, max-age=31557600');
