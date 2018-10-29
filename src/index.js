@@ -102,14 +102,14 @@ function errHandle(err){
 function roomsHandler(req, res){
   let rooms = dataObj.rooms = {};
   rooms.queries = req.query;
-  let id = req.params.id || '';
-  let query = id ? `&filter=label:${id}` : '';
-  let noDash = id ? id.replace('-', ' ') : '';
+  let room = req.query.room || '';
+  let styles = req.query.styles || ''
+  let query = room ? `&filter=label:${room}` : '';
+  let noDash = room ? room.replace('-', ' ') : '';
   let uppercase = noDash ? noDash.toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' ') : '';
   rooms.id = uppercase;
   fetcher(`https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?sort=Optimized&limit=50${query}`)
     .then((response) => {
-      // console.log(response.data.items);
       let items = response.data ? (response.data.items.length ? response.data.items : []) : {};
       let newData = items.map(e => {
         return({
