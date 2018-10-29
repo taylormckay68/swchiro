@@ -1,6 +1,15 @@
 export const filterData = {
     rooms: ['Bedroom', 'Office', 'Bathroom', 'Outdoor', 'Dining Room', 'Kitchen', 'Living Room'],
 }
+export const styleData = {
+    'bedroom': ['coastal', 'farmhouse', 'transitional', 'french-country', 'traditional', 'scandinavian', 'urban-industrial', 'industrial', 'contemporary', 'modern', 'mid-century', 'glam', 'shabby-chic', 'rustic', 'southwestern', 'boho', 'hygge'],
+    'office': ['transitional', 'glam', 'traditional', 'scandinavian', 'mid-century', 'rustic', 'boho'],
+    'bathroom': ['transitional', 'boho', 'farmhouse', 'modern'],
+    'outdoor': ['transitional', 'farmhouse'],
+    'dining-room': ['transitional', 'french-country', 'minimalist', 'scandinavian', 'farmhouse', 'boho', 'rustic', 'mid-century', 'modern', 'traditional', 'contemporary', 'hygge', 'coastal'],
+    'kitchen': ['farmhouse', 'transitional', 'scandinavian', 'modern', 'rustic', 'glam'],
+    'living-room': ['transitional', 'scandinavian', 'modern', 'boho', 'eclectic', 'minimalist', 'updated-global', 'farmhouse', 'glam', 'mid-century', 'contemporary', 'colonial', 'traditional']
+}
 
 export const config = {
     title: 'Test3',

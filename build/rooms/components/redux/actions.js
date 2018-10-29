@@ -13,6 +13,8 @@ var _crossFetch = require('cross-fetch');
 
 var _crossFetch2 = _interopRequireDefault(_crossFetch);
 
+var _styledComponents = require('styled-components');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var test = exports.test = function test() {

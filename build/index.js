@@ -128,15 +128,15 @@ function errHandle(err) {
 function roomsHandler(req, res) {
   var rooms = dataObj.rooms = {};
   rooms.queries = req.query;
-  var id = req.params.id || '';
-  var query = id ? "&filter=label:" + id : '';
-  var noDash = id ? id.replace('-', ' ') : '';
+  var room = req.query.room || '';
+  var styles = req.query.styles || '';
+  var query = room ? "&filter=label:" + room : '';
+  var noDash = room ? room.replace('-', ' ') : '';
   var uppercase = noDash ? noDash.toLowerCase().split(' ').map(function (s) {
     return s.charAt(0).toUpperCase() + s.substring(1);
   }).join(' ') : '';
   rooms.id = uppercase;
   fetcher("https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?sort=Optimized&limit=50" + query).then(function (response) {
-    // console.log(response.data.items);
     var items = response.data ? response.data.items.length ? response.data.items : [] : {};
     var newData = items.map(function (e) {
       return {

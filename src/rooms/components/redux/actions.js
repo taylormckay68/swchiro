@@ -1,5 +1,6 @@
 import types from './types';
 import fetch from 'cross-fetch';
+import { consolidateStreamedStyles } from 'styled-components';
 
 export const test = () => ({
     test1: 'test',
@@ -48,3 +49,4 @@ export const fetchModsData = (room) => {
             .catch(error => dispatch(requestModsDataFailure(error)))
     }
 }
+
