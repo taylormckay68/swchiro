@@ -4,6 +4,8 @@ import {RoomIdeasDiv, OffClick} from './styled-components/RoomIdeas';
 import FilterBar from './FilterBar';
 import MobileFilter from './MobileFilter';
 import {fetchModsData} from './redux/actions';
+import ProductGrid from 'lpo-component-library/module/ProductGrid';
+import {config} from '../utils';
 
 class RoomIdeas extends Component {
     constructor(props){
@@ -32,7 +34,7 @@ class RoomIdeas extends Component {
         this.toggleMenu('roomMenu');
     }
     mobileSelectRoom(room){
-        room && this.props.fetchModsData(room);
+        this.props.fetchModsData(room);
         this.setState({selectedRoom: room})
     }
 
@@ -49,6 +51,8 @@ class RoomIdeas extends Component {
     }
     
     render() {
+        let data = this.props.modsData.length ? this.props.modsData : this.props.data && this.props.data.rooms && this.props.data.rooms.data && this.props.data.rooms.data;
+        config.data = data;
         return (
             <RoomIdeasDiv className="room-ideas-div">
                 {this.state.roomMenu || this.state.styleMenu ? <OffClick onClick={this.offClick} className="offclick"/> : ''}
@@ -65,6 +69,9 @@ class RoomIdeas extends Component {
                     styleMenu={this.state.styleMenu}
                     selectedRoom={this.state.selectedRoom}
                     selectRoom={this.selectRoom}/>
+                <ProductGrid 
+                    className="product-grid"
+                    config={config}/>
             </RoomIdeasDiv>
         );
     }

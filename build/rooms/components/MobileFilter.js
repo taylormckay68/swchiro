@@ -59,8 +59,8 @@ var MobileFilter = function (_Component) {
     }, {
         key: 'clearFilters',
         value: function clearFilters() {
-            this.setState({ pending: '' });
             this.props.selectRoom('');
+            this.setState({ pending: '' });
         }
     }, {
         key: 'renderRoomsFilters',
@@ -146,7 +146,7 @@ var MobileFilter = function (_Component) {
                     ),
                     _react2.default.createElement(
                         _MobileFilter.ResultsButton,
-                        { onClick: function onClick() {
+                        { className: 'results-button', onClick: function onClick() {
                                 return _this3.applyResults();
                             } },
                         'Show Results'
