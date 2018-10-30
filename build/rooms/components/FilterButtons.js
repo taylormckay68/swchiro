@@ -74,6 +74,11 @@ var FilterButtons = function (_Component) {
             });
         }
     }, {
+        key: 'renderStyleFilter',
+        value: function renderStyleFilter() {
+            return _react2.default.createElement(_Filters.StyleFilterContainer, null);
+        }
+    }, {
         key: 'render',
         value: function render() {
             var _this3 = this;
@@ -106,47 +111,13 @@ var FilterButtons = function (_Component) {
                     ),
                     _react2.default.createElement(
                         _FilterButtons.RoomDropDown,
-                        { className: 'drop-down-menu', open: this.props.roomMenu },
+                        { className: 'room-menu', open: this.props.roomMenu },
                         _react2.default.createElement(
                             _Filters.FilterWrapper,
                             { className: 'filter-wrapper' },
                             this.renderRoomFilter()
                         )
                     )
-                ),
-                _react2.default.createElement(
-                    _FilterButtons.FilterButton,
-                    { className: 'filter-button' },
-                    _react2.default.createElement(
-                        _FilterButtons.FilterButtonInnerWrapper,
-                        { onClick: function onClick() {
-                                return _this3.props.toggleMenu("styleMenu");
-                            } },
-                        _react2.default.createElement(
-                            _FilterButtons.FilterButtonInnerCont,
-                            { className: 'filter-button-inner-cont' },
-                            _react2.default.createElement(
-                                _FilterButtons.FilterButtonText,
-                                { className: 'filter-button-text' },
-                                'Style'
-                            ),
-                            _react2.default.createElement(
-                                _FilterButtons.FilterButtonArrow,
-                                { className: 'filter-button-arrow', open: this.props.styleMenu },
-                                _react2.default.createElement(_Minimal_Down2.default, {
-                                    className: 'downArrow',
-                                    style: { width: '13px' },
-                                    color: '#545658' })
-                            )
-                        )
-                    ),
-                    _react2.default.createElement(_FilterButtons.StyleDropDown, {
-                        onClick: function onClick(e) {
-                            return e.preventDefault();
-                        },
-                        className: 'drop-down-menu',
-                        open: this.props.styleMenu
-                    })
                 )
             );
         }

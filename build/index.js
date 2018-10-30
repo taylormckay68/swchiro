@@ -62,10 +62,9 @@ _fs2.default.readFile('./dist/js/bundle.min.js', "utf8", function (err, data) {
   bundle = data || "";
 });
 
-app.get('/rooms/:id', roomsHandler);
 app.get('/rooms/', roomsHandler);
 
-app.get('/room/:id', function (req, res) {
+app.get('/room/', function (req, res) {
   dataObj.params = req.params.id;
   res.set('Cache-Control', 'public, max-age=31557600');
   res.send(returnHTML(dataObj, _Root4.default));
@@ -136,15 +135,16 @@ function roomsHandler(req, res) {
     return s.charAt(0).toUpperCase() + s.substring(1);
   }).join(' ') : '';
   rooms.id = uppercase;
-  fetcher("https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?sort=Optimized&limit=50" + query).then(function (response) {
+  fetcher("https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?sort=Optimized&limit=18" + query).then(function (response) {
     var items = response.data ? response.data.items.length ? response.data.items : [] : {};
     var newData = items.map(function (e) {
       return {
         imageUrl: e.media.large.link,
-        redirectUrl: 'https://overstock.com/room'
+        redirectUrl: "/room?asset_id=" + e.id
       };
     });
     rooms.data = newData.length ? newData : [];
+    rooms.nextData = response.paging.next || '';
   }).catch(errHandle).then(function () {
     if (_utils.filterData.rooms.indexOf(uppercase) !== -1 || !uppercase) {
       res.set('Cache-Control', 'public, max-age=31557600');

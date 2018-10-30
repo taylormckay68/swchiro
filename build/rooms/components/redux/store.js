@@ -17,6 +17,6 @@ var _rootReducer2 = _interopRequireDefault(_rootReducer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function configureStore() {
-    return (0, _redux.createStore)(_rootReducer2.default, (0, _redux.applyMiddleware)(_reduxThunk2.default));
+function configureStore(preloadedState) {
+    return (0, _redux.createStore)(_rootReducer2.default, preloadedState, (0, _redux.applyMiddleware)(_reduxThunk2.default));
 }

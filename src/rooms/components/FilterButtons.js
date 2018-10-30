@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {FilterButtonWrapper, FilterButton, FilterButtonInnerCont, FilterButtonText, FilterButtonArrow, RoomDropDown, StyleDropDown, FilterButtonInnerWrapper} from './styled-components/FilterButtons';
-import {FilterWrapper, FilterOptionWrapper, FilterOptionContainer, FilterOptionText, CheckWrapper} from './styled-components/Filters';
+import {FilterWrapper, FilterOptionWrapper, FilterOptionContainer, FilterOptionText, CheckWrapper, StyleFilterContainer} from './styled-components/Filters';
 import ArrowsMinimalDown from 'overstock-component-library/lib/Icons/arrows/Minimal_Down';
 import ActionCheckThin from 'overstock-component-library/lib/Icons/action/Check_Thin';
 import {filterData} from '../utils';
@@ -31,6 +31,13 @@ class FilterButtons extends Component{
             })
         )
     }
+    renderStyleFilter() {
+        return(
+            <StyleFilterContainer>
+
+            </StyleFilterContainer>
+        )
+    }
     
     render() {
         return(
@@ -44,13 +51,13 @@ class FilterButtons extends Component{
                             </FilterButtonArrow>
                         </FilterButtonInnerCont>
                     </FilterButtonInnerWrapper>
-                    <RoomDropDown className="drop-down-menu" open={this.props.roomMenu}>
+                    <RoomDropDown className="room-menu" open={this.props.roomMenu}>
                         <FilterWrapper className="filter-wrapper">
                         {this.renderRoomFilter()}
                         </FilterWrapper>
                     </RoomDropDown>
                 </FilterButton>
-                <FilterButton className="filter-button">
+                {/* <FilterButton className="filter-button">
                     <FilterButtonInnerWrapper onClick={() => this.props.toggleMenu("styleMenu")}>
                         <FilterButtonInnerCont className="filter-button-inner-cont">
                             <FilterButtonText className="filter-button-text">Style</FilterButtonText>
@@ -64,12 +71,12 @@ class FilterButtons extends Component{
                     </FilterButtonInnerWrapper>
                     <StyleDropDown 
                         onClick={(e) => e.preventDefault()} 
-                        className="drop-down-menu" 
+                        className="style-menu" 
                         open={this.props.styleMenu}
                     >
-                        
+                        {this.renderStyleFilter()}
                     </StyleDropDown>
-                </FilterButton>
+                </FilterButton> */}
             </FilterButtonWrapper>
         )
     }

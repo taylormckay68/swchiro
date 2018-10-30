@@ -32,6 +32,10 @@ var _ProductGrid2 = _interopRequireDefault(_ProductGrid);
 
 var _utils = require('../utils');
 
+var _LoadingLogo = require('lpo-component-library/module/LoadingLogo');
+
+var _LoadingLogo2 = _interopRequireDefault(_LoadingLogo);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -52,7 +56,7 @@ var RoomIdeas = function (_Component) {
             mobileMenu: false,
             roomMenu: false,
             styleMenu: false,
-            selectedRoom: ''
+            selectedRoom: _this.props.roomsID || ''
         };
         _this.toggleMenu = _this.toggleMenu.bind(_this);
         _this.offClick = _this.offClick.bind(_this);
@@ -62,14 +66,6 @@ var RoomIdeas = function (_Component) {
     }
 
     _createClass(RoomIdeas, [{
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-            var lpo = window.__LPO__ || {};
-            var rooms = lpo.rooms || {};
-            var id = rooms.id || '';
-            id && this.setState({ selectedRoom: id });
-        }
-    }, {
         key: 'selectRoom',
         value: function selectRoom(room) {
             room && this.props.fetchModsData(room);
@@ -100,8 +96,7 @@ var RoomIdeas = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
-            var data = this.props.modsData.length ? this.props.modsData : this.props.data && this.props.data.rooms && this.props.data.rooms.data && this.props.data.rooms.data;
-            _utils.config.data = data;
+            _utils.config.data = this.props && this.props.modsData;
             return _react2.default.createElement(
                 _RoomIdeas.RoomIdeasDiv,
                 { className: 'room-ideas-div' },
@@ -118,7 +113,7 @@ var RoomIdeas = function (_Component) {
                     styleMenu: this.state.styleMenu,
                     selectedRoom: this.state.selectedRoom,
                     selectRoom: this.selectRoom })),
-                _react2.default.createElement(_ProductGrid2.default, {
+                this.props.isFetching ? _react2.default.createElement(_LoadingLogo2.default, { center: true }) : _react2.default.createElement(_ProductGrid2.default, {
                     className: 'product-grid',
                     config: _utils.config })
             );

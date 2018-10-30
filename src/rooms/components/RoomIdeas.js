@@ -5,7 +5,8 @@ import FilterBar from './FilterBar';
 import MobileFilter from './MobileFilter';
 import {fetchModsData} from './redux/actions';
 import ProductGrid from 'lpo-component-library/module/ProductGrid';
-import {config} from '../utils';
+import {config, styleData} from '../utils';
+import LoadingLogo from 'lpo-component-library/module/LoadingLogo';
 
 class RoomIdeas extends Component {
     constructor(props){
@@ -15,19 +16,14 @@ class RoomIdeas extends Component {
             mobileMenu: false,
             roomMenu: false,
             styleMenu: false,
-            selectedRoom: '',
+            selectedRoom: this.props.roomsID || '',
         }
         this.toggleMenu = this.toggleMenu.bind(this);
         this.offClick = this.offClick.bind(this);
         this.selectRoom = this.selectRoom.bind(this);
         this.mobileSelectRoom = this.mobileSelectRoom.bind(this);
     }
-    componentDidMount(){
-        let lpo = window.__LPO__ || {};
-        let rooms = lpo.rooms || {};
-        let id = rooms.id || '';
-        id && this.setState({selectedRoom: id});
-    }
+
     selectRoom(room){
         room && this.props.fetchModsData(room);
         this.setState({selectedRoom: room});
@@ -51,8 +47,7 @@ class RoomIdeas extends Component {
     }
     
     render() {
-        let data = this.props.modsData.length ? this.props.modsData : this.props.data && this.props.data.rooms && this.props.data.rooms.data && this.props.data.rooms.data;
-        config.data = data;
+        config.data = this.props && this.props.modsData;
         return (
             <RoomIdeasDiv className="room-ideas-div">
                 {this.state.roomMenu || this.state.styleMenu ? <OffClick onClick={this.offClick} className="offclick"/> : ''}
@@ -69,9 +64,13 @@ class RoomIdeas extends Component {
                     styleMenu={this.state.styleMenu}
                     selectedRoom={this.state.selectedRoom}
                     selectRoom={this.selectRoom}/>
-                <ProductGrid 
+                {this.props.isFetching ? 
+                    <LoadingLogo center/> 
+                    : 
+                    <ProductGrid 
                     className="product-grid"
                     config={config}/>
+                }
             </RoomIdeasDiv>
         );
     }

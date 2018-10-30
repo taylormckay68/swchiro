@@ -12,12 +12,7 @@ var _types2 = _interopRequireDefault(_types);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var initialState = {
-    test: 'test',
-    modsData: [],
-    isFetching: false,
-    error: null
-};
+var initialState = {};
 
 exports.default = function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
@@ -36,7 +31,8 @@ exports.default = function () {
             return _extends({}, state, {
                 modsData: action.modsData,
                 isFetching: action.isFetching,
-                errorMods: action.error
+                errorMods: action.error,
+                nextRoomsData: action.nextRoomsData
             });
         default:
             return state;

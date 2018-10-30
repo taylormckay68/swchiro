@@ -42,3 +42,9 @@ export const FilterOptionText = styled.p`
     color: #545658;
     margin-left: 8px;
 `
+//Style Filters
+export const StyleFilterContainer = styled.div`
+    height: 100%;
+    width: 100%;
+    background: blue;
+`
