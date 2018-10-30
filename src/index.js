@@ -27,10 +27,9 @@ fs.readFile('./dist/js/bundle.min.js', "utf8", function(err, data) {
   bundle = data || "";
 })
 
-app.get('/rooms/:id', roomsHandler);
 app.get('/rooms/', roomsHandler);
 
-app.get('/room/:id', function(req, res){
+app.get('/room/', function(req, res){
   dataObj.params = req.params.id
     res.set('Cache-Control', 'public, max-age=31557600');
     res.send(returnHTML(dataObj, RoomRoot));
@@ -108,16 +107,17 @@ function roomsHandler(req, res){
   let noDash = room ? room.replace('-', ' ') : '';
   let uppercase = noDash ? noDash.toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' ') : '';
   rooms.id = uppercase;
-  fetcher(`https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?sort=Optimized&limit=50${query}`)
+  fetcher(`https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?sort=Optimized&limit=18${query}`)
     .then((response) => {
       let items = response.data ? (response.data.items.length ? response.data.items : []) : {};
       let newData = items.map(e => {
         return({
           imageUrl: e.media.large.link, 
-          redirectUrl: 'https://overstock.com/room'
+          redirectUrl: `/room?asset_id=${e.id}`
         })
       });
       rooms.data = newData.length ? newData : [];
+      rooms.nextData = response.paging.next || '';
     }).catch(errHandle)
     .then(() => {
       if(filterData.rooms.indexOf(uppercase) !== -1 || !uppercase) {
