@@ -22,6 +22,15 @@ class RoomIdeas extends Component {
         this.offClick = this.offClick.bind(this);
         this.selectRoom = this.selectRoom.bind(this);
         this.mobileSelectRoom = this.mobileSelectRoom.bind(this);
+        this.handleScroll = this.handleScroll.bind(this);
+    }
+
+    handleScroll = (e) => {
+        const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
+        if (bottom) { console.log('bottom') }
+      }
+    componentDidMount() {
+        document.addEventListener('scroll', this.handleScroll )
     }
 
     selectRoom(room){
@@ -47,9 +56,10 @@ class RoomIdeas extends Component {
     }
     
     render() {
+        console.log(this.props);
         config.data = this.props && this.props.modsData;
         return (
-            <RoomIdeasDiv className="room-ideas-div">
+            <RoomIdeasDiv className="room-ideas-div" >
                 {this.state.roomMenu || this.state.styleMenu ? <OffClick onClick={this.offClick} className="offclick"/> : ''}
                 <MobileFilter
                     className="mobile-filter"

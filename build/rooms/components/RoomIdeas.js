@@ -52,6 +52,13 @@ var RoomIdeas = function (_Component) {
 
         var _this = _possibleConstructorReturn(this, (RoomIdeas.__proto__ || Object.getPrototypeOf(RoomIdeas)).call(this, props));
 
+        _this.handleScroll = function (e) {
+            var bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
+            if (bottom) {
+                console.log('bottom');
+            }
+        };
+
         _this.state = {
             mobileMenu: false,
             roomMenu: false,
@@ -62,10 +69,16 @@ var RoomIdeas = function (_Component) {
         _this.offClick = _this.offClick.bind(_this);
         _this.selectRoom = _this.selectRoom.bind(_this);
         _this.mobileSelectRoom = _this.mobileSelectRoom.bind(_this);
+        _this.handleScroll = _this.handleScroll.bind(_this);
         return _this;
     }
 
     _createClass(RoomIdeas, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            document.addEventListener('scroll', this.handleScroll);
+        }
+    }, {
         key: 'selectRoom',
         value: function selectRoom(room) {
             room && this.props.fetchModsData(room);
@@ -96,6 +109,7 @@ var RoomIdeas = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
+            console.log(this.props);
             _utils.config.data = this.props && this.props.modsData;
             return _react2.default.createElement(
                 _RoomIdeas.RoomIdeasDiv,
