@@ -27,7 +27,7 @@ new Pipeline(this).execute {
     }
 
     stage('Build docker image') {
-      image = docker.build('room-ideas')
+      image = docker.build('room-ideas-rooms')
     }
 
     if (env.BRANCH_NAME != "master") {

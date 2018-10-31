@@ -30,8 +30,6 @@ var _compression2 = _interopRequireDefault(_compression);
 
 var _utils = require("./rooms/utils");
 
-var _vm = require("vm");
-
 var _store = require("./rooms/components/redux/store");
 
 var _store2 = _interopRequireDefault(_store);
@@ -122,7 +120,7 @@ function returnHTML(data, Root) {
   var sheet = new _styledComponents.ServerStyleSheet();
   var body = (0, _server.renderToString)(sheet.collectStyles(_react2.default.createElement(
     _reactRedux.Provider,
-    { store: store },
+    { store: store || {} },
     _react2.default.createElement(Root, { data: data })
   )));
   var styles = sheet.getStyleTags();

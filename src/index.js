@@ -7,7 +7,6 @@ import { ServerStyleSheet } from 'styled-components';
 import fs from 'fs';
 import compression from 'compression';
 import {filterData} from './rooms/utils'
-import { runInNewContext } from "vm";
 import configureStore from './rooms/components/redux/store';
 import {Provider} from 'react-redux';
 
@@ -91,7 +90,7 @@ function fetcher(url){
 function returnHTML(data, Root){
     const dataString = JSON.stringify(data);
     const sheet = new ServerStyleSheet();
-    const body = renderToString(sheet.collectStyles(<Provider store={store}><Root data={data}/></Provider>));
+    const body = renderToString(sheet.collectStyles(<Provider store={store || {}}><Root data={data}/></Provider>));
     const styles = sheet.getStyleTags();
     return `
       <html>
