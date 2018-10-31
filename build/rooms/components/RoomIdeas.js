@@ -53,9 +53,10 @@ var RoomIdeas = function (_Component) {
         var _this = _possibleConstructorReturn(this, (RoomIdeas.__proto__ || Object.getPrototypeOf(RoomIdeas)).call(this, props));
 
         _this.handleScroll = function (e) {
-            var bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
-            if (bottom) {
-                console.log('bottom');
+            if (e.target.scrollingElement.scrollHeight - e.target.scrollingElement.scrollTop - 100 < e.target.scrollingElement.clientHeight) {
+                if (!_this.props.isFetchingNext) {
+                    _this.props.fetchNextModsData(_this.props.nextRoomsData);
+                }
             }
         };
 
@@ -109,7 +110,6 @@ var RoomIdeas = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
-            console.log(this.props);
             _utils.config.data = this.props && this.props.modsData;
             return _react2.default.createElement(
                 _RoomIdeas.RoomIdeasDiv,
@@ -129,7 +129,8 @@ var RoomIdeas = function (_Component) {
                     selectRoom: this.selectRoom })),
                 this.props.isFetching ? _react2.default.createElement(_LoadingLogo2.default, { center: true }) : _react2.default.createElement(_ProductGrid2.default, {
                     className: 'product-grid',
-                    config: _utils.config })
+                    config: _utils.config }),
+                this.props.isFetchingNext && _react2.default.createElement(_LoadingLogo2.default, { center: true })
             );
         }
     }]);
@@ -141,4 +142,4 @@ function mapStateToProps(state) {
     return state;
 }
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps, { fetchModsData: _actions.fetchModsData })(RoomIdeas);
+exports.default = (0, _reactRedux.connect)(mapStateToProps, { fetchModsData: _actions.fetchModsData, fetchNextModsData: _actions.fetchNextModsData })(RoomIdeas);

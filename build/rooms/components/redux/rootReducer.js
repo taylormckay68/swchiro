@@ -12,6 +12,8 @@ var _types2 = _interopRequireDefault(_types);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 var initialState = {};
 
 exports.default = function () {
@@ -31,6 +33,17 @@ exports.default = function () {
             return _extends({}, state, {
                 modsData: action.modsData,
                 isFetching: action.isFetching,
+                errorMods: action.error,
+                nextRoomsData: action.nextRoomsData
+            });
+        case _types2.default.REQUEST_NEXT_MODS_DATA:
+            return _extends({}, state, {
+                isFetchingNext: action.isFetching
+            });
+        case _types2.default.RECEIVE_NEXT_MODS_DATA:
+            return _extends({}, state, {
+                modsData: [].concat(_toConsumableArray(state.modsData), _toConsumableArray(action.modsData)),
+                isFetchingNext: action.isFetching,
                 errorMods: action.error,
                 nextRoomsData: action.nextRoomsData
             });

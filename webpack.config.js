@@ -3,7 +3,7 @@ const webpack = require('webpack');
 //const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
-    entry: ['./src/home/bundle.js', './src/room/bundle.js', './src/rooms/bundle.js'],
+    entry: ['./src/rooms/bundle.js'],
     module: {
         rules: [
             {

@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {RoomIdeasDiv, OffClick} from './styled-components/RoomIdeas';
 import FilterBar from './FilterBar';
 import MobileFilter from './MobileFilter';
-import {fetchModsData} from './redux/actions';
+import {fetchModsData, fetchNextModsData} from './redux/actions';
 import ProductGrid from 'lpo-component-library/module/ProductGrid';
 import {config, styleData} from '../utils';
 import LoadingLogo from 'lpo-component-library/module/LoadingLogo';
@@ -25,13 +25,17 @@ class RoomIdeas extends Component {
         this.handleScroll = this.handleScroll.bind(this);
     }
 
-    handleScroll = (e) => {
-        const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
-        if (bottom) { console.log('bottom') }
-      }
     componentDidMount() {
         document.addEventListener('scroll', this.handleScroll )
     }
+    handleScroll = (e) => {
+        if ((e.target.scrollingElement.scrollHeight - e.target.scrollingElement.scrollTop - 100) < e.target.scrollingElement.clientHeight) { 
+            if(!this.props.isFetchingNext) {
+                this.props.fetchNextModsData(this.props.nextRoomsData); 
+            }
+        }
+    }
+    
 
     selectRoom(room){
         room && this.props.fetchModsData(room);
@@ -56,7 +60,6 @@ class RoomIdeas extends Component {
     }
     
     render() {
-        console.log(this.props);
         config.data = this.props && this.props.modsData;
         return (
             <RoomIdeasDiv className="room-ideas-div" >
@@ -81,6 +84,7 @@ class RoomIdeas extends Component {
                     className="product-grid"
                     config={config}/>
                 }
+                {this.props.isFetchingNext && <LoadingLogo center/> }
             </RoomIdeasDiv>
         );
     }
@@ -90,5 +94,5 @@ function mapStateToProps(state) {
     return state
 }
 
-export default connect(mapStateToProps, {fetchModsData})(RoomIdeas);
+export default connect(mapStateToProps, {fetchModsData,fetchNextModsData})(RoomIdeas);
 

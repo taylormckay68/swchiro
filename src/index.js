@@ -2,8 +2,6 @@ import express from "express";
 import fetch from "node-fetch";
 import React from "react";
 import { renderToString } from "react-dom/server";
-import HomeRoot from "./home/Root";
-import RoomRoot from "./room/Root";
 import RoomsRoot from "./rooms/Root";
 import { ServerStyleSheet } from 'styled-components';
 import fs from 'fs';
@@ -27,17 +25,35 @@ fs.readFile('./dist/js/bundle.min.js', "utf8", function(err, data) {
   bundle = data || "";
 })
 
-app.get('/rooms/', roomsHandler);
-
-app.get('/room/', function(req, res){
-  dataObj.params = req.params.id
-    res.set('Cache-Control', 'public, max-age=31557600');
-    res.send(returnHTML(dataObj, RoomRoot));
-});
-
-app.get('/', function(req, res){
-  res.set('Cache-Control', 'public, max-age=31557600');
-  res.send(returnHTML(dataObj, HomeRoot));
+app.get('/', (req, res) => {
+  let rooms = dataObj.rooms = {};
+  rooms.queries = req.query;
+  let room = req.query.room || '';
+  let styles = req.query.styles || ''
+  let query = room ? `&filter=label:${room}` : '';
+  let noDash = room ? room.replace('-', ' ') : '';
+  let uppercase = noDash ? noDash.toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' ') : '';
+  rooms.id = uppercase;
+  fetcher(`https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?sort=Optimized&limit=18${query}`)
+    .then((response) => {
+      let items = response.data ? (response.data.items.length ? response.data.items : []) : {};
+      let newData = items.map(e => {
+        return({
+          imageUrl: e.media.large.link, 
+          redirectUrl: `/room?asset_id=${e.id}`
+        })
+      });
+      rooms.data = newData.length ? newData : [];
+      rooms.nextData = response.paging.next || '';
+    }).catch(errHandle)
+    .then(() => {
+      if(filterData.rooms.indexOf(uppercase) !== -1 || !uppercase) {
+        res.set('Cache-Control', 'public, max-age=31557600');
+        res.send(returnHTML(dataObj, RoomsRoot));
+      } else {
+        res.redirect('/rooms')
+      }
+    }).catch(errHandle);
 });
 
 app.get('/health', (req, res) => res.send('OK'));
@@ -98,33 +114,33 @@ function errHandle(err){
     res.send(returnHTML(dataObj));
 }
 
-function roomsHandler(req, res){
-  let rooms = dataObj.rooms = {};
-  rooms.queries = req.query;
-  let room = req.query.room || '';
-  let styles = req.query.styles || ''
-  let query = room ? `&filter=label:${room}` : '';
-  let noDash = room ? room.replace('-', ' ') : '';
-  let uppercase = noDash ? noDash.toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' ') : '';
-  rooms.id = uppercase;
-  fetcher(`https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?sort=Optimized&limit=18${query}`)
-    .then((response) => {
-      let items = response.data ? (response.data.items.length ? response.data.items : []) : {};
-      let newData = items.map(e => {
-        return({
-          imageUrl: e.media.large.link, 
-          redirectUrl: `/room?asset_id=${e.id}`
-        })
-      });
-      rooms.data = newData.length ? newData : [];
-      rooms.nextData = response.paging.next || '';
-    }).catch(errHandle)
-    .then(() => {
-      if(filterData.rooms.indexOf(uppercase) !== -1 || !uppercase) {
-        res.set('Cache-Control', 'public, max-age=31557600');
-        res.send(returnHTML(dataObj, RoomsRoot));
-      } else {
-        res.redirect('/rooms')
-      }
-    }).catch(errHandle);
-}
+// function roomsHandler(req, res){
+//   let rooms = dataObj.rooms = {};
+//   rooms.queries = req.query;
+//   let room = req.query.room || '';
+//   let styles = req.query.styles || ''
+//   let query = room ? `&filter=label:${room}` : '';
+//   let noDash = room ? room.replace('-', ' ') : '';
+//   let uppercase = noDash ? noDash.toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' ') : '';
+//   rooms.id = uppercase;
+//   fetcher(`https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?sort=Optimized&limit=18${query}`)
+//     .then((response) => {
+//       let items = response.data ? (response.data.items.length ? response.data.items : []) : {};
+//       let newData = items.map(e => {
+//         return({
+//           imageUrl: e.media.large.link, 
+//           redirectUrl: `/room?asset_id=${e.id}`
+//         })
+//       });
+//       rooms.data = newData.length ? newData : [];
+//       rooms.nextData = response.paging.next || '';
+//     }).catch(errHandle)
+//     .then(() => {
+//       if(filterData.rooms.indexOf(uppercase) !== -1 || !uppercase) {
+//         res.set('Cache-Control', 'public, max-age=31557600');
+//         res.send(returnHTML(dataObj, RoomsRoot));
+//       } else {
+//         res.redirect('/rooms')
+//       }
+//     }).catch(errHandle);
+// }

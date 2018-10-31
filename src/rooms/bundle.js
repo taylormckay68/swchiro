@@ -10,6 +10,7 @@ let updatedState = {
     roomsID:  preloadedState.rooms.id,
     nextRoomsData: preloadedState.rooms.nextData,
     isFetching: false,
+    isFetchingNext: false,
     error: null
 }
 const store = configureStore(updatedState);

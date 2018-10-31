@@ -24,6 +24,7 @@ var updatedState = {
     roomsID: preloadedState.rooms.id,
     nextRoomsData: preloadedState.rooms.nextData,
     isFetching: false,
+    isFetchingNext: false,
     error: null
 };
 var store = (0, _store2.default)(updatedState);
