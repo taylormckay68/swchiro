@@ -89,8 +89,6 @@ var SimilarRooms = function (_Component) {
 
             var randomRooms = state.randomRooms && state.randomRooms.length ? state.randomRooms : randomizeRooms(mediaItem, rooms);
 
-            console.log('STATE', state.randomRooms, 'PROPS', rooms);
-
             return _react2.default.createElement(
                 SimilarWrapper,
                 null,

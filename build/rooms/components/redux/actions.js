@@ -25,10 +25,11 @@ var test = exports.test = function test() {
 };
 
 //mod actions
-var receiveModsData = function receiveModsData(modsData) {
+var receiveModsData = function receiveModsData(modsData, nextRoomsData) {
     return {
         type: _types2.default.RECEIVE_MODS_DATA,
         modsData: modsData,
+        nextRoomsData: nextRoomsData,
         error: null,
         isFetching: false
     };
@@ -57,17 +58,18 @@ var fetchModsData = exports.fetchModsData = function fetchModsData(room) {
     var query = roomName.length ? '&filter=label:' + roomName : '';
     return function (dispatch) {
         dispatch(requestModsData());
-        (0, _crossFetch2.default)('https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?sort=Optimized&limit=50' + query).then(function (response) {
+        (0, _crossFetch2.default)('https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?sort=Optimized&limit=18' + query).then(function (response) {
             return response.status !== 200 ? Error(response.statusText) : response.json();
         }).then(function (json) {
             var items = json.data ? json.data.items.length ? json.data.items : [] : {};
             var newData = items.map(function (e) {
                 return {
                     imageUrl: e.media.large.link,
-                    redirectUrl: 'https://overstock.com/room'
+                    redirectUrl: '/room?asset_id=' + e.id
                 };
             });
-            dispatch(receiveModsData(newData));
+            var nextRoomsData = json.paging.next;
+            dispatch(receiveModsData(newData, nextRoomsData));
         }).catch(function (error) {
             return dispatch(requestModsDataFailure(error));
         });

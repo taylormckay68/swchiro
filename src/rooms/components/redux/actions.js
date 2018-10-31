@@ -8,9 +8,10 @@ export const test = () => ({
 })
 
 //mod actions
-const receiveModsData = (modsData) => ({
+const receiveModsData = (modsData, nextRoomsData) => ({
         type: types.RECEIVE_MODS_DATA,
         modsData,
+        nextRoomsData,
         error: null,
         isFetching: false
     });
@@ -34,17 +35,18 @@ export const fetchModsData = (room) => {
     let query = roomName.length ? `&filter=label:${roomName}` : '';
     return (dispatch) => {
         dispatch(requestModsData());
-        fetch(`https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?sort=Optimized&limit=50${query}`)
+        fetch(`https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?sort=Optimized&limit=18${query}`)
             .then(response => response.status !== 200 ? Error(response.statusText) : response.json())
             .then(json => {
                 let items = json.data ? (json.data.items.length ? json.data.items : []) : {};
                 let newData = items.map(e => {
                     return({
                       imageUrl: e.media.large.link, 
-                      redirectUrl: 'https://overstock.com/room'
+                      redirectUrl: `/room?asset_id=${e.id}`
                     })
                   });
-                dispatch(receiveModsData(newData))
+                let nextRoomsData = json.paging.next
+                dispatch(receiveModsData(newData, nextRoomsData))
             })
             .catch(error => dispatch(requestModsDataFailure(error)))
     }

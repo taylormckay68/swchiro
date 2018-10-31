@@ -1,12 +1,7 @@
 import types from './types';
 
 
-const initialState = {
-    test: 'test',
-    modsData: [],
-    isFetching: false,
-    error: null
-}
+const initialState = {}
 
 export default (state=initialState, action) => {
     switch(action.type) {
@@ -25,7 +20,8 @@ export default (state=initialState, action) => {
                 ...state,
                 modsData: action.modsData,
                 isFetching: action.isFetching,
-                errorMods: action.error
+                errorMods: action.error,
+                nextRoomsData: action.nextRoomsData
             }
         default: 
             return state;

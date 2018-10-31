@@ -23,6 +23,7 @@ export const FilterBarWrapper = styled.div`
     padding: 16px 24px;
     display: flex;
     flex-direction: column;
+    margin-bottom: 24px;
     @media(min-width:743px) {
         flex-direction: row;
         justify-content: space-between;
