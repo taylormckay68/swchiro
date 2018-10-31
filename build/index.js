@@ -38,8 +38,6 @@ var _compression2 = _interopRequireDefault(_compression);
 
 var _utils = require("./rooms/utils");
 
-var _vm = require("vm");
-
 var _store = require("./rooms/components/redux/store");
 
 var _store2 = _interopRequireDefault(_store);
@@ -65,11 +63,7 @@ _fs2.default.readFile('./dist/js/bundle.min.js', "utf8", function (err, data) {
 app.get('/rooms/:id', roomsHandler);
 app.get('/rooms/', roomsHandler);
 
-app.get('/room/:id', function (req, res) {
-  dataObj.params = req.params.id;
-  res.set('Cache-Control', 'public, max-age=31557600');
-  res.send(returnHTML(dataObj, _Root4.default));
-});
+app.get('/room/', roomHandler);
 
 app.get('/', function (req, res) {
   res.set('Cache-Control', 'public, max-age=31557600');
@@ -113,7 +107,7 @@ function returnHTML(data, Root) {
   var sheet = new _styledComponents.ServerStyleSheet();
   var body = (0, _server.renderToString)(sheet.collectStyles(_react2.default.createElement(
     _reactRedux.Provider,
-    { store: store },
+    { store: store || {} },
     _react2.default.createElement(Root, { data: data })
   )));
   var styles = sheet.getStyleTags();
@@ -123,6 +117,44 @@ function returnHTML(data, Root) {
 function errHandle(err) {
   console.log(err);
   res.send(returnHTML(dataObj));
+}
+
+async function getProducts() {
+  var product_ids = dataObj.mediaItem.products.map(function (p) {
+    return p.metadata.productId;
+  });
+
+  try {
+    return dataObj.products = await Promise.all(product_ids.map(function (pid) {
+      return (0, _nodeFetch2.default)("https://lvxlayout.overstock.com/liverex/layout?ch=site&chtype=pla&productId=" + pid).then(function (res) {
+        if (res.status !== 200) throw Error(res.statusText);
+        return res.json();
+      }).then(function (json) {
+        return json.elements[0].recs[0];
+      });
+    }));
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+function roomHandler(req, res) {
+  dataObj.params = req.params.id;
+
+  fetcher("https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK/items/" + req.query.asset_id).then(function (response) {
+    dataObj.mediaItem = response.data.item;
+  }).catch(errHandle).then(function () {
+    var filterData = dataObj.mediaItem.labels.join('%20or%20label%3A');
+    return (0, _nodeFetch2.default)("https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?filter=label%3A" + filterData + "&sort=Optimized&limit=50").then(function (response) {
+      if (response.status !== 200) throw Error(response.statusText);
+      return response.json();
+    }).then(function (json) {
+      return dataObj.similarRooms = json.data.items;
+    }).catch(errHandle);
+  }).then(getProducts).then(function () {
+    res.set('Cache-Control', 'public, max-age=31557600');
+    res.send(returnHTML(dataObj, _Root4.default));
+  }).catch(errHandle);
 }
 
 function roomsHandler(req, res) {

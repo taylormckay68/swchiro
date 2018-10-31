@@ -9,7 +9,6 @@ import { ServerStyleSheet } from 'styled-components';
 import fs from 'fs';
 import compression from 'compression';
 import {filterData} from './rooms/utils'
-import { runInNewContext } from "vm";
 import configureStore from './rooms/components/redux/store';
 import {Provider} from 'react-redux';
 
@@ -30,11 +29,7 @@ fs.readFile('./dist/js/bundle.min.js', "utf8", function(err, data) {
 app.get('/rooms/:id', roomsHandler);
 app.get('/rooms/', roomsHandler);
 
-app.get('/room/:id', function(req, res){
-  dataObj.params = req.params.id
-    res.set('Cache-Control', 'public, max-age=31557600');
-    res.send(returnHTML(dataObj, RoomRoot));
-});
+app.get('/room/', roomHandler);
 
 app.get('/', function(req, res){
   res.set('Cache-Control', 'public, max-age=31557600');
@@ -76,7 +71,7 @@ function fetcher(url){
 function returnHTML(data, Root){
     const dataString = JSON.stringify(data);
     const sheet = new ServerStyleSheet();
-    const body = renderToString(sheet.collectStyles(<Provider store={store}><Root data={data}/></Provider>));
+    const body = renderToString(sheet.collectStyles(<Provider store={store || {}}><Root data={data}/></Provider>));
     const styles = sheet.getStyleTags();
     return `
       <html>
@@ -97,6 +92,46 @@ function returnHTML(data, Root){
 function errHandle(err){
     console.log(err);
     res.send(returnHTML(dataObj));
+}
+
+async function getProducts() {
+  const product_ids = dataObj.mediaItem.products.map(p => p.metadata.productId)
+
+  try {
+    return dataObj.products = await Promise.all(product_ids.map(pid => {
+      return fetch(`https://lvxlayout.overstock.com/liverex/layout?ch=site&chtype=pla&productId=${pid}`)
+        .then(res => {
+          if(res.status !== 200) throw Error(res.statusText)
+          return res.json()
+        })
+        .then(json => json.elements[0].recs[0])
+      }
+    ))
+  } catch(err) { console.log(err) }
+}
+
+function roomHandler (req, res) {
+  dataObj.params = req.params.id;
+  
+  fetcher(`https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK/items/${req.query.asset_id}`)
+  .then(response => {
+    dataObj.mediaItem = response.data.item
+  }).catch(errHandle)
+  .then(() => {
+    const filterData = dataObj.mediaItem.labels.join('%20or%20label%3A')
+    return fetch(`https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?filter=label%3A${filterData}&sort=Optimized&limit=50`)
+      .then(function(response) {
+          if(response.status !== 200) throw Error(response.statusText);
+          return response.json();
+      }).then(function(json){
+          return dataObj.similarRooms = json.data.items;
+      }).catch(errHandle)
+  })
+  .then(getProducts)
+  .then(() => {
+    res.set('Cache-Control', 'public, max-age=31557600');
+    res.send(returnHTML(dataObj, RoomRoot));
+  }).catch(errHandle)
 }
 
 function roomsHandler(req, res){

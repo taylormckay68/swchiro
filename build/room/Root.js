@@ -10,9 +10,9 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _RoomIdeas = require('./components/RoomIdeas');
+var _Main = require('./components/Main');
 
-var _RoomIdeas2 = _interopRequireDefault(_RoomIdeas);
+var _Main2 = _interopRequireDefault(_Main);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -37,7 +37,7 @@ var Root = function (_Component) {
       return _react2.default.createElement(
         'div',
         { id: 'userActiveRoom' },
-        _react2.default.createElement(_RoomIdeas2.default, this.props)
+        _react2.default.createElement(_Main2.default, this.props)
       );
     }
   }]);

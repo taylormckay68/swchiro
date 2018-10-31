@@ -21,6 +21,7 @@
     "overstock-component-library": "^3.4.1",
     "overstock-marketing-component-library": "^1.1.22",
     "react": "^16.4.2",
+    "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "^16.0.0",
     "react-redux": "^5.0.7",
     "redux": "^4.0.0",
