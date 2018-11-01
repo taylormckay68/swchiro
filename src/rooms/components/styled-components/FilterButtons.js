@@ -63,7 +63,7 @@ export const FilterButtonWrapper = styled.div`
 `
 //Drop Downs
 export const RoomDropDown = styled.div`
-    height: ${props => props.open ? '248px' : '0px'};
+    height: ${props => props.open ? '272px' : '0px'};
     width: 231px;
     visibility: ${props => props.open ? 'visible' : 'hidden'};
     position: fixed;

@@ -46,39 +46,43 @@ var FilterBar = function (_Component) {
             var _this2 = this;
 
             return _react2.default.createElement(
-                _FilterBar.FilterBarWrapper,
-                { className: 'filter-bar-wrapper' },
+                _FilterBar.FilterBarContainer,
+                { className: 'filter-bar-container' },
                 _react2.default.createElement(
-                    _FilterBar.TextWrapper,
-                    { className: 'text-wrapper' },
+                    _FilterBar.FilterBarWrapper,
+                    { className: 'filter-bar-wrapper' },
                     _react2.default.createElement(
-                        _FilterBar.ArrowWrapper,
-                        { className: 'arrow-wrapper' },
+                        _FilterBar.TextWrapper,
+                        { className: 'text-wrapper' },
                         _react2.default.createElement(
-                            'a',
-                            null,
-                            _react2.default.createElement(_Minimal_Left2.default, { className: 'leftArrow', style: { height: '13px' }, color: '#545658' })
+                            _FilterBar.ArrowWrapper,
+                            { className: 'arrow-wrapper' },
+                            _react2.default.createElement(
+                                'a',
+                                null,
+                                _react2.default.createElement(_Minimal_Left2.default, { className: 'leftArrow', style: { height: '13px' }, color: '#545658' })
+                            ),
+                            _react2.default.createElement(
+                                _FilterBar.RoomIdeasText,
+                                { className: 'room-ideas-text' },
+                                'Room Ideas'
+                            )
                         ),
                         _react2.default.createElement(
-                            _FilterBar.RoomIdeasText,
-                            { className: 'room-ideas-text' },
-                            'Room Ideas'
+                            _FilterBar.MainText,
+                            { className: 'main-text' },
+                            this.props.selectedRoom ? this.props.selectedRoom : 'Room',
+                            ' Ideas'
                         )
                     ),
+                    _react2.default.createElement(_FilterButtons2.default, this.props),
                     _react2.default.createElement(
-                        _FilterBar.MainText,
-                        { className: 'main-text' },
-                        this.props.selectedRoom ? this.props.selectedRoom : 'Room',
-                        ' Ideas'
+                        _FilterBar.FixedFilterButton,
+                        { onClick: function onClick() {
+                                return _this2.props.toggleMenu('mobileMenu');
+                            }, className: 'fixed-filter-button' },
+                        'Filters'
                     )
-                ),
-                _react2.default.createElement(_FilterButtons2.default, this.props),
-                _react2.default.createElement(
-                    _FilterBar.FixedFilterButton,
-                    { onClick: function onClick() {
-                            return _this2.props.toggleMenu('mobileMenu');
-                        }, className: 'fixed-filter-button' },
-                    'Filters'
                 )
             );
         }

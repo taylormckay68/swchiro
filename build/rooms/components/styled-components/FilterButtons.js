@@ -32,7 +32,7 @@ var FilterButtonText = exports.FilterButtonText = _styledComponents2.default.div
 var FilterButtonWrapper = exports.FilterButtonWrapper = _styledComponents2.default.div(_templateObject6);
 //Drop Downs
 var RoomDropDown = exports.RoomDropDown = _styledComponents2.default.div(_templateObject7, function (props) {
-    return props.open ? '248px' : '0px';
+    return props.open ? '272px' : '0px';
 }, function (props) {
     return props.open ? 'visible' : 'hidden';
 });

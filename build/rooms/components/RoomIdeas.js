@@ -64,7 +64,7 @@ var RoomIdeas = function (_Component) {
             mobileMenu: false,
             roomMenu: false,
             styleMenu: false,
-            selectedRoom: _this.props.roomsID || ''
+            selectedRoom: _this.props.data.rooms.id || ''
         };
         _this.toggleMenu = _this.toggleMenu.bind(_this);
         _this.offClick = _this.offClick.bind(_this);
@@ -103,7 +103,10 @@ var RoomIdeas = function (_Component) {
     }, {
         key: 'toggleMenu',
         value: function toggleMenu(menu) {
-            if (menu === "mobileMenu") this.setState({ mobileMenu: !this.state.mobileMenu, roomMenu: false, styleMenu: false });
+            if (menu === "mobileMenu") {
+                this.setState({ mobileMenu: !this.state.mobileMenu, roomMenu: false, styleMenu: false });
+                this.state.mobileMenu && this.refs.mobileFilter.showMoreRooms();
+            };
             if (menu === "roomMenu") this.setState({ mobileMenu: false, roomMenu: !this.state.roomMenu, styleMenu: false });
             if (menu === "styleMenu") this.setState({ mobileMenu: false, roomMenu: false, styleMenu: !this.state.styleMenu });
         }
@@ -120,7 +123,8 @@ var RoomIdeas = function (_Component) {
                     visible: this.state.mobileMenu,
                     toggleMenu: this.toggleMenu,
                     selectedRoom: this.state.selectedRoom,
-                    selectRoom: this.mobileSelectRoom }),
+                    selectRoom: this.mobileSelectRoom,
+                    ref: 'mobileFilter' }),
                 _react2.default.createElement(_FilterBar2.default, _extends({}, this.props, {
                     toggleMenu: this.toggleMenu,
                     roomMenu: this.state.roomMenu,
