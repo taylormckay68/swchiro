@@ -35,8 +35,6 @@ class RoomIdeas extends Component {
             }
         }
     }
-    
-
     selectRoom(room){
         room && this.props.fetchModsData(room);
         this.setState({selectedRoom: room});
@@ -54,7 +52,10 @@ class RoomIdeas extends Component {
         })
     }
     toggleMenu(menu){
-        if(menu === "mobileMenu") this.setState({mobileMenu: !this.state.mobileMenu, roomMenu: false, styleMenu: false});
+        if(menu === "mobileMenu") {
+            this.setState({mobileMenu: !this.state.mobileMenu, roomMenu: false, styleMenu: false});
+            this.state.mobileMenu && this.refs.mobileFilter.showMoreRooms();
+        };
         if(menu === "roomMenu") this.setState({mobileMenu: false, roomMenu: !this.state.roomMenu, styleMenu: false});
         if(menu === "styleMenu") this.setState({mobileMenu: false, roomMenu: false, styleMenu: !this.state.styleMenu});
     }
@@ -69,7 +70,8 @@ class RoomIdeas extends Component {
                     visible={this.state.mobileMenu} 
                     toggleMenu={this.toggleMenu}
                     selectedRoom={this.state.selectedRoom}
-                    selectRoom={this.mobileSelectRoom}/>
+                    selectRoom={this.mobileSelectRoom}
+                    ref="mobileFilter"/>
                 <FilterBar 
                     {...this.props} 
                     toggleMenu={this.toggleMenu} 

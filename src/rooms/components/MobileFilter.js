@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { MobFilterWrapper, MobFilterHeader, HeaderTextWrapper, HeaderText, HeaderClear, RoomsFilterContainer, RoomsFilterWrapper, RoomsFilterLabel, RoomsFilterOptionsCont, MobCheckWrapper, MobFilterOptionText, MobFilterFooter, ResultsButton, CloseButtonWrapper, CloseButtonText } from './styled-components/MobileFilter';
+import { MobFilterWrapper, MobFilterHeader, HeaderTextWrapper, HeaderText, HeaderClear, RoomsFilterContainer, RoomsFilterWrapper, RoomsFilterLabel, RoomsFilterOptionsCont, MobCheckWrapper, MobFilterOptionText, MobFilterFooter, ResultsButton, CloseButtonWrapper, CloseButtonText, ShowMoreRoomsButton } from './styled-components/MobileFilter';
 import {filterData} from '../utils';
 import ActionCheckThin from 'overstock-component-library/lib/Icons/action/Check_Thin';
 import ActionCloseThin from 'overstock-component-library/lib/Icons/action/Close_Thin';
@@ -8,26 +8,31 @@ class MobileFilter extends Component{
     constructor(props){
         super(props);
         this.state = {
-            pending: ''
+            pending: '',
+            showMoreRooms: true
         }
-    }
-    handleRoomSelect(room){
-        this.setState({pending: room})
+        this.showMoreRooms = this.showMoreRooms.bind(this);
     }
     applyResults() {
         this.state.pending !== this.props.selectedRoom && this.props.selectRoom(this.state.pending);
         this.props.toggleMenu('mobileMenu');
-        this.setState({pending: ''});
+        this.setState({pending: '', showMoreRooms: true});
     }
     clearFilters() {
         this.props.selectRoom('');
         this.setState({pending: ''})
     }
+    handleRoomSelect(room){
+        this.setState({pending: room})
+    }
+    showMoreRooms() {
+        this.setState({showMoreRooms: !this.state.showMoreRooms})
+    }
     renderRoomsFilters() {
         let {rooms} = filterData;
         return(
             <RoomsFilterContainer className="rooms-filter-container">
-                <RoomsFilterWrapper className="rooms-filter-wrapper">
+                <RoomsFilterWrapper className="rooms-filter-wrapper" showMore={this.state.showMoreRooms}>
                     <RoomsFilterLabel className="rooms-filter-label">Rooms</RoomsFilterLabel>
                     {rooms.map(e => {
                         let selected = this.state.pending ? e === this.state.pending : e === this.props.selectedRoom;
@@ -41,6 +46,12 @@ class MobileFilter extends Component{
                         )
                     })}
                 </RoomsFilterWrapper>
+                <ShowMoreRoomsButton 
+                    className="show-more-rooms-button"
+                    onClick={this.showMoreRooms} 
+                    showMore={this.state.showMoreRooms}>
+                    Show more rooms
+                </ShowMoreRoomsButton>
             </RoomsFilterContainer>
         )
     }

@@ -63,7 +63,7 @@ export const FilterButtonWrapper = styled.div`
 `
 //Drop Downs
 export const RoomDropDown = styled.div`
-    height: ${props => props.open ? '248px' : '0px'};
+    height: ${props => props.open ? '272px' : '0px'};
     width: 231px;
     visibility: ${props => props.open ? 'visible' : 'hidden'};
     position: fixed;
@@ -76,6 +76,15 @@ export const RoomDropDown = styled.div`
     box-sizing: border-box;
     border-radius: 4px;
     z-index: 4;
+    -webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+    }
+    -webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, .5);
+    -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+    }
     @media(max-width:743px) {
         left: 0
     }

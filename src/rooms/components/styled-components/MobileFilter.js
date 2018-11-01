@@ -57,7 +57,7 @@ export const MobFilterWrapper = styled.div`
     left: 0;
     visibility: ${props => props.visible ? 'visible' : 'hidden'};
     transform: ${props => props.visible ? 'translateX(0)' : 'translateX(-100vw)'};
-    transition: all .3s ease-in-out;
+    transition: all .3s;
     z-index: 5;
     overflow-y: scroll;
 ` 
@@ -76,6 +76,8 @@ export const MobFilterFooter = styled.div`
     box-sizing: border-box;
     display: flex;
     justify-content: space-between;
+    position: fixed;
+    bottom: 0;
 `
 export const ResultsButton = styled.div`
     height: 44px;
@@ -121,7 +123,9 @@ export const RoomsFilterContainer = styled.div`
     box-sizing: border-box;
 `
 export const RoomsFilterWrapper = styled.div`
+    height: ${props => props.showMore ? '295px' : 'max-content'};
     width: 100%;
+    overflow: hidden;
 `
 export const RoomsFilterLabel = styled.div`
     font-family: HelveticaNeue;
@@ -139,5 +143,19 @@ export const RoomsFilterOptionsCont = styled.div`
     display: flex;
     align-items: center;
     margin-top: 24px;
+`
+export const ShowMoreRoomsButton = styled.div`
+    width: 116px;
+    height: 24px;
+    font-family: HelveticaNeue;
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.71;
+    letter-spacing: normal;
+    color: #0272a2;
+    cursor: pointer;
+    display: ${props => props.showMore ? 'block' : 'none'}
 `
 

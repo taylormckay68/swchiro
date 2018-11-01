@@ -39,28 +39,35 @@ var MobileFilter = function (_Component) {
         var _this = _possibleConstructorReturn(this, (MobileFilter.__proto__ || Object.getPrototypeOf(MobileFilter)).call(this, props));
 
         _this.state = {
-            pending: ''
+            pending: '',
+            showMoreRooms: true
         };
+        _this.showMoreRooms = _this.showMoreRooms.bind(_this);
         return _this;
     }
 
     _createClass(MobileFilter, [{
-        key: 'handleRoomSelect',
-        value: function handleRoomSelect(room) {
-            this.setState({ pending: room });
-        }
-    }, {
         key: 'applyResults',
         value: function applyResults() {
             this.state.pending !== this.props.selectedRoom && this.props.selectRoom(this.state.pending);
             this.props.toggleMenu('mobileMenu');
-            this.setState({ pending: '' });
+            this.setState({ pending: '', showMoreRooms: true });
         }
     }, {
         key: 'clearFilters',
         value: function clearFilters() {
             this.props.selectRoom('');
             this.setState({ pending: '' });
+        }
+    }, {
+        key: 'handleRoomSelect',
+        value: function handleRoomSelect(room) {
+            this.setState({ pending: room });
+        }
+    }, {
+        key: 'showMoreRooms',
+        value: function showMoreRooms() {
+            this.setState({ showMoreRooms: !this.state.showMoreRooms });
         }
     }, {
         key: 'renderRoomsFilters',
@@ -74,7 +81,7 @@ var MobileFilter = function (_Component) {
                 { className: 'rooms-filter-container' },
                 _react2.default.createElement(
                     _MobileFilter.RoomsFilterWrapper,
-                    { className: 'rooms-filter-wrapper' },
+                    { className: 'rooms-filter-wrapper', showMore: this.state.showMoreRooms },
                     _react2.default.createElement(
                         _MobileFilter.RoomsFilterLabel,
                         { className: 'rooms-filter-label' },
@@ -97,6 +104,14 @@ var MobileFilter = function (_Component) {
                             )
                         );
                     })
+                ),
+                _react2.default.createElement(
+                    _MobileFilter.ShowMoreRoomsButton,
+                    {
+                        className: 'show-more-rooms-button',
+                        onClick: this.showMoreRooms,
+                        showMore: this.state.showMoreRooms },
+                    'Show more rooms'
                 )
             );
         }
