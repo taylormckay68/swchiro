@@ -76,8 +76,8 @@ export const MobFilterFooter = styled.div`
     box-sizing: border-box;
     display: flex;
     justify-content: space-between;
-    position: fixed;
-    bottom: 0;
+    position: sticky;
+    top: 100%;
 `
 export const ResultsButton = styled.div`
     height: 44px;
@@ -143,6 +143,7 @@ export const RoomsFilterOptionsCont = styled.div`
     display: flex;
     align-items: center;
     margin-top: 24px;
+    cursor: pointer;
 `
 export const ShowMoreRoomsButton = styled.div`
     width: 116px;

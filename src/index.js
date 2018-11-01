@@ -29,10 +29,10 @@ app.get('/', (req, res) => {
   rooms.queries = req.query;
   let room = req.query.room || '';
   let styles = req.query.styles || ''
-  let query = room ? `&filter=label:${room}` : '';
   let noDash = room ? room.replace('-', ' ') : '';
   let uppercase = noDash ? noDash.toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' ') : '';
-  rooms.id = uppercase;
+  let query = room ? (filterData.rooms.indexOf(uppercase) !== -1 || !uppercase ? `&filter=label:${room}` : '') : '';
+  rooms.id = filterData.rooms.indexOf(uppercase) !== -1 || !uppercase ? uppercase : '';
   fetcher(`https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?sort=Optimized&limit=18${query}`)
     .then((response) => {
       let items = response.data ? (response.data.items.length ? response.data.items : []) : {};
@@ -46,12 +46,12 @@ app.get('/', (req, res) => {
       rooms.nextData = response.paging.next || '';
     }).catch(errHandle)
     .then(() => {
-      if(filterData.rooms.indexOf(uppercase) !== -1 || !uppercase) {
+      // if(filterData.rooms.indexOf(uppercase) !== -1 || !uppercase) {
         res.set('Cache-Control', 'public, max-age=31557600');
         res.send(returnHTML(dataObj, RoomsRoot));
-      } else {
-        res.redirect('/rooms')
-      }
+      // } else {
+      //   res.redirect('/rooms')
+      // }
     }).catch(errHandle);
 });
 
@@ -90,7 +90,7 @@ function fetcher(url){
 function returnHTML(data, Root){
     const dataString = JSON.stringify(data);
     const sheet = new ServerStyleSheet();
-    const body = renderToString(sheet.collectStyles(<Provider store={store || {}}><Root data={data}/></Provider>));
+    const body = renderToString(sheet.collectStyles(<Provider store={store}><Root data={data}/></Provider>));
     const styles = sheet.getStyleTags();
     return `
       <html>

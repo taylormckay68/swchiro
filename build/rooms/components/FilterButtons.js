@@ -49,10 +49,12 @@ var FilterButtons = function (_Component) {
         value: function renderRoomFilter() {
             var _this2 = this;
 
-            var rooms = _utils.filterData.rooms;
+            var rooms = _utils.filterData.rooms.slice();
 
-            return rooms.map(function (e, i, arr) {
+            var modifiedRooms = rooms.splice(rooms.indexOf(this.props.selectedRoom), 1).concat(rooms);
+            return modifiedRooms.map(function (e, i, arr) {
                 var selected = e === _this2.props.selectedRoom;
+
                 return _react2.default.createElement(
                     _Filters.FilterOptionContainer,
                     { key: e, className: 'filter-option-container', onClick: _this2.props.selectRoom.bind(_this2, e) },

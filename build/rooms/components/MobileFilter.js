@@ -38,11 +38,16 @@ var MobileFilter = function (_Component) {
 
         var _this = _possibleConstructorReturn(this, (MobileFilter.__proto__ || Object.getPrototypeOf(MobileFilter)).call(this, props));
 
+        _this.modifyRooms = function () {};
+
         _this.state = {
             pending: '',
-            showMoreRooms: true
+            showMoreRooms: true,
+            clearedRoom: ''
         };
         _this.showMoreRooms = _this.showMoreRooms.bind(_this);
+        _this.hideMoreRooms = _this.hideMoreRooms.bind(_this);
+        _this.resetClearedRoom = _this.resetClearedRoom.bind(_this);
         return _this;
     }
 
@@ -51,13 +56,13 @@ var MobileFilter = function (_Component) {
         value: function applyResults() {
             this.state.pending !== this.props.selectedRoom && this.props.selectRoom(this.state.pending);
             this.props.toggleMenu('mobileMenu');
-            this.setState({ pending: '', showMoreRooms: true });
+            this.setState({ pending: '', showMoreRooms: true, clearedRoom: '' });
         }
     }, {
         key: 'clearFilters',
         value: function clearFilters() {
+            this.setState({ pending: '', clearedRoom: this.props.selectedRoom });
             this.props.selectRoom('');
-            this.setState({ pending: '' });
         }
     }, {
         key: 'handleRoomSelect',
@@ -67,14 +72,32 @@ var MobileFilter = function (_Component) {
     }, {
         key: 'showMoreRooms',
         value: function showMoreRooms() {
-            this.setState({ showMoreRooms: !this.state.showMoreRooms });
+            this.setState({ showMoreRooms: true });
+        }
+    }, {
+        key: 'hideMoreRooms',
+        value: function hideMoreRooms() {
+            this.setState({ showMoreRooms: false });
+        }
+    }, {
+        key: 'resetClearedRoom',
+        value: function resetClearedRoom() {
+            if (this.state.clearedRoom) {
+                this.props.selectRoom(this.state.clearedRoom);
+                this.props.toggleMenu('mobileMenu');
+                this.setState({ clearedRoom: '' });
+            } else {
+                this.props.toggleMenu('mobileMenu');
+            }
         }
     }, {
         key: 'renderRoomsFilters',
         value: function renderRoomsFilters() {
             var _this2 = this;
 
-            var rooms = _utils.filterData.rooms;
+            var rooms = _utils.filterData.rooms.slice();
+
+            var modifiedRooms = rooms.splice(rooms.indexOf(this.props.selectedRoom), 1).concat(rooms);
 
             return _react2.default.createElement(
                 _MobileFilter.RoomsFilterContainer,
@@ -87,7 +110,7 @@ var MobileFilter = function (_Component) {
                         { className: 'rooms-filter-label' },
                         'Rooms'
                     ),
-                    rooms.map(function (e) {
+                    modifiedRooms.map(function (e) {
                         var selected = _this2.state.pending ? e === _this2.state.pending : e === _this2.props.selectedRoom;
                         return _react2.default.createElement(
                             _MobileFilter.RoomsFilterOptionsCont,
@@ -109,7 +132,7 @@ var MobileFilter = function (_Component) {
                     _MobileFilter.ShowMoreRoomsButton,
                     {
                         className: 'show-more-rooms-button',
-                        onClick: this.showMoreRooms,
+                        onClick: this.hideMoreRooms,
                         showMore: this.state.showMoreRooms },
                     'Show more rooms'
                 )
@@ -149,9 +172,7 @@ var MobileFilter = function (_Component) {
                     { className: 'mob-filter-footer' },
                     _react2.default.createElement(
                         _MobileFilter.CloseButtonWrapper,
-                        { className: 'close-button-wrapper', onClick: function onClick() {
-                                return _this3.props.toggleMenu('mobileMenu');
-                            } },
+                        { className: 'close-button-wrapper', onClick: this.resetClearedRoom },
                         _react2.default.createElement(_Close_Thin2.default, { className: 'close-logo', height: '16px', fill: '#545658' }),
                         _react2.default.createElement(
                             _MobileFilter.CloseButtonText,

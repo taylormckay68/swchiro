@@ -64,7 +64,7 @@ var RoomIdeas = function (_Component) {
             mobileMenu: false,
             roomMenu: false,
             styleMenu: false,
-            selectedRoom: _this.props.roomsID || ''
+            selectedRoom: _this.props.data.rooms.id || ''
         };
         _this.toggleMenu = _this.toggleMenu.bind(_this);
         _this.offClick = _this.offClick.bind(_this);

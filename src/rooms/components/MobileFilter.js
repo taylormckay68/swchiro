@@ -9,32 +9,55 @@ class MobileFilter extends Component{
         super(props);
         this.state = {
             pending: '',
-            showMoreRooms: true
+            showMoreRooms: true,
+            clearedRoom: ''
         }
         this.showMoreRooms = this.showMoreRooms.bind(this);
+        this.hideMoreRooms = this.hideMoreRooms.bind(this);
+        this.resetClearedRoom = this.resetClearedRoom.bind(this);
     }
     applyResults() {
         this.state.pending !== this.props.selectedRoom && this.props.selectRoom(this.state.pending);
         this.props.toggleMenu('mobileMenu');
-        this.setState({pending: '', showMoreRooms: true});
+        this.setState({pending: '', showMoreRooms: true, clearedRoom: ''});
     }
     clearFilters() {
+        this.setState({pending: '', clearedRoom: this.props.selectedRoom})
         this.props.selectRoom('');
-        this.setState({pending: ''})
     }
     handleRoomSelect(room){
         this.setState({pending: room})
     }
     showMoreRooms() {
-        this.setState({showMoreRooms: !this.state.showMoreRooms})
+        this.setState({showMoreRooms: true})
     }
+    hideMoreRooms() {
+        this.setState({showMoreRooms: false})
+    }
+    resetClearedRoom() {
+        if(this.state.clearedRoom) {
+            this.props.selectRoom(this.state.clearedRoom);
+            this.props.toggleMenu('mobileMenu');
+            this.setState({clearedRoom: ''});
+        } else {
+            this.props.toggleMenu('mobileMenu');
+        }
+    }
+
+    modifyRooms = () => {
+        
+    }
+
     renderRoomsFilters() {
-        let {rooms} = filterData;
+        let rooms = filterData.rooms.slice()
+
+        const modifiedRooms = rooms.splice(rooms.indexOf(this.props.selectedRoom), 1).concat(rooms)
+
         return(
             <RoomsFilterContainer className="rooms-filter-container">
                 <RoomsFilterWrapper className="rooms-filter-wrapper" showMore={this.state.showMoreRooms}>
                     <RoomsFilterLabel className="rooms-filter-label">Rooms</RoomsFilterLabel>
-                    {rooms.map(e => {
+                    {modifiedRooms.map(e => {
                         let selected = this.state.pending ? e === this.state.pending : e === this.props.selectedRoom;
                         return(
                             <RoomsFilterOptionsCont key={e} className="rooms-filter-opt-cont" onClick={this.handleRoomSelect.bind(this, e)}>
@@ -48,7 +71,7 @@ class MobileFilter extends Component{
                 </RoomsFilterWrapper>
                 <ShowMoreRoomsButton 
                     className="show-more-rooms-button"
-                    onClick={this.showMoreRooms} 
+                    onClick={this.hideMoreRooms} 
                     showMore={this.state.showMoreRooms}>
                     Show more rooms
                 </ShowMoreRoomsButton>
@@ -66,7 +89,7 @@ class MobileFilter extends Component{
                     </MobFilterHeader>
                     {this.renderRoomsFilters()}
                     <MobFilterFooter className="mob-filter-footer">
-                        <CloseButtonWrapper className="close-button-wrapper" onClick={() => this.props.toggleMenu('mobileMenu')}>
+                        <CloseButtonWrapper className="close-button-wrapper" onClick={this.resetClearedRoom}>
                             <ActionCloseThin className="close-logo" height="16px" fill="#545658"/>
                             <CloseButtonText className="close-button-text">Close</CloseButtonText>
                         </CloseButtonWrapper>

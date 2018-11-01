@@ -11,7 +11,8 @@ let updatedState = {
     nextRoomsData: preloadedState.rooms.nextData,
     isFetching: false,
     isFetchingNext: false,
-    error: null
+    error: null,
+    selectedRoom: preloadedState.rooms.id
 }
 const store = configureStore(updatedState);
 

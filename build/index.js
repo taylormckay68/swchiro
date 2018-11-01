@@ -57,12 +57,12 @@ app.get('/', function (req, res) {
   rooms.queries = req.query;
   var room = req.query.room || '';
   var styles = req.query.styles || '';
-  var query = room ? "&filter=label:" + room : '';
   var noDash = room ? room.replace('-', ' ') : '';
   var uppercase = noDash ? noDash.toLowerCase().split(' ').map(function (s) {
     return s.charAt(0).toUpperCase() + s.substring(1);
   }).join(' ') : '';
-  rooms.id = uppercase;
+  var query = room ? _utils.filterData.rooms.indexOf(uppercase) !== -1 || !uppercase ? "&filter=label:" + room : '' : '';
+  rooms.id = _utils.filterData.rooms.indexOf(uppercase) !== -1 || !uppercase ? uppercase : '';
   fetcher("https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?sort=Optimized&limit=18" + query).then(function (response) {
     var items = response.data ? response.data.items.length ? response.data.items : [] : {};
     var newData = items.map(function (e) {
@@ -74,12 +74,12 @@ app.get('/', function (req, res) {
     rooms.data = newData.length ? newData : [];
     rooms.nextData = response.paging.next || '';
   }).catch(errHandle).then(function () {
-    if (_utils.filterData.rooms.indexOf(uppercase) !== -1 || !uppercase) {
-      res.set('Cache-Control', 'public, max-age=31557600');
-      res.send(returnHTML(dataObj, _Root2.default));
-    } else {
-      res.redirect('/rooms');
-    }
+    // if(filterData.rooms.indexOf(uppercase) !== -1 || !uppercase) {
+    res.set('Cache-Control', 'public, max-age=31557600');
+    res.send(returnHTML(dataObj, _Root2.default));
+    // } else {
+    //   res.redirect('/rooms')
+    // }
   }).catch(errHandle);
 });
 
@@ -120,7 +120,7 @@ function returnHTML(data, Root) {
   var sheet = new _styledComponents.ServerStyleSheet();
   var body = (0, _server.renderToString)(sheet.collectStyles(_react2.default.createElement(
     _reactRedux.Provider,
-    { store: store || {} },
+    { store: store },
     _react2.default.createElement(Root, { data: data })
   )));
   var styles = sheet.getStyleTags();

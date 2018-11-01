@@ -16,14 +16,20 @@ export const ArrowWrapper = styled.div`
         margin-left: -24px;
     }
 `
-export const FilterBarWrapper = styled.div`
+export const FilterBarContainer = styled.div`
     width: 100vw;
+    height: max-content;
+    background-color: #f5f5f5;
+    margin-bottom: 24px;
+`
+export const FilterBarWrapper = styled.div`
+    max-width: 1780px;
     background-color: #f5f5f5;
     box-sizing: border-box;
     padding: 16px 24px;
     display: flex;
     flex-direction: column;
-    margin-bottom: 24px;
+    margin: auto;
     @media(min-width:743px) {
         flex-direction: row;
         justify-content: space-between;

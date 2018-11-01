@@ -16,7 +16,7 @@ class RoomIdeas extends Component {
             mobileMenu: false,
             roomMenu: false,
             styleMenu: false,
-            selectedRoom: this.props.roomsID || '',
+            selectedRoom: this.props.data.rooms.id || '',
         }
         this.toggleMenu = this.toggleMenu.bind(this);
         this.offClick = this.offClick.bind(this);
