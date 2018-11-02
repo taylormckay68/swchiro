@@ -42,22 +42,18 @@ const receiveNextModsData = (modsData, nextRoomsData) => {
 }
 
 const requestNextModsData = () => ({
-type: types.REQUEST_NEXT_MODS_DATA,
-modsData: null,
-error: null,
-isFetching: true
+    type: types.REQUEST_NEXT_MODS_DATA,
+    modsData: null,
+    error: null,
+    isFetching: true
 });
 
-const requestNextModsDataFailure = (error) => {
-    console.log('error');
-    return({
+const requestNextModsDataFailure = (error) => ({
     type: types.REQUEST_NEXT_MODS_DATA_FAILURE,
     modsData: null,
     error,
     isFetching: false
-    });
-
-}
+});
 
 export const fetchModsData = (room) => {
     let roomName = room.length ? room.toLowerCase().replace(' ', '-') : '';
@@ -65,13 +61,18 @@ export const fetchModsData = (room) => {
     return (dispatch) => {
         dispatch(requestModsData());
         fetch(`https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?sort=Optimized&limit=18${query}`)
-            .then(response => response.status !== 200 ? Error(response.statusText) : response.json())
+            .then(response => {
+                return response.status !== 200 ? Error(response.statusText) : response.json()
+            })
+            .catch(error => {
+                return dispatch(requestModsDataFailure(error))
+            })
             .then(json => {
                 let items = json.data ? (json.data.items.length ? json.data.items : []) : {};
                 let newData = items.map(e => {
                     return({
                       imageUrl: e.media.large.link, 
-                      redirectUrl: `/room?asset_id=${e.id}`
+                      redirectUrl: `https://www.overstock.com/welcome?pageId=k8s2502&asset_id=${e.id}`
                     })
                   });
                 let nextRoomsData = json.paging.next

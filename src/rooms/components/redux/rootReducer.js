@@ -23,6 +23,12 @@ export default (state=initialState, action) => {
                 errorMods: action.error,
                 nextRoomsData: action.nextRoomsData
             }
+        case types.REQUEST_MODS_DATA_FAILURE:
+            return{
+                ...state,
+                isFetching: action.isFetching,
+                errorMods: action.error
+            }
         case types.REQUEST_NEXT_MODS_DATA: 
             return{
                 ...state,
@@ -35,6 +41,12 @@ export default (state=initialState, action) => {
                 isFetchingNext: action.isFetching,
                 errorMods: action.error,
                 nextRoomsData: action.nextRoomsData
+            }
+        case types.REQUEST_NEXT_MODS_DATA_FAILURE:
+            return{
+                ...state,
+                isFetchingNext: action.isFetching,
+                errorMods: action.error
             }
         default: 
             return state;

@@ -36,6 +36,11 @@ exports.default = function () {
                 errorMods: action.error,
                 nextRoomsData: action.nextRoomsData
             });
+        case _types2.default.REQUEST_MODS_DATA_FAILURE:
+            return _extends({}, state, {
+                isFetching: action.isFetching,
+                errorMods: action.error
+            });
         case _types2.default.REQUEST_NEXT_MODS_DATA:
             return _extends({}, state, {
                 isFetchingNext: action.isFetching
@@ -46,6 +51,11 @@ exports.default = function () {
                 isFetchingNext: action.isFetching,
                 errorMods: action.error,
                 nextRoomsData: action.nextRoomsData
+            });
+        case _types2.default.REQUEST_NEXT_MODS_DATA_FAILURE:
+            return _extends({}, state, {
+                isFetchingNext: action.isFetching,
+                errorMods: action.error
             });
         default:
             return state;
