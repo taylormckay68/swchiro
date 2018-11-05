@@ -68,7 +68,7 @@ app.get('/', function (req, res) {
     var newData = items.map(function (e) {
       return {
         imageUrl: e.media.large.link,
-        redirectUrl: "https://www.overstock.com/welcome?pageId=k8s2502&asset_id=" + e.id
+        redirectUrl: "https://www.overstock.com/welcome?pageId=k8s2498&asset_id=" + e.id
       };
     });
     rooms.data = newData.length ? newData : [];

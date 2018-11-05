@@ -117,7 +117,8 @@ var RoomIdeas = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
-            _utils.config.data = this.props && this.props.modsData;
+            _utils.config.data = this.props && this.props.modsData ? this.props.modsData : this.props.data.rooms.data;
+            // config.data = this.props && this.props.modsData;
             return _react2.default.createElement(
                 _RoomIdeas.RoomIdeasDiv,
                 { className: 'room-ideas-div' },

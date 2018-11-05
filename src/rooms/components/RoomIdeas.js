@@ -64,7 +64,8 @@ class RoomIdeas extends Component {
     }
     
     render() {
-        config.data = this.props && this.props.modsData;
+        config.data = this.props && this.props.modsData ? this.props.modsData : this.props.data.rooms.data;
+        // config.data = this.props && this.props.modsData;
         return (
             <RoomIdeasDiv className="room-ideas-div" >
                 {this.state.roomMenu || this.state.styleMenu ? <OffClick onClick={this.offClick} className="offclick"/> : ''}
