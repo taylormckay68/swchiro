@@ -15,12 +15,11 @@ class FilterButtons extends Component{
 
     renderRoomFilter() {
         let rooms = filterData.rooms.slice()
-
-        const modifiedRooms = rooms.splice(rooms.indexOf(this.props.selectedRoom), 1).concat(rooms)
+        const index = rooms.indexOf(this.props.selectedRoom)
+        const modifiedRooms = index !== -1 ? rooms.splice(rooms.indexOf(this.props.selectedRoom), 1).concat(rooms) : rooms;
         return (
             modifiedRooms.map((e, i, arr) => {
                 let selected = e === this.props.selectedRoom;
-
                 return(
                     <FilterOptionContainer key={e} className="filter-option-container" onClick={this.props.selectRoom.bind(this, e)}>
                         <FilterOptionWrapper className="filter-option-wrapper">

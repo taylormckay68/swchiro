@@ -52,14 +52,6 @@ var RoomIdeas = function (_Component) {
 
         var _this = _possibleConstructorReturn(this, (RoomIdeas.__proto__ || Object.getPrototypeOf(RoomIdeas)).call(this, props));
 
-        _this.handleScroll = function (e) {
-            if (e.target.scrollingElement.scrollHeight - e.target.scrollingElement.scrollTop - 100 < e.target.scrollingElement.clientHeight) {
-                if (!_this.props.isFetchingNext) {
-                    _this.props.fetchNextModsData(_this.props.nextRoomsData);
-                }
-            }
-        };
-
         _this.state = {
             mobileMenu: false,
             roomMenu: false,
@@ -70,14 +62,26 @@ var RoomIdeas = function (_Component) {
         _this.offClick = _this.offClick.bind(_this);
         _this.selectRoom = _this.selectRoom.bind(_this);
         _this.mobileSelectRoom = _this.mobileSelectRoom.bind(_this);
-        _this.handleScroll = _this.handleScroll.bind(_this);
+        _this.loadMore = _this.loadMore.bind(_this);
         return _this;
     }
 
+    // componentDidMount() {
+    //     document.addEventListener('scroll', this.handleScroll )
+    // }
+    // handleScroll = (e) => {
+    //     if ((e.target.scrollingElement.scrollHeight - e.target.scrollingElement.scrollTop - 100) < e.target.scrollingElement.clientHeight) { 
+    //         if(!this.props.isFetchingNext && this.props.nextRoomsData) {
+    //             this.props.fetchNextModsData(this.props.nextRoomsData); 
+    //         }
+    //     }
+    // }
+
+
     _createClass(RoomIdeas, [{
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-            document.addEventListener('scroll', this.handleScroll);
+        key: 'loadMore',
+        value: function loadMore() {
+            this.props.nextRoomsData && this.props.fetchNextModsData(this.props.nextRoomsData);
         }
     }, {
         key: 'selectRoom',
@@ -113,7 +117,8 @@ var RoomIdeas = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
-            _utils.config.data = this.props && this.props.modsData;
+            _utils.config.data = this.props && this.props.modsData ? this.props.modsData : this.props.data.rooms.data;
+            // config.data = this.props && this.props.modsData;
             return _react2.default.createElement(
                 _RoomIdeas.RoomIdeasDiv,
                 { className: 'room-ideas-div' },
@@ -134,7 +139,11 @@ var RoomIdeas = function (_Component) {
                 this.props.isFetching ? _react2.default.createElement(_LoadingLogo2.default, { center: true }) : _react2.default.createElement(_ProductGrid2.default, {
                     className: 'product-grid',
                     config: _utils.config }),
-                this.props.isFetchingNext && _react2.default.createElement(_LoadingLogo2.default, { center: true })
+                this.props.nextRoomsData && !this.props.isFetchingNext && !this.props.isFetching && _react2.default.createElement(
+                    _RoomIdeas.LoadMore,
+                    { onClick: this.loadMore, className: 'load-more' },
+                    'Load More Rooms '
+                )
             );
         }
     }]);

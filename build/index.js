@@ -68,18 +68,14 @@ app.get('/', function (req, res) {
     var newData = items.map(function (e) {
       return {
         imageUrl: e.media.large.link,
-        redirectUrl: "/room?asset_id=" + e.id
+        redirectUrl: "https://www.overstock.com/welcome?pageId=k8s2498&asset_id=" + e.id
       };
     });
     rooms.data = newData.length ? newData : [];
     rooms.nextData = response.paging.next || '';
   }).catch(errHandle).then(function () {
-    // if(filterData.rooms.indexOf(uppercase) !== -1 || !uppercase) {
     res.set('Cache-Control', 'public, max-age=31557600');
     res.send(returnHTML(dataObj, _Root2.default));
-    // } else {
-    //   res.redirect('/rooms')
-    // }
   }).catch(errHandle);
 });
 

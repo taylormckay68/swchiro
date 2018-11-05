@@ -11,6 +11,7 @@ export const ArrowWrapper = styled.div`
     display: flex;
     align-items: center;
     margin-bottom: 16px;
+    visibility: hidden;
     cursor: pointer;
     @media(min-width: 1128px) {
         margin-left: -24px;

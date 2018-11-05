@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import {RoomIdeasDiv, OffClick} from './styled-components/RoomIdeas';
+import {RoomIdeasDiv, OffClick, LoadMore} from './styled-components/RoomIdeas';
 import FilterBar from './FilterBar';
 import MobileFilter from './MobileFilter';
 import {fetchModsData, fetchNextModsData} from './redux/actions';
@@ -22,18 +22,21 @@ class RoomIdeas extends Component {
         this.offClick = this.offClick.bind(this);
         this.selectRoom = this.selectRoom.bind(this);
         this.mobileSelectRoom = this.mobileSelectRoom.bind(this);
-        this.handleScroll = this.handleScroll.bind(this);
+        this.loadMore = this.loadMore.bind(this);
     }
 
-    componentDidMount() {
-        document.addEventListener('scroll', this.handleScroll )
-    }
-    handleScroll = (e) => {
-        if ((e.target.scrollingElement.scrollHeight - e.target.scrollingElement.scrollTop - 100) < e.target.scrollingElement.clientHeight) { 
-            if(!this.props.isFetchingNext) {
-                this.props.fetchNextModsData(this.props.nextRoomsData); 
-            }
-        }
+    // componentDidMount() {
+    //     document.addEventListener('scroll', this.handleScroll )
+    // }
+    // handleScroll = (e) => {
+    //     if ((e.target.scrollingElement.scrollHeight - e.target.scrollingElement.scrollTop - 100) < e.target.scrollingElement.clientHeight) { 
+    //         if(!this.props.isFetchingNext && this.props.nextRoomsData) {
+    //             this.props.fetchNextModsData(this.props.nextRoomsData); 
+    //         }
+    //     }
+    // }
+    loadMore() {
+        this.props.nextRoomsData && this.props.fetchNextModsData(this.props.nextRoomsData)
     }
     selectRoom(room){
         room && this.props.fetchModsData(room);
@@ -61,7 +64,8 @@ class RoomIdeas extends Component {
     }
     
     render() {
-        config.data = this.props && this.props.modsData;
+        config.data = this.props && this.props.modsData ? this.props.modsData : this.props.data.rooms.data;
+        // config.data = this.props && this.props.modsData;
         return (
             <RoomIdeasDiv className="room-ideas-div" >
                 {this.state.roomMenu || this.state.styleMenu ? <OffClick onClick={this.offClick} className="offclick"/> : ''}
@@ -86,7 +90,8 @@ class RoomIdeas extends Component {
                     className="product-grid"
                     config={config}/>
                 }
-                {this.props.isFetchingNext && <LoadingLogo center/> }
+                {/* {this.props.isFetchingNext && <LoadingLogo center/> } */}
+                {this.props.nextRoomsData && !this.props.isFetchingNext && !this.props.isFetching && <LoadMore onClick={this.loadMore} className='load-more'>Load More Rooms </LoadMore>}
             </RoomIdeasDiv>
         );
     }

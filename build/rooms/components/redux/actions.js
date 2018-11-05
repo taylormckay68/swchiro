@@ -73,7 +73,6 @@ var requestNextModsData = function requestNextModsData() {
 };
 
 var requestNextModsDataFailure = function requestNextModsDataFailure(error) {
-    console.log('error');
     return {
         type: _types2.default.REQUEST_NEXT_MODS_DATA_FAILURE,
         modsData: null,
@@ -89,12 +88,14 @@ var fetchModsData = exports.fetchModsData = function fetchModsData(room) {
         dispatch(requestModsData());
         (0, _crossFetch2.default)('https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?sort=Optimized&limit=18' + query).then(function (response) {
             return response.status !== 200 ? Error(response.statusText) : response.json();
+        }).catch(function (error) {
+            return dispatch(requestModsDataFailure(error));
         }).then(function (json) {
             var items = json.data ? json.data.items.length ? json.data.items : [] : {};
             var newData = items.map(function (e) {
                 return {
                     imageUrl: e.media.large.link,
-                    redirectUrl: '/room?asset_id=' + e.id
+                    redirectUrl: 'https://www.overstock.com/welcome?pageId=k8s2498&asset_id=' + e.id
                 };
             });
             var nextRoomsData = json.paging.next;

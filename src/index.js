@@ -39,19 +39,15 @@ app.get('/', (req, res) => {
       let newData = items.map(e => {
         return({
           imageUrl: e.media.large.link, 
-          redirectUrl: `/room?asset_id=${e.id}`
+          redirectUrl: `https://www.overstock.com/welcome?pageId=k8s2498&asset_id=${e.id}`
         })
       });
       rooms.data = newData.length ? newData : [];
       rooms.nextData = response.paging.next || '';
     }).catch(errHandle)
     .then(() => {
-      // if(filterData.rooms.indexOf(uppercase) !== -1 || !uppercase) {
         res.set('Cache-Control', 'public, max-age=31557600');
         res.send(returnHTML(dataObj, RoomsRoot));
-      // } else {
-      //   res.redirect('/rooms')
-      // }
     }).catch(errHandle);
 });
 
