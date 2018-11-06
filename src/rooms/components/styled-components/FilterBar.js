@@ -1,22 +1,5 @@
 import styled from 'styled-components';
 
-
-export const ArrowContainer = styled.div`
-    width: 24px;
-    height: 24px;
-    `
-export const ArrowWrapper = styled.div`
-    height: 24px;
-    width: max-content;
-    display: flex;
-    align-items: center;
-    margin-bottom: 16px;
-    visibility: hidden;
-    cursor: pointer;
-    @media(min-width: 1128px) {
-        margin-left: -24px;
-    }
-`
 export const FilterBarContainer = styled.div`
     width: 100vw;
     height: max-content;
@@ -68,16 +51,6 @@ export const MainText = styled.div`
     font-style: normal;
     color: #545658;
     line-height: 1.57;
-`
-export const RoomIdeasText = styled.div`
-    font-size: 12px;
-    height: 24px;
-    width: 76px;
-    line-height: 26px;
-    font-family: HelveticaNeue;
-    font-weight: normal;
-    color: #545658;
-    margin-left: 12px;
 `
 export const TextWrapper = styled.div`
 `

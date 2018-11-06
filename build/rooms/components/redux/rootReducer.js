@@ -31,7 +31,7 @@ exports.default = function () {
             });
         case _types2.default.RECEIVE_MODS_DATA:
             return _extends({}, state, {
-                modsData: [].concat(_toConsumableArray(state.modsData), _toConsumableArray(action.modsData)),
+                modsData: action.modsData,
                 isFetching: action.isFetching,
                 errorMods: action.error,
                 nextRoomsData: action.nextRoomsData

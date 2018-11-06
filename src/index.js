@@ -30,6 +30,7 @@ fs.readFile('./dist/js/bundle.min.js', "utf8", function(err, data) {
 new CronJob('* 0 0 * * *', () => {
   let rooms = filterData.rooms ? [...filterData.rooms, ''] : [];
   dataObj.data = {}
+  dataObj.nextData = {};
   rooms.map((e, i) => {
     setTimeout(() => {
       let room = e ? e.toLowerCase().replace(' ', '-') : 'default';
@@ -42,7 +43,7 @@ new CronJob('* 0 0 * * *', () => {
       })
       .then(data => {
         dataObj.data[room] = {};
-        dataObj.nextData = data.paging ? data.paging.next : '';
+        dataObj.nextData[room] = data.paging ? data.paging.next : '';
         let items = data.data ? (data.data.items.length ? data.data.items : []) : {};
         dataObj.data[room]= items.map(el => {
           return({
@@ -66,6 +67,7 @@ function serverPageLoader (req, res) {
     let roomData = {};
     roomData.id = uppercase !== 'Default' ? uppercase : '';
     roomData.data = dataObj.data[room];
+    roomData.nextData = dataObj.nextData[room];
     res.set('Cache-Control', 'public, max-age=31557600');
     res.send(returnHTML(roomData, RoomsRoot));
   } else{
