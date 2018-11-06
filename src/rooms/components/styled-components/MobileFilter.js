@@ -58,7 +58,7 @@ export const MobFilterWrapper = styled.div`
     visibility: ${props => props.visible ? 'visible' : 'hidden'};
     transform: ${props => props.visible ? 'translateX(0)' : 'translateX(-100vw)'};
     transition: all .3s;
-    z-index: 5;
+    z-index: 6000;
     overflow-y: scroll;
 ` 
 export const MobFilterHeader = styled.div`
