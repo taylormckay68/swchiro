@@ -16,7 +16,7 @@ class RoomIdeas extends Component {
             mobileMenu: false,
             roomMenu: false,
             styleMenu: false,
-            selectedRoom: this.props.data.rooms.id || '',
+            selectedRoom: this.props.data.id || '',
         }
         this.toggleMenu = this.toggleMenu.bind(this);
         this.offClick = this.offClick.bind(this);
@@ -25,9 +25,9 @@ class RoomIdeas extends Component {
         this.loadMore = this.loadMore.bind(this);
     }
 
-    // componentDidMount() {
-    //     document.addEventListener('scroll', this.handleScroll )
-    // }
+    componentDidMount() {
+        // this.props.fetchModsData(this.state.selectedRoom);
+    }
     // handleScroll = (e) => {
     //     if ((e.target.scrollingElement.scrollHeight - e.target.scrollingElement.scrollTop - 100) < e.target.scrollingElement.clientHeight) { 
     //         if(!this.props.isFetchingNext && this.props.nextRoomsData) {
@@ -64,8 +64,8 @@ class RoomIdeas extends Component {
     }
     
     render() {
-        config.data = this.props && this.props.modsData ? this.props.modsData : this.props.data.rooms.data;
-        // config.data = this.props && this.props.modsData;
+        config.data = this.props && this.props.modsData ? this.props.modsData : this.props.data.data;
+        // config.data = this.props && this.props.data.rooms.data;
         return (
             <RoomIdeasDiv className="room-ideas-div" >
                 {this.state.roomMenu || this.state.styleMenu ? <OffClick onClick={this.offClick} className="offclick"/> : ''}

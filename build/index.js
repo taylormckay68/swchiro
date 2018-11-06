@@ -38,6 +38,10 @@ var _reactRedux = require("react-redux");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+var CronJob = require('cron').CronJob;
+
 var store = (0, _store2.default)();
 
 var PORT = process.env.PORT || 3000;
@@ -52,32 +56,87 @@ _fs2.default.readFile('./dist/js/bundle.min.js', "utf8", function (err, data) {
   bundle = data || "";
 });
 
-app.get('/', function (req, res) {
-  var rooms = dataObj.rooms = {};
-  rooms.queries = req.query;
-  var room = req.query.room || '';
+new CronJob('* 0 0 * * *', function () {
+  var rooms = _utils.filterData.rooms ? [].concat(_toConsumableArray(_utils.filterData.rooms), ['']) : [];
+  dataObj.data = {};
+  rooms.map(function (e, i) {
+    setTimeout(function () {
+      var room = e ? e.toLowerCase().replace(' ', '-') : 'default';
+      var roomQuery = e !== 'default' ? e.toLowerCase().replace(' ', '-') : '';
+      var extension = roomQuery ? "&filter=label:" + roomQuery : '';
+      (0, _nodeFetch2.default)("https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?sort=Optimized&limit=18" + extension).then(function (response) {
+        console.log('Cron Job Fired');
+        return response.json();
+      }).then(function (data) {
+        dataObj.data[room] = {};
+        dataObj.nextData = data.paging ? data.paging.next : '';
+        var items = data.data ? data.data.items.length ? data.data.items : [] : {};
+        dataObj.data[room] = items.map(function (el) {
+          return {
+            imageUrl: el.media.large.link,
+            redirectUrl: "https://www.overstock.com/welcome?pageId=k8s2498&asset_id=" + el.id + "&room=" + roomQuery
+          };
+        });
+      }).catch(errHandle);
+    }, 2000 * i);
+  });
+}, null, true, 'America/Los_Angeles', null, true);
+
+function serverPageLoader(req, res) {
+  dataObj.queries = req.query;
+  var room = req.query.room || 'default';
   var styles = req.query.styles || '';
   var noDash = room ? room.replace('-', ' ') : '';
   var uppercase = noDash ? noDash.toLowerCase().split(' ').map(function (s) {
     return s.charAt(0).toUpperCase() + s.substring(1);
   }).join(' ') : '';
-  var query = room ? _utils.filterData.rooms.indexOf(uppercase) !== -1 || !uppercase ? "&filter=label:" + room : '' : '';
-  rooms.id = _utils.filterData.rooms.indexOf(uppercase) !== -1 || !uppercase ? uppercase : '';
-  fetcher("https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?sort=Optimized&limit=18" + query).then(function (response) {
-    var items = response.data ? response.data.items.length ? response.data.items : [] : {};
-    var newData = items.map(function (e) {
-      return {
-        imageUrl: e.media.large.link,
-        redirectUrl: "https://www.overstock.com/welcome?pageId=k8s2498&asset_id=" + e.id
-      };
-    });
-    rooms.data = newData.length ? newData : [];
-    rooms.nextData = response.paging.next || '';
-  }).catch(errHandle).then(function () {
+  dataObj.id = _utils.filterData.rooms.indexOf(uppercase) !== -1 || !uppercase ? uppercase : '';
+  if (dataObj.data[room]) {
+    var roomData = {};
+    roomData.id = uppercase !== 'Default' ? uppercase : '';
+    roomData.data = dataObj.data[room];
     res.set('Cache-Control', 'public, max-age=31557600');
-    res.send(returnHTML(dataObj, _Root2.default));
-  }).catch(errHandle);
-});
+    res.send(returnHTML(roomData, _Root2.default));
+  } else {
+    res.redirect('https://www.overstock.com/404');
+  }
+  // if(dataObj[dataType]){
+  //   let productsSubset = dataObj[dataType] ? (dataObj[dataType].products ? {products: dataObj[dataType].products.slice(0, iterator)} : {}) : {};
+  //   let partialDataSet = Object.assign({}, dataObj[dataType], productsSubset)
+  //   res.set('Cache-Control', 'public, max-age=31557600');
+  //   res.send(returnHTML(req, res, partialDataSet, dataObj));
+  // } else {
+  //   res.redirect('https://www.overstock.com/404')
+  // }
+}
+
+app.get('/', serverPageLoader);
+// (req, res) => {
+//   let rooms = dataObj.rooms = {};
+//   rooms.queries = req.query;
+//   let room = req.query.room || '';
+//   let styles = req.query.styles || '';
+//   let noDash = room ? room.replace('-', ' ') : '';
+//   let uppercase = noDash ? noDash.toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' ') : '';
+//   let query = room ? (filterData.rooms.indexOf(uppercase) !== -1 || !uppercase ? `&filter=label:${room}` : '') : '';
+//   rooms.id = filterData.rooms.indexOf(uppercase) !== -1 || !uppercase ? uppercase : '';
+//   fetcher(`https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?sort=Optimized&limit=18${query}`)
+//     .then((response) => {
+//       let items = response.data ? (response.data.items.length ? response.data.items : []) : {};
+//       let newData = items.map(e => {
+//         return({
+//           imageUrl: e.media.large.link, 
+//           redirectUrl: `https://www.overstock.com/welcome?pageId=k8s2498&asset_id=${e.id}`
+//         })
+//       });
+//       rooms.data = newData.length ? newData : [];
+//       rooms.nextData = response.paging.next || '';
+//     }).catch(errHandle)
+//     .then(() => {
+//         res.set('Cache-Control', 'public, max-age=31557600');
+//         res.send(returnHTML(dataObj, RoomsRoot));
+//     }).catch(errHandle);
+// });
 
 app.get('/health', function (req, res) {
   return res.send('OK');
@@ -127,34 +186,3 @@ function errHandle(err) {
   console.log(err);
   res.send(returnHTML(dataObj));
 }
-
-// function roomsHandler(req, res){
-//   let rooms = dataObj.rooms = {};
-//   rooms.queries = req.query;
-//   let room = req.query.room || '';
-//   let styles = req.query.styles || ''
-//   let query = room ? `&filter=label:${room}` : '';
-//   let noDash = room ? room.replace('-', ' ') : '';
-//   let uppercase = noDash ? noDash.toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' ') : '';
-//   rooms.id = uppercase;
-//   fetcher(`https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?sort=Optimized&limit=18${query}`)
-//     .then((response) => {
-//       let items = response.data ? (response.data.items.length ? response.data.items : []) : {};
-//       let newData = items.map(e => {
-//         return({
-//           imageUrl: e.media.large.link, 
-//           redirectUrl: `/room?asset_id=${e.id}`
-//         })
-//       });
-//       rooms.data = newData.length ? newData : [];
-//       rooms.nextData = response.paging.next || '';
-//     }).catch(errHandle)
-//     .then(() => {
-//       if(filterData.rooms.indexOf(uppercase) !== -1 || !uppercase) {
-//         res.set('Cache-Control', 'public, max-age=31557600');
-//         res.send(returnHTML(dataObj, RoomsRoot));
-//       } else {
-//         res.redirect('/rooms')
-//       }
-//     }).catch(errHandle);
-// }

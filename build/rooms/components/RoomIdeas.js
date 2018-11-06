@@ -56,7 +56,7 @@ var RoomIdeas = function (_Component) {
             mobileMenu: false,
             roomMenu: false,
             styleMenu: false,
-            selectedRoom: _this.props.data.rooms.id || ''
+            selectedRoom: _this.props.data.id || ''
         };
         _this.toggleMenu = _this.toggleMenu.bind(_this);
         _this.offClick = _this.offClick.bind(_this);
@@ -66,19 +66,20 @@ var RoomIdeas = function (_Component) {
         return _this;
     }
 
-    // componentDidMount() {
-    //     document.addEventListener('scroll', this.handleScroll )
-    // }
-    // handleScroll = (e) => {
-    //     if ((e.target.scrollingElement.scrollHeight - e.target.scrollingElement.scrollTop - 100) < e.target.scrollingElement.clientHeight) { 
-    //         if(!this.props.isFetchingNext && this.props.nextRoomsData) {
-    //             this.props.fetchNextModsData(this.props.nextRoomsData); 
-    //         }
-    //     }
-    // }
-
-
     _createClass(RoomIdeas, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {}
+        // this.props.fetchModsData(this.state.selectedRoom);
+
+        // handleScroll = (e) => {
+        //     if ((e.target.scrollingElement.scrollHeight - e.target.scrollingElement.scrollTop - 100) < e.target.scrollingElement.clientHeight) { 
+        //         if(!this.props.isFetchingNext && this.props.nextRoomsData) {
+        //             this.props.fetchNextModsData(this.props.nextRoomsData); 
+        //         }
+        //     }
+        // }
+
+    }, {
         key: 'loadMore',
         value: function loadMore() {
             this.props.nextRoomsData && this.props.fetchNextModsData(this.props.nextRoomsData);
@@ -117,8 +118,8 @@ var RoomIdeas = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
-            _utils.config.data = this.props && this.props.modsData ? this.props.modsData : this.props.data.rooms.data;
-            // config.data = this.props && this.props.modsData;
+            _utils.config.data = this.props && this.props.modsData ? this.props.modsData : this.props.data.data;
+            // config.data = this.props && this.props.data.rooms.data;
             return _react2.default.createElement(
                 _RoomIdeas.RoomIdeasDiv,
                 { className: 'room-ideas-div' },

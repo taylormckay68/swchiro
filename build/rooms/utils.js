@@ -35,6 +35,7 @@ var styleData = exports.styleData = {
 
 var config = exports.config = {
     // title: 'Test3',
+    linkSamePage: true,
     loop: true,
     completeGrid: true,
     margins: {

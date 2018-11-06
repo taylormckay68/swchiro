@@ -13,10 +13,11 @@
   "dependencies": {
     "babel-polyfill": "^6.23.0",
     "compression": "^1.7.3",
+    "cron": "^1.5.0",
     "cross-fetch": "^2.2.2",
     "express": "^4.16.3",
     "fetch": "^1.1.0",
-    "lpo-component-library": "^3.3.3",
+    "lpo-component-library": "^3.3.5",
     "node-fetch": "^2.2.0",
     "overstock-component-library": "^3.4.1",
     "overstock-marketing-component-library": "^1.1.22",
