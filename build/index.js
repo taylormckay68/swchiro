@@ -100,43 +100,9 @@ function serverPageLoader(req, res) {
   } else {
     res.redirect('https://www.overstock.com/404');
   }
-  // if(dataObj[dataType]){
-  //   let productsSubset = dataObj[dataType] ? (dataObj[dataType].products ? {products: dataObj[dataType].products.slice(0, iterator)} : {}) : {};
-  //   let partialDataSet = Object.assign({}, dataObj[dataType], productsSubset)
-  //   res.set('Cache-Control', 'public, max-age=31557600');
-  //   res.send(returnHTML(req, res, partialDataSet, dataObj));
-  // } else {
-  //   res.redirect('https://www.overstock.com/404')
-  // }
 }
 
 app.get('/', serverPageLoader);
-// (req, res) => {
-//   let rooms = dataObj.rooms = {};
-//   rooms.queries = req.query;
-//   let room = req.query.room || '';
-//   let styles = req.query.styles || '';
-//   let noDash = room ? room.replace('-', ' ') : '';
-//   let uppercase = noDash ? noDash.toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' ') : '';
-//   let query = room ? (filterData.rooms.indexOf(uppercase) !== -1 || !uppercase ? `&filter=label:${room}` : '') : '';
-//   rooms.id = filterData.rooms.indexOf(uppercase) !== -1 || !uppercase ? uppercase : '';
-//   fetcher(`https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?sort=Optimized&limit=18${query}`)
-//     .then((response) => {
-//       let items = response.data ? (response.data.items.length ? response.data.items : []) : {};
-//       let newData = items.map(e => {
-//         return({
-//           imageUrl: e.media.large.link, 
-//           redirectUrl: `https://www.overstock.com/welcome?pageId=k8s2498&asset_id=${e.id}`
-//         })
-//       });
-//       rooms.data = newData.length ? newData : [];
-//       rooms.nextData = response.paging.next || '';
-//     }).catch(errHandle)
-//     .then(() => {
-//         res.set('Cache-Control', 'public, max-age=31557600');
-//         res.send(returnHTML(dataObj, RoomsRoot));
-//     }).catch(errHandle);
-// });
 
 app.get('/health', function (req, res) {
   return res.send('OK');
