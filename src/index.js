@@ -10,6 +10,8 @@ import {filterData} from './rooms/utils'
 import configureStore from './rooms/components/redux/store';
 import {Provider} from 'react-redux';
 
+var CronJob = require('cron').CronJob;
+
 const store = configureStore();
 
 var PORT = process.env.PORT || 3000;
@@ -24,32 +26,54 @@ fs.readFile('./dist/js/bundle.min.js', "utf8", function(err, data) {
   bundle = data || "";
 })
 
-app.get('/', (req, res) => {
-  let rooms = dataObj.rooms = {};
-  rooms.queries = req.query;
-  let room = req.query.room || '';
-  let styles = req.query.styles || ''
+
+new CronJob('* 0 0 * * *', () => {
+  let rooms = filterData.rooms ? [...filterData.rooms, ''] : [];
+  dataObj.data = {}
+  rooms.map((e, i) => {
+    setTimeout(() => {
+      let room = e ? e.toLowerCase().replace(' ', '-') : 'default';
+      let roomQuery = e !== 'default' ? e.toLowerCase().replace(' ', '-') : '';
+      let extension = roomQuery ? `&filter=label:${roomQuery}` : '';
+      fetch(`https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?sort=Optimized&limit=18${extension}`)
+      .then(function(response) {
+        console.log('Cron Job Fired')
+        return response.json();
+      })
+      .then(data => {
+        dataObj.data[room] = {};
+        dataObj.nextData = data.paging ? data.paging.next : '';
+        let items = data.data ? (data.data.items.length ? data.data.items : []) : {};
+        dataObj.data[room]= items.map(el => {
+          return({
+            imageUrl: el.media.large.link,
+            redirectUrl: `https://www.overstock.com/welcome?pageId=k8s2498&asset_id=${el.id}&room=${roomQuery}`
+          })
+        })
+      }).catch(errHandle);
+    }, (2000 * i))
+  })
+}, null, true, 'America/Los_Angeles', null, true);
+
+function serverPageLoader (req, res) {
+  dataObj.queries = req.query;
+  let room = req.query.room || 'default';
+  let styles = req.query.styles || '';
   let noDash = room ? room.replace('-', ' ') : '';
   let uppercase = noDash ? noDash.toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' ') : '';
-  let query = room ? (filterData.rooms.indexOf(uppercase) !== -1 || !uppercase ? `&filter=label:${room}` : '') : '';
-  rooms.id = filterData.rooms.indexOf(uppercase) !== -1 || !uppercase ? uppercase : '';
-  fetcher(`https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?sort=Optimized&limit=18${query}`)
-    .then((response) => {
-      let items = response.data ? (response.data.items.length ? response.data.items : []) : {};
-      let newData = items.map(e => {
-        return({
-          imageUrl: e.media.large.link, 
-          redirectUrl: `https://www.overstock.com/welcome?pageId=k8s2498&asset_id=${e.id}`
-        })
-      });
-      rooms.data = newData.length ? newData : [];
-      rooms.nextData = response.paging.next || '';
-    }).catch(errHandle)
-    .then(() => {
-        res.set('Cache-Control', 'public, max-age=31557600');
-        res.send(returnHTML(dataObj, RoomsRoot));
-    }).catch(errHandle);
-});
+  dataObj.id = filterData.rooms.indexOf(uppercase) !== -1 || !uppercase ? uppercase : '';
+  if(dataObj.data[room]){
+    let roomData = {};
+    roomData.id = uppercase !== 'Default' ? uppercase : '';
+    roomData.data = dataObj.data[room];
+    res.set('Cache-Control', 'public, max-age=31557600');
+    res.send(returnHTML(roomData, RoomsRoot));
+  } else{
+    res.redirect('https://www.overstock.com/404')
+  }
+}
+
+app.get('/', serverPageLoader)
 
 app.get('/health', (req, res) => res.send('OK'));
 
@@ -108,34 +132,3 @@ function errHandle(err){
     console.log(err);
     res.send(returnHTML(dataObj));
 }
-
-// function roomsHandler(req, res){
-//   let rooms = dataObj.rooms = {};
-//   rooms.queries = req.query;
-//   let room = req.query.room || '';
-//   let styles = req.query.styles || ''
-//   let query = room ? `&filter=label:${room}` : '';
-//   let noDash = room ? room.replace('-', ' ') : '';
-//   let uppercase = noDash ? noDash.toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' ') : '';
-//   rooms.id = uppercase;
-//   fetcher(`https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?sort=Optimized&limit=18${query}`)
-//     .then((response) => {
-//       let items = response.data ? (response.data.items.length ? response.data.items : []) : {};
-//       let newData = items.map(e => {
-//         return({
-//           imageUrl: e.media.large.link, 
-//           redirectUrl: `/room?asset_id=${e.id}`
-//         })
-//       });
-//       rooms.data = newData.length ? newData : [];
-//       rooms.nextData = response.paging.next || '';
-//     }).catch(errHandle)
-//     .then(() => {
-//       if(filterData.rooms.indexOf(uppercase) !== -1 || !uppercase) {
-//         res.set('Cache-Control', 'public, max-age=31557600');
-//         res.send(returnHTML(dataObj, RoomsRoot));
-//       } else {
-//         res.redirect('/rooms')
-//       }
-//     }).catch(errHandle);
-// }

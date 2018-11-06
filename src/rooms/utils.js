@@ -30,6 +30,7 @@ export const styleData = {
 
 export const config = {
     // title: 'Test3',
+    linkSamePage: true,
     loop: true,
     completeGrid: true,
     margins: {

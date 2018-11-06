@@ -18,7 +18,7 @@ export default (state=initialState, action) => {
         case types.RECEIVE_MODS_DATA:
             return{
                 ...state,
-                modsData: action.modsData,
+                modsData: [...state.modsData, ...action.modsData],
                 isFetching: action.isFetching,
                 errorMods: action.error,
                 nextRoomsData: action.nextRoomsData

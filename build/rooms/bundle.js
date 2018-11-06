@@ -20,13 +20,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var preloadedState = window.__LPO__ ? window.__LPO__ : {};
 var updatedState = {
-    modsData: preloadedState.rooms.data,
-    roomsID: preloadedState.rooms.id,
-    nextRoomsData: preloadedState.rooms.nextData,
+    modsData: preloadedState.data,
+    roomsID: preloadedState.id,
+    nextRoomsData: preloadedState.nextData,
     isFetching: false,
     isFetchingNext: false,
     error: null,
-    selectedRoom: preloadedState.rooms.id
+    selectedRoom: preloadedState.id
 };
 var store = (0, _store2.default)(updatedState);
 
