@@ -19,34 +19,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-// export const ArrowContainer = styled.div`
-//     width: 24px;
-//     height: 24px;
-//     `
-// export const ArrowWrapper = styled.div`
-//     height: 24px;
-//     width: max-content;
-//     display: flex;
-//     align-items: center;
-//     margin-bottom: 16px;
-//     /* visibility: hidden; */
-//     cursor: pointer;
-//     @media(min-width: 1128px) {
-//         margin-left: -24px;
-//     }
-// `
 var FilterBarContainer = exports.FilterBarContainer = _styledComponents2.default.div(_templateObject);
 var FilterBarWrapper = exports.FilterBarWrapper = _styledComponents2.default.div(_templateObject2);
 var FixedFilterButton = exports.FixedFilterButton = _styledComponents2.default.div(_templateObject3);
 var MainText = exports.MainText = _styledComponents2.default.div(_templateObject4);
-// export const RoomIdeasText = styled.div`
-//     font-size: 12px;
-//     height: 24px;
-//     width: 76px;
-//     line-height: 26px;
-//     font-family: HelveticaNeue;
-//     font-weight: normal;
-//     color: #545658;
-//     margin-left: 12px;
-// `
 var TextWrapper = exports.TextWrapper = _styledComponents2.default.div(_templateObject5);

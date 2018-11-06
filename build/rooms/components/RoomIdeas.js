@@ -67,19 +67,6 @@ var RoomIdeas = function (_Component) {
     }
 
     _createClass(RoomIdeas, [{
-        key: 'componentDidMount',
-        value: function componentDidMount() {}
-        // this.props.fetchModsData(this.state.selectedRoom);
-
-        // handleScroll = (e) => {
-        //     if ((e.target.scrollingElement.scrollHeight - e.target.scrollingElement.scrollTop - 100) < e.target.scrollingElement.clientHeight) { 
-        //         if(!this.props.isFetchingNext && this.props.nextRoomsData) {
-        //             this.props.fetchNextModsData(this.props.nextRoomsData); 
-        //         }
-        //     }
-        // }
-
-    }, {
         key: 'loadMore',
         value: function loadMore() {
             this.props.nextRoomsData && this.props.fetchNextModsData(this.props.nextRoomsData);
