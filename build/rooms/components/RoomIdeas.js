@@ -67,19 +67,6 @@ var RoomIdeas = function (_Component) {
     }
 
     _createClass(RoomIdeas, [{
-        key: 'componentDidMount',
-        value: function componentDidMount() {}
-        // this.props.fetchModsData(this.state.selectedRoom);
-
-        // handleScroll = (e) => {
-        //     if ((e.target.scrollingElement.scrollHeight - e.target.scrollingElement.scrollTop - 100) < e.target.scrollingElement.clientHeight) { 
-        //         if(!this.props.isFetchingNext && this.props.nextRoomsData) {
-        //             this.props.fetchNextModsData(this.props.nextRoomsData); 
-        //         }
-        //     }
-        // }
-
-    }, {
         key: 'loadMore',
         value: function loadMore() {
             this.props.nextRoomsData && this.props.fetchNextModsData(this.props.nextRoomsData);
@@ -119,11 +106,11 @@ var RoomIdeas = function (_Component) {
         key: 'render',
         value: function render() {
             _utils.config.data = this.props && this.props.modsData ? this.props.modsData : this.props.data.data;
-            // config.data = this.props && this.props.data.rooms.data;
             return _react2.default.createElement(
                 _RoomIdeas.RoomIdeasDiv,
                 { className: 'room-ideas-div' },
                 this.state.roomMenu || this.state.styleMenu ? _react2.default.createElement(_RoomIdeas.OffClick, { onClick: this.offClick, className: 'offclick' }) : '',
+                _react2.default.createElement(_RoomIdeas.HeroImg, null),
                 _react2.default.createElement(_MobileFilter2.default, {
                     className: 'mobile-filter',
                     visible: this.state.mobileMenu,

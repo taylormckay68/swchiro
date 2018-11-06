@@ -59,6 +59,7 @@ _fs2.default.readFile('./dist/js/bundle.min.js', "utf8", function (err, data) {
 new CronJob('* 0 0 * * *', function () {
   var rooms = _utils.filterData.rooms ? [].concat(_toConsumableArray(_utils.filterData.rooms), ['']) : [];
   dataObj.data = {};
+  dataObj.nextData = {};
   rooms.map(function (e, i) {
     setTimeout(function () {
       var room = e ? e.toLowerCase().replace(' ', '-') : 'default';
@@ -69,7 +70,7 @@ new CronJob('* 0 0 * * *', function () {
         return response.json();
       }).then(function (data) {
         dataObj.data[room] = {};
-        dataObj.nextData = data.paging ? data.paging.next : '';
+        dataObj.nextData[room] = data.paging ? data.paging.next : '';
         var items = data.data ? data.data.items.length ? data.data.items : [] : {};
         dataObj.data[room] = items.map(function (el) {
           return {
@@ -95,6 +96,7 @@ function serverPageLoader(req, res) {
     var roomData = {};
     roomData.id = uppercase !== 'Default' ? uppercase : '';
     roomData.data = dataObj.data[room];
+    roomData.nextData = dataObj.nextData[room];
     res.set('Cache-Control', 'public, max-age=31557600');
     res.send(returnHTML(roomData, _Root2.default));
   } else {

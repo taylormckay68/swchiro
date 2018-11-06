@@ -52,7 +52,6 @@ export const FilterButtonText = styled.div`
 `
 export const FilterButtonWrapper = styled.div`
     display: none;
-    margin-top: 16px;
     z-index: 4;
     @media(min-width: 569px) {
         display: flex;

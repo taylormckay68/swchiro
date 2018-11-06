@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import {RoomIdeasDiv, OffClick, LoadMore} from './styled-components/RoomIdeas';
+import {RoomIdeasDiv, OffClick, LoadMore, HeroImg} from './styled-components/RoomIdeas';
 import FilterBar from './FilterBar';
 import MobileFilter from './MobileFilter';
 import {fetchModsData, fetchNextModsData} from './redux/actions';
@@ -25,16 +25,6 @@ class RoomIdeas extends Component {
         this.loadMore = this.loadMore.bind(this);
     }
 
-    componentDidMount() {
-        // this.props.fetchModsData(this.state.selectedRoom);
-    }
-    // handleScroll = (e) => {
-    //     if ((e.target.scrollingElement.scrollHeight - e.target.scrollingElement.scrollTop - 100) < e.target.scrollingElement.clientHeight) { 
-    //         if(!this.props.isFetchingNext && this.props.nextRoomsData) {
-    //             this.props.fetchNextModsData(this.props.nextRoomsData); 
-    //         }
-    //     }
-    // }
     loadMore() {
         this.props.nextRoomsData && this.props.fetchNextModsData(this.props.nextRoomsData)
     }
@@ -65,10 +55,10 @@ class RoomIdeas extends Component {
     
     render() {
         config.data = this.props && this.props.modsData ? this.props.modsData : this.props.data.data;
-        // config.data = this.props && this.props.data.rooms.data;
         return (
             <RoomIdeasDiv className="room-ideas-div" >
                 {this.state.roomMenu || this.state.styleMenu ? <OffClick onClick={this.offClick} className="offclick"/> : ''}
+                <HeroImg/>
                 <MobileFilter
                     className="mobile-filter"
                     visible={this.state.mobileMenu} 
