@@ -60,7 +60,7 @@ export const fetchModsData = (room) => {
     let query = roomName.length ? `&filter=label:${roomName}` : '';
     return (dispatch) => {
         dispatch(requestModsData());
-        fetch(`https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?sort=Optimized&limit=18${query}`)
+        fetch(`https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?requireProduct=true&sort=Optimized&limit=18${query}`)
             .then(response => {
                 return response.status !== 200 ? Error(response.statusText) : response.json()
             })
@@ -68,11 +68,12 @@ export const fetchModsData = (room) => {
                 return dispatch(requestModsDataFailure(error))
             })
             .then(json => {
+                let redirectRoomQuery = roomName ? `&room=${roomName}` : '';
                 let items = json.data ? (json.data.items.length ? json.data.items : []) : {};
                 let newData = items.map(e => {
                     return({
                       imageUrl: e.media.large.link, 
-                      redirectUrl: `https://www.overstock.com/welcome?pageId=k8s2498&asset_id=${e.id}`
+                      redirectUrl: `https://www.overstock.com/welcome?pageId=k8s2498&asset_id=${e.id}${redirectRoomQuery}`
                     })
                   });
                 let nextRoomsData = json.paging.next
@@ -81,17 +82,19 @@ export const fetchModsData = (room) => {
             .catch(error => dispatch(requestModsDataFailure(error)))
     }
 }
-export const fetchNextModsData = (nextUrl) => {
+export const fetchNextModsData = (nextUrl, room) => {
+    let roomName = room.length ? room.toLowerCase().replace(' ', '-') : '';
     return (dispatch) => {
         dispatch(requestNextModsData());
         fetch(nextUrl)
             .then(response => response.status !== 200 ? Error(response.statusText) : response.json())
             .then(json => {
+                let redirectRoomQuery = roomName ? `&room=${roomName}` : '';
                 let items = json.data ? (json.data.items.length ? json.data.items : []) : {};
                 let newData = items.map(e => {
                     return({
                       imageUrl: e.media.large.link, 
-                      redirectUrl: `/room?asset_id=${e.id}`
+                      redirectUrl: `https://www.overstock.com/welcome?pageId=k8s2498&asset_id=${e.id}${redirectRoomQuery}`
                     })
                   });
                 let nextRoomsData = json.paging.next

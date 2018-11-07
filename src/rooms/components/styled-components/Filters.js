@@ -1,12 +1,13 @@
 import styled from 'styled-components';
 
 export const CheckWrapper = styled.div`
+    visibility: ${props => props.visible ? 'visible' : 'hidden'};
+    /* display: ${props => !props.visible && 'none'}; */
     height: 24px;
     width: 24px;
     display: flex;
     align-items: center;
     padding-top: 4px;
-    visibility: ${props => props.visible ? 'visible' : 'hidden'};
 `
 export const FilterWrapper = styled.div`
     height: 100%;

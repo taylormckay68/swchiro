@@ -65,17 +65,18 @@ new CronJob('* 0 0 * * *', function () {
       var room = e ? e.toLowerCase().replace(' ', '-') : 'default';
       var roomQuery = e !== 'default' ? e.toLowerCase().replace(' ', '-') : '';
       var extension = roomQuery ? "&filter=label:" + roomQuery : '';
-      (0, _nodeFetch2.default)("https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?sort=Optimized&limit=18" + extension).then(function (response) {
+      (0, _nodeFetch2.default)("https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?requireProduct=true&sort=Optimized&limit=18" + extension).then(function (response) {
         console.log('Cron Job Fired');
         return response.json();
       }).then(function (data) {
         dataObj.data[room] = {};
         dataObj.nextData[room] = data.paging ? data.paging.next : '';
         var items = data.data ? data.data.items.length ? data.data.items : [] : {};
+        var redirectRoomQuery = roomQuery ? "&room=" + roomQuery : '';
         dataObj.data[room] = items.map(function (el) {
           return {
             imageUrl: el.media.large.link,
-            redirectUrl: "https://www.overstock.com/welcome?pageId=k8s2498&asset_id=" + el.id + "&room=" + roomQuery
+            redirectUrl: "https://www.overstock.com/welcome?pageId=k8s2498&asset_id=" + el.id + redirectRoomQuery
           };
         });
       }).catch(errHandle);
@@ -92,15 +93,19 @@ function serverPageLoader(req, res) {
     return s.charAt(0).toUpperCase() + s.substring(1);
   }).join(' ') : '';
   dataObj.id = _utils.filterData.rooms.indexOf(uppercase) !== -1 || !uppercase ? uppercase : '';
+  var roomData = {};
   if (dataObj.data[room]) {
-    var roomData = {};
     roomData.id = uppercase !== 'Default' ? uppercase : '';
     roomData.data = dataObj.data[room];
     roomData.nextData = dataObj.nextData[room];
     res.set('Cache-Control', 'public, max-age=31557600');
     res.send(returnHTML(roomData, _Root2.default));
   } else {
-    res.redirect('https://www.overstock.com/404');
+    roomData.id = _utils.filterData.rooms.indexOf(uppercase) !== -1 || !uppercase ? uppercase : '';
+    roomData.data = dataObj.data['default'];
+    roomData.nextData = dataObj.nextData['default'];
+    res.set('Cache-Control', 'public, max-age=31557600');
+    res.send(returnHTML(roomData, _Root2.default));
   }
 }
 

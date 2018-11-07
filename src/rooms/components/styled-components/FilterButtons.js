@@ -64,13 +64,13 @@ export const FilterButtonWrapper = styled.div`
 export const RoomDropDown = styled.div`
     height: ${props => props.open ? '272px' : '0px'};
     width: 231px;
-    visibility: ${props => props.open ? 'visible' : 'hidden'};
+    display: ${props => props.open ? 'block' : 'none'};
     position: fixed;
     background-color: #f5f5f5;
     position: absolute;
     right: 0;
     top: 61px;
-    transition: height .3s;
+    transition: height .3s ease-in-out;
     padding: 4px;
     box-sizing: border-box;
     border-radius: 4px;

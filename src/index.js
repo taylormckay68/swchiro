@@ -36,7 +36,7 @@ new CronJob('* 0 0 * * *', () => {
       let room = e ? e.toLowerCase().replace(' ', '-') : 'default';
       let roomQuery = e !== 'default' ? e.toLowerCase().replace(' ', '-') : '';
       let extension = roomQuery ? `&filter=label:${roomQuery}` : '';
-      fetch(`https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?sort=Optimized&limit=18${extension}`)
+      fetch(`https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?requireProduct=true&sort=Optimized&limit=18${extension}`)
       .then(function(response) {
         console.log('Cron Job Fired')
         return response.json();
@@ -45,10 +45,11 @@ new CronJob('* 0 0 * * *', () => {
         dataObj.data[room] = {};
         dataObj.nextData[room] = data.paging ? data.paging.next : '';
         let items = data.data ? (data.data.items.length ? data.data.items : []) : {};
+        let redirectRoomQuery = roomQuery ? `&room=${roomQuery}` : '';
         dataObj.data[room]= items.map(el => {
           return({
             imageUrl: el.media.large.link,
-            redirectUrl: `https://www.overstock.com/welcome?pageId=k8s2498&asset_id=${el.id}&room=${roomQuery}`
+            redirectUrl: `https://www.overstock.com/welcome?pageId=k8s2498&asset_id=${el.id}${redirectRoomQuery}`
           })
         })
       }).catch(errHandle);
@@ -63,15 +64,19 @@ function serverPageLoader (req, res) {
   let noDash = room ? room.replace('-', ' ') : '';
   let uppercase = noDash ? noDash.toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' ') : '';
   dataObj.id = filterData.rooms.indexOf(uppercase) !== -1 || !uppercase ? uppercase : '';
+  let roomData = {};
   if(dataObj.data[room]){
-    let roomData = {};
     roomData.id = uppercase !== 'Default' ? uppercase : '';
     roomData.data = dataObj.data[room];
     roomData.nextData = dataObj.nextData[room];
     res.set('Cache-Control', 'public, max-age=31557600');
     res.send(returnHTML(roomData, RoomsRoot));
   } else{
-    res.redirect('https://www.overstock.com/404')
+    roomData.id = filterData.rooms.indexOf(uppercase) !== -1 || !uppercase ? uppercase : '';
+    roomData.data = dataObj.data['default'];
+    roomData.nextData = dataObj.nextData['default'];
+    res.set('Cache-Control', 'public, max-age=31557600');
+    res.send(returnHTML(roomData, RoomsRoot));
   }
 }
 

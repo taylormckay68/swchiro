@@ -69,7 +69,7 @@ var RoomIdeas = function (_Component) {
     _createClass(RoomIdeas, [{
         key: 'loadMore',
         value: function loadMore() {
-            this.props.nextRoomsData && this.props.fetchNextModsData(this.props.nextRoomsData);
+            this.props.nextRoomsData && this.props.fetchNextModsData(this.props.nextRoomsData, this.state.selectedRoom);
         }
     }, {
         key: 'selectRoom',

@@ -26,7 +26,7 @@ class RoomIdeas extends Component {
     }
 
     loadMore() {
-        this.props.nextRoomsData && this.props.fetchNextModsData(this.props.nextRoomsData)
+        this.props.nextRoomsData && this.props.fetchNextModsData(this.props.nextRoomsData, this.state.selectedRoom)
     }
     selectRoom(room){
         room && this.props.fetchModsData(room);
