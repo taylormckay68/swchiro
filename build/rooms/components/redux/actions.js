@@ -86,16 +86,17 @@ var fetchModsData = exports.fetchModsData = function fetchModsData(room) {
     var query = roomName.length ? '&filter=label:' + roomName : '';
     return function (dispatch) {
         dispatch(requestModsData());
-        (0, _crossFetch2.default)('https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?sort=Optimized&limit=18' + query).then(function (response) {
+        (0, _crossFetch2.default)('https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?requireProduct=true&sort=Optimized&limit=18' + query).then(function (response) {
             return response.status !== 200 ? Error(response.statusText) : response.json();
         }).catch(function (error) {
             return dispatch(requestModsDataFailure(error));
         }).then(function (json) {
+            var redirectRoomQuery = roomName ? '&room=' + roomName : '';
             var items = json.data ? json.data.items.length ? json.data.items : [] : {};
             var newData = items.map(function (e) {
                 return {
                     imageUrl: e.media.large.link,
-                    redirectUrl: 'https://www.overstock.com/welcome?pageId=k8s2498&asset_id=' + e.id
+                    redirectUrl: 'https://www.overstock.com/welcome?pageId=k8s2498&asset_id=' + e.id + redirectRoomQuery
                 };
             });
             var nextRoomsData = json.paging.next;
@@ -105,17 +106,19 @@ var fetchModsData = exports.fetchModsData = function fetchModsData(room) {
         });
     };
 };
-var fetchNextModsData = exports.fetchNextModsData = function fetchNextModsData(nextUrl) {
+var fetchNextModsData = exports.fetchNextModsData = function fetchNextModsData(nextUrl, room) {
+    var roomName = room.length ? room.toLowerCase().replace(' ', '-') : '';
     return function (dispatch) {
         dispatch(requestNextModsData());
         (0, _crossFetch2.default)(nextUrl).then(function (response) {
             return response.status !== 200 ? Error(response.statusText) : response.json();
         }).then(function (json) {
+            var redirectRoomQuery = roomName ? '&room=' + roomName : '';
             var items = json.data ? json.data.items.length ? json.data.items : [] : {};
             var newData = items.map(function (e) {
                 return {
                     imageUrl: e.media.large.link,
-                    redirectUrl: '/room?asset_id=' + e.id
+                    redirectUrl: 'https://www.overstock.com/welcome?pageId=k8s2498&asset_id=' + e.id + redirectRoomQuery
                 };
             });
             var nextRoomsData = json.paging.next;

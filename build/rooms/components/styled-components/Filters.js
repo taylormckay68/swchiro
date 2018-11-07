@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.StyleFilterContainer = exports.FilterOptionText = exports.FilterOptionWrapper = exports.FilterOptionContainer = exports.FilterWrapper = exports.CheckWrapper = undefined;
 
-var _templateObject = _taggedTemplateLiteral(['\n    height: 24px;\n    width: 24px;\n    display: flex;\n    align-items: center;\n    padding-top: 4px;\n    visibility: ', ';\n'], ['\n    height: 24px;\n    width: 24px;\n    display: flex;\n    align-items: center;\n    padding-top: 4px;\n    visibility: ', ';\n']),
+var _templateObject = _taggedTemplateLiteral(['\n    visibility: ', ';\n    /* display: ', '; */\n    height: 24px;\n    width: 24px;\n    display: flex;\n    align-items: center;\n    padding-top: 4px;\n'], ['\n    visibility: ', ';\n    /* display: ', '; */\n    height: 24px;\n    width: 24px;\n    display: flex;\n    align-items: center;\n    padding-top: 4px;\n']),
     _templateObject2 = _taggedTemplateLiteral(['\n    height: 100%;\n    width: 100%;\n    overflow: scroll;\n'], ['\n    height: 100%;\n    width: 100%;\n    overflow: scroll;\n']),
     _templateObject3 = _taggedTemplateLiteral(['\n    width: 100%;\n    height: 48px;\n    background-color: #f5f5f5;\n    padding: 0 16px;\n    display: flex;\n    align-items: center;\n    box-sizing: border-box;\n    &:hover {\n        background-color: #ffffff;\n    }\n'], ['\n    width: 100%;\n    height: 48px;\n    background-color: #f5f5f5;\n    padding: 0 16px;\n    display: flex;\n    align-items: center;\n    box-sizing: border-box;\n    &:hover {\n        background-color: #ffffff;\n    }\n']),
     _templateObject4 = _taggedTemplateLiteral(['\n    height: 24px;\n    width: 100%;\n    display: flex;\n    align-items: center;\n'], ['\n    height: 24px;\n    width: 100%;\n    display: flex;\n    align-items: center;\n']),
@@ -22,6 +22,8 @@ function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defi
 
 var CheckWrapper = exports.CheckWrapper = _styledComponents2.default.div(_templateObject, function (props) {
     return props.visible ? 'visible' : 'hidden';
+}, function (props) {
+    return !props.visible && 'none';
 });
 var FilterWrapper = exports.FilterWrapper = _styledComponents2.default.div(_templateObject2);
 var FilterOptionContainer = exports.FilterOptionContainer = _styledComponents2.default.div(_templateObject3);
