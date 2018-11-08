@@ -38,8 +38,6 @@ var MobileFilter = function (_Component) {
 
         var _this = _possibleConstructorReturn(this, (MobileFilter.__proto__ || Object.getPrototypeOf(MobileFilter)).call(this, props));
 
-        _this.modifyRooms = function () {};
-
         _this.state = {
             pending: '',
             showMoreRooms: true,
@@ -62,12 +60,12 @@ var MobileFilter = function (_Component) {
         key: 'clearFilters',
         value: function clearFilters() {
             this.setState({ pending: '', clearedRoom: this.props.selectedRoom });
-            this.props.selectRoom('');
+            // this.props.selectRoom('');
         }
     }, {
         key: 'handleRoomSelect',
         value: function handleRoomSelect(room) {
-            this.setState({ pending: room });
+            this.setState({ pending: room, clearedRoom: '' });
         }
     }, {
         key: 'showMoreRooms',
@@ -82,10 +80,13 @@ var MobileFilter = function (_Component) {
     }, {
         key: 'resetClearedRoom',
         value: function resetClearedRoom() {
-            if (this.state.clearedRoom) {
+            if (this.state.clearedRoom && !this.state.pending) {
                 this.props.selectRoom(this.state.clearedRoom);
                 this.props.toggleMenu('mobileMenu');
-                this.setState({ clearedRoom: '' });
+                this.setState({ clearedRoom: '', pending: '' });
+            } else if (!this.state.clearedRoom && this.state.pending) {
+                this.props.toggleMenu('mobileMenu');
+                this.setState({ pending: '' });
             } else {
                 this.props.toggleMenu('mobileMenu');
             }
@@ -96,9 +97,8 @@ var MobileFilter = function (_Component) {
             var _this2 = this;
 
             var rooms = _utils.filterData.rooms.slice();
-
-            var modifiedRooms = rooms.splice(rooms.indexOf(this.props.selectedRoom), 1).concat(rooms);
-
+            var index = rooms.indexOf(this.props.selectedRoom);
+            var modifiedRooms = index !== -1 ? rooms.splice(rooms.indexOf(this.props.selectedRoom), 1).concat(rooms) : rooms;
             return _react2.default.createElement(
                 _MobileFilter.RoomsFilterContainer,
                 { className: 'rooms-filter-container' },
@@ -111,7 +111,7 @@ var MobileFilter = function (_Component) {
                         'Rooms'
                     ),
                     modifiedRooms.map(function (e) {
-                        var selected = _this2.state.pending ? e === _this2.state.pending : e === _this2.props.selectedRoom;
+                        var selected = _this2.state.pending && !_this2.state.clearedRoom ? e === _this2.state.pending : !_this2.state.pending && _this2.state.clearedRoom ? false : e === _this2.props.selectedRoom;
                         return _react2.default.createElement(
                             _MobileFilter.RoomsFilterOptionsCont,
                             { key: e, className: 'rooms-filter-opt-cont', onClick: _this2.handleRoomSelect.bind(_this2, e) },

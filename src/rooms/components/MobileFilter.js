@@ -23,10 +23,10 @@ class MobileFilter extends Component{
     }
     clearFilters() {
         this.setState({pending: '', clearedRoom: this.props.selectedRoom})
-        this.props.selectRoom('');
+        // this.props.selectRoom('');
     }
     handleRoomSelect(room){
-        this.setState({pending: room})
+        this.setState({pending: room, clearedRoom: ''})
     }
     showMoreRooms() {
         this.setState({showMoreRooms: true})
@@ -35,30 +35,32 @@ class MobileFilter extends Component{
         this.setState({showMoreRooms: false})
     }
     resetClearedRoom() {
-        if(this.state.clearedRoom) {
+        if(this.state.clearedRoom && !this.state.pending) {
             this.props.selectRoom(this.state.clearedRoom);
             this.props.toggleMenu('mobileMenu');
-            this.setState({clearedRoom: ''});
+            this.setState({clearedRoom: '', pending: ''});
+        } else if(!this.state.clearedRoom && this.state.pending) {
+            this.props.toggleMenu('mobileMenu');
+            this.setState({pending: ''})
         } else {
             this.props.toggleMenu('mobileMenu');
         }
     }
 
-    modifyRooms = () => {
-        
-    }
-
     renderRoomsFilters() {
         let rooms = filterData.rooms.slice()
-
-        const modifiedRooms = rooms.splice(rooms.indexOf(this.props.selectedRoom), 1).concat(rooms)
-
+        const index = rooms.indexOf(this.props.selectedRoom)
+        const modifiedRooms = index !== -1 ? rooms.splice(rooms.indexOf(this.props.selectedRoom), 1).concat(rooms) : rooms;
         return(
             <RoomsFilterContainer className="rooms-filter-container">
                 <RoomsFilterWrapper className="rooms-filter-wrapper" showMore={this.state.showMoreRooms}>
                     <RoomsFilterLabel className="rooms-filter-label">Rooms</RoomsFilterLabel>
                     {modifiedRooms.map(e => {
-                        let selected = this.state.pending ? e === this.state.pending : e === this.props.selectedRoom;
+                        let selected = this.state.pending && !this.state.clearedRoom 
+                        ? 
+                        e === this.state.pending 
+                        : 
+                        (!this.state.pending && this.state.clearedRoom ? false : e === this.props.selectedRoom);
                         return(
                             <RoomsFilterOptionsCont key={e} className="rooms-filter-opt-cont" onClick={this.handleRoomSelect.bind(this, e)}>
                                 <MobCheckWrapper className="mob-check-wrapper" visible={selected}>
