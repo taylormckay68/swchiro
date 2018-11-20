@@ -16,7 +16,7 @@ class RoomIdeas extends Component {
             mobileMenu: false,
             roomMenu: false,
             styleMenu: false,
-            selectedRoom: this.props.data.id || '',
+            selectedRoom: this.props.data.room || '',
         }
         this.toggleMenu = this.toggleMenu.bind(this);
         this.offClick = this.offClick.bind(this);
@@ -52,6 +52,12 @@ class RoomIdeas extends Component {
         if(menu === "roomMenu") this.setState({mobileMenu: false, roomMenu: !this.state.roomMenu, styleMenu: false});
         if(menu === "styleMenu") this.setState({mobileMenu: false, roomMenu: false, styleMenu: !this.state.styleMenu});
     }
+
+    // componentDidMount(){
+    //     window.onpopstate = () => {
+    //         console.log('url changed');
+    //     }
+    // }
     
     render() {
         config.data = this.props && this.props.modsData ? this.props.modsData : this.props.data.data;

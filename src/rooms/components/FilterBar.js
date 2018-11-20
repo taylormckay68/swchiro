@@ -17,10 +17,6 @@ class FilterBar extends Component {
             <FilterBarContainer className="filter-bar-container">
                 <FilterBarWrapper className="filter-bar-wrapper">
                     <TextWrapper className="text-wrapper">
-                        {/* <ArrowWrapper className="arrow-wrapper">
-                            <a><ArrowsMinimalLeft className="leftArrow" style={{height: '13px'}} color="#545658" /></a>
-                            <RoomIdeasText className="room-ideas-text">Room Ideas</RoomIdeasText>
-                        </ArrowWrapper> */}
                         <MainText className="main-text">{this.props.selectedRoom ? this.props.selectedRoom : 'Room'} Ideas</MainText>
                     </TextWrapper>
                     <FilterButtons {...this.props}/>

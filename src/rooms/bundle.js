@@ -7,12 +7,12 @@ import configureStore from './components/redux/store';
 let preloadedState = window.__LPO__ ? window.__LPO__ : {};
 let updatedState = {
     modsData: preloadedState.data,
-    roomsID:  preloadedState.id,
+    roomsID:  preloadedState.room,
     nextRoomsData: preloadedState.nextData,
     isFetching: false,
     isFetchingNext: false,
     error: null,
-    selectedRoom: preloadedState.id
+    selectedRoom: preloadedState.room
 }
 const store = configureStore(updatedState);
 

@@ -1,21 +1,24 @@
 export const filterData = {
     rooms: ['Bedroom', 'Office', 'Bathroom', 'Outdoor', 'Dining Room', 'Kitchen', 'Living Room', 'Kids Bedroom', 'Entryway'],
-    styleData: {
-        'all-rooms': ['boho', 'coastal', 'colonial', 'contemporary', 'eclectic', 'farmhouse', 'french-country', 'glam', 'hygge', 'industrial', 'mid-century', 'minimalist', 'modern', 'rustic', 'scandinavian', 'shabby-chic', 'southwestern', 'traditional', 'transitional', 'updated-global', 'urban-industrial'],
+    roomModified: [],
+    styles: {
+        'all-rooms': ['Boho', 'Coastal', 'Colonial', 'Contemporary', 'Eclectic', 'Farmhouse', 'French Country', 'Glam', 'Hygge', 'Industrial', 'Mid Century', 'Minimalist', 'Modern', 'Rustic', 'Scandinavian', 'Shabby Chic', 'Southwestern', 'Traditional', 'Transitional', 'Updated Global', 'Urban Industrial'],
 
-        'bedroom': ['coastal', 'farmhouse', 'transitional', 'french-country', 'traditional', 'scandinavian', 'urban-industrial', 'industrial', 'contemporary', 'modern', 'mid-century', 'glam', 'shabby-chic', 'rustic', 'southwestern', 'boho', 'hygge'],
+        'bedroom': ['Coastal', 'Farmhouse', 'Transitional', 'French Country', 'Traditional', 'Scandinavian', 'Urban Industrial', 'Industrial', 'Contemporary', 'Modern', 'Mid Century', 'Glam', 'Shabby Chic', 'Rustic', 'Southwestern', 'Boho', 'Hygge'],
 
-        'office': ['transitional', 'glam', 'traditional', 'scandinavian', 'mid-century', 'rustic', 'boho'],
+        'office': ['Transitional', 'Glam', 'Traditional', 'Scandinavian', 'Mid Century', 'Rustic', 'Boho'],
 
-        'bathroom': ['transitional', 'boho', 'farmhouse', 'modern'],
+        'bathroom': ['Transitional', 'Boho', 'Farmhouse', 'Modern'],
 
-        'outdoor': ['transitional', 'farmhouse'],
+        'outdoor': ['Transitional', 'Farmhouse'],
 
-        'dining-room': ['transitional', 'french-country', 'minimalist', 'scandinavian', 'farmhouse', 'boho', 'rustic', 'mid-century', 'modern', 'traditional', 'contemporary', 'hygge', 'coastal'],
+        'dining-room': ['Transitional', 'French Country', 'Minimalist', 'Scandinavian', 'Farmhouse', 'Boho', 'Rustic', 'Mid Century', 'Modern', 'Traditional', 'Contemporary', 'Hygge', 'Coastal'],
 
-        'kitchen': ['farmhouse', 'transitional', 'scandinavian', 'modern', 'rustic', 'glam'],
+        'kitchen': ['Farmhouse', 'Transitional', 'Scandinavian', 'Modern', 'Rustic', 'Glam'],
 
-        'living-room': ['transitional', 'scandinavian', 'modern', 'boho', 'eclectic', 'minimalist', 'updated-global', 'farmhouse', 'glam', 'mid-century', 'contemporary', 'colonial', 'traditional']
+        'living-room': ['Transitional', 'Scandinavian', 'Modern', 'Boho', 'Eclectic', 'Minimalist', 'Updated Global', 'Farmhouse', 'Glam', 'Mid Century', 'Contemporary', 'Colonial', 'Traditional'],
+
+        // 'kids-bedroom': 
     }
 }
 export const styleData = {
@@ -28,11 +31,13 @@ export const styleData = {
     'living-room': ['transitional', 'scandinavian', 'modern', 'boho', 'eclectic', 'minimalist', 'updated-global', 'farmhouse', 'glam', 'mid-century', 'contemporary', 'colonial', 'traditional']
 }
 
+'Bedroom', 'Office', 'Bathroom', 'Outdoor', 'Dining Room', 'Kitchen', 'Living Room', 'Kids Bedroom', 'Entryway', 'boho', 'coastal', 'colonial', 'contemporary', 'eclectic', 'farmhouse', 'french-country', 'glam', 'hygge', 'industrial', 'mid-century', 'minimalist', 'modern', 'rustic', 'scandinavian', 'shabby-chic', 'southwestern', 'traditional', 'transitional', 'updated-global', 'urban-industrial', 'bedroom_modern'
+
 export const config = {
     // title: 'Test3',
     linkSamePage: true,
     loop: true,
-    completeGrid: true,
+    completeGrid: false,
     margins: {
         outer: [24, 24, 24, 80, 80],
         XS: [12, 12],
