@@ -20,19 +20,20 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var preloadedState = window.__LPO__ ? window.__LPO__ : {};
 var updatedState = {
-    modsData: preloadedState.data,
-    roomsID: preloadedState.room,
-    nextRoomsData: preloadedState.nextData,
-    isFetching: false,
-    isFetchingNext: false,
-    error: null,
-    selectedRoom: preloadedState.room
+  modsData: preloadedState.data,
+  roomsID: preloadedState.room,
+  nextRoomsData: preloadedState.nextData,
+  isFetching: false,
+  isFetchingNext: false,
+  error: null,
+  selectedRoom: preloadedState.room,
+  style: preloadedState.style
 };
 var store = (0, _store2.default)(updatedState);
 
 var rooms = document.getElementById('userActiveRooms');
 if (rooms && window) (0, _reactDom.hydrate)(_react2.default.createElement(
-    _reactRedux.Provider,
-    { store: store },
-    _react2.default.createElement(_RoomIdeas2.default, { data: window.__LPO__ })
+  _reactRedux.Provider,
+  { store: store },
+  _react2.default.createElement(_RoomIdeas2.default, { data: window.__LPO__ })
 ), document.getElementById('userActiveRooms'));
