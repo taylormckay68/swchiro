@@ -94,7 +94,7 @@ new CronJob('* 0 0 * * *', function () {
       var filters = e.split('_');
       var key = e || 'default';
       var room = e ? filters.splice(0, 1) : 'default';
-      var roomQuery = key !== 'default' ? room + (filters.length ? '%20and%20(' + filters.join('%20or%20') + ')' : '') : '';
+      var roomQuery = key !== 'default' ? room + (filters.length ? '%20and%20(label:' + filters.join('%20or%20label:') + ')' : '') : '';
       var extension = roomQuery ? "&filter=label:" + roomQuery : '';
       (0, _nodeFetch2.default)("https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?requireProduct=true&sort=Optimized&limit=18" + extension).then(function (response) {
         console.log('Cron Job Fired');
@@ -141,8 +141,9 @@ function serverPageLoader(req, res) {
     res.set('Cache-Control', 'public, max-age=31557600');
     res.send(returnHTML(roomData, _Root2.default));
   } else {
-    var roomQuery = key !== 'default' ? modRoom + (modRoom && styleCheck.length ? '%20and%20(' : '') + (styleCheck.length ? styleCheck.join('%20or%20') : '') + (modRoom && styleCheck.length ? ')' : '') : '';
+    var roomQuery = key !== 'default' ? modRoom + (modRoom && styleCheck.length ? '%20and%20(label:' : '') + (styleCheck.length ? styleCheck.join('%20or%20label:') : '') + (modRoom && styleCheck.length ? ')' : '') : '';
     var extension = roomQuery ? "&filter=label:" + roomQuery : '';
+    console.log("extension: ", extension);
     (0, _nodeFetch2.default)("https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?requireProduct=true&sort=Optimized&limit=18" + extension).then(function (response) {
       return response.json();
     }).then(function (data) {

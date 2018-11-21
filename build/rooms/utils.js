@@ -9,19 +9,19 @@ var filterData = exports.filterData = {
     styles: {
         'all-rooms': ['Boho', 'Coastal', 'Colonial', 'Contemporary', 'Eclectic', 'Farmhouse', 'French Country', 'Glam', 'Hygge', 'Industrial', 'Mid Century', 'Minimalist', 'Modern', 'Rustic', 'Scandinavian', 'Shabby Chic', 'Southwestern', 'Traditional', 'Transitional', 'Updated Global', 'Urban Industrial'],
 
-        'bedroom': ['Coastal', 'Farmhouse', 'Transitional', 'French Country', 'Traditional', 'Scandinavian', 'Urban Industrial', 'Industrial', 'Contemporary', 'Modern', 'Mid Century', 'Glam', 'Shabby Chic', 'Rustic', 'Southwestern', 'Boho', 'Hygge'],
+        'bedroom': ['Coastal', 'Farmhouse', 'Transitional', 'French Country', 'Traditional', 'Scandinavian', 'Urban Industrial', 'Industrial', 'Contemporary', 'Modern', 'Mid Century', 'Glam', 'Shabby Chic', 'Rustic', 'Southwestern', 'Boho', 'Hygge']
 
-        'office': ['Transitional', 'Glam', 'Traditional', 'Scandinavian', 'Mid Century', 'Rustic', 'Boho'],
+        // 'office': ['Transitional', 'Glam', 'Traditional', 'Scandinavian', 'Mid Century', 'Rustic', 'Boho'],
 
-        'bathroom': ['Transitional', 'Boho', 'Farmhouse', 'Modern'],
+        // 'bathroom': ['Transitional', 'Boho', 'Farmhouse', 'Modern'],
 
-        'outdoor': ['Transitional', 'Farmhouse'],
+        // 'outdoor': ['Transitional', 'Farmhouse'],
 
-        'dining-room': ['Transitional', 'French Country', 'Minimalist', 'Scandinavian', 'Farmhouse', 'Boho', 'Rustic', 'Mid Century', 'Modern', 'Traditional', 'Contemporary', 'Hygge', 'Coastal'],
+        // 'dining-room': ['Transitional', 'French Country', 'Minimalist', 'Scandinavian', 'Farmhouse', 'Boho', 'Rustic', 'Mid Century', 'Modern', 'Traditional', 'Contemporary', 'Hygge', 'Coastal'],
 
-        'kitchen': ['Farmhouse', 'Transitional', 'Scandinavian', 'Modern', 'Rustic', 'Glam'],
+        // 'kitchen': ['Farmhouse', 'Transitional', 'Scandinavian', 'Modern', 'Rustic', 'Glam'],
 
-        'living-room': ['Transitional', 'Scandinavian', 'Modern', 'Boho', 'Eclectic', 'Minimalist', 'Updated Global', 'Farmhouse', 'Glam', 'Mid Century', 'Contemporary', 'Colonial', 'Traditional']
+        // 'living-room': ['Transitional', 'Scandinavian', 'Modern', 'Boho', 'Eclectic', 'Minimalist', 'Updated Global', 'Farmhouse', 'Glam', 'Mid Century', 'Contemporary', 'Colonial', 'Traditional'],
 
         // 'kids-bedroom': 
     }

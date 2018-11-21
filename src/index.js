@@ -50,8 +50,8 @@ new CronJob('* 0 0 * * *', () => {
       let filters = e.split('_')
       let key = e || 'default'
       let room = e ? filters.splice(0,1) : 'default'
-      let roomQuery = key !== 'default' ? room + (filters.length ? '%20and%20(' + filters.join('%20or%20') + ')' : '') : ''
-      let extension = roomQuery ? `&filter=label:${roomQuery}` : ''
+      let roomQuery = key !== 'default' ? room + (filters.length ? '%20and%20(label:' + filters.join('%20or%20label:') + ')' : '') : ''
+      let extension = roomQuery ? `&filter=label:${roomQuery}` : '';
       fetch(`https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?requireProduct=true&sort=Optimized&limit=18${extension}`)
       .then(function(response) {
         console.log('Cron Job Fired')
@@ -60,7 +60,7 @@ new CronJob('* 0 0 * * *', () => {
       .then(data => {
         dataObj.data[key] = {}
         dataObj.nextData[key] = data.paging && data.paging.next ? data.paging.next : ''
-        let items = data.data ? (data.data.items.length ? data.data.items : []) : {}
+        let items = data.data ? (data.data.items.length ? data.data.items : []) : {};
         let redirectRoomQuery = roomQuery ? `&filter=${roomQuery}` : ''
         dataObj.data[key] = items.map(el => {
           return({
@@ -109,9 +109,10 @@ function serverPageLoader (req, res) {
     res.send(returnHTML(roomData, RoomsRoot));
   } else {
     let roomQuery = key !== 'default' ? 
-      modRoom + (modRoom && styleCheck.length ? '%20and%20(' : '') + (styleCheck.length ? styleCheck.join('%20or%20') : '') + (modRoom && styleCheck.length ? ')' : '')  
+      modRoom + (modRoom && styleCheck.length ? '%20and%20(label:' : '') + (styleCheck.length ? styleCheck.join('%20or%20label:') : '') + (modRoom && styleCheck.length ? ')' : '')  
       : '';
     let extension = roomQuery ? `&filter=label:${roomQuery}` : '';
+    console.log("extension: ", extension);
     fetch(`https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?requireProduct=true&sort=Optimized&limit=18${extension}`)
     .then(function(response) {
       return response.json()
