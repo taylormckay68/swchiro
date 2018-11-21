@@ -38,6 +38,8 @@ var _reactRedux = require("react-redux");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 var CronJob = require('cron').CronJob;
 
 var store = (0, _store2.default)();
@@ -49,7 +51,6 @@ app.use((0, _compression2.default)());
 
 var bundle = "";
 var dataObj = {};
-var newDataObj = {};
 _fs2.default.readFile('./dist/js/bundle.min.js', "utf8", function (err, data) {
   if (err) console.log("ERR", err);
   bundle = data || "";
@@ -79,81 +80,88 @@ function format(str) {
 }
 function filterCase(str) {
   return str.split('-').map(function (e) {
-    return e.substring(0, 1).toUpperCase() + e.substring(1);
+    return e.charAt(0).toUpperCase() + e.substring(1);
   }).join(' ');
 }
 
-// new CronJob('* 0 0 * * *', () => {
-//   let cronArray = generateFullArray()
-//   let cronData = cronArray.length ? ['', ...cronArray] : []
-//   dataObj.data = {}
-//   dataObj.nextData = {}
-//   cronData.map((e, i) => {
-//     setTimeout(() => {
-//       let filters = e.split('_')
-//       let key = e || 'default'
-//       let room = e ? filters.splice(0,1) : 'default'
-//       let roomQuery = key !== 'default' ? room + (filters.length ? '%20and%20(' + filters.join('%20or%20') + ')' : '') : ''
-//       let extension = roomQuery ? `&filter=label:${roomQuery}` : ''
-//       fetch(`https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?requireProduct=true&sort=Optimized&limit=18${extension}`)
-//       .then(function(response) {
-//         console.log('Cron Job Fired')
-//         return response.json()
-//       })
-//       .then(data => {
-//         dataObj.data[key] = {}
-//         dataObj.nextData[key] = data.paging ? data.paging.next : ''
-//         let items = data.data ? (data.data.items.length ? data.data.items : []) : {}
-//         let redirectRoomQuery = roomQuery ? `&filter=${roomQuery}` : ''
-//         dataObj.data[key]= items.map(el => {
-//           return({
-//             imageUrl: el.media.large.link,
-//             redirectUrl: `https://www.overstock.com/welcome?pageId=k8s2498&asset_id=${el.id}${redirectRoomQuery}`
-//           })
-//         })
-//       }).catch(errHandle)
-//     }, (1000 * i))
-//   })
-// }, null, true, 'America/Los_Angeles', null, true)
+new CronJob('* 0 0 * * *', function () {
+  var cronArray = generateFullArray();
+  var cronData = cronArray.length ? [''].concat(_toConsumableArray(cronArray)) : [];
+  dataObj.data = {};
+  dataObj.nextData = {};
+  cronData.map(function (e, i) {
+    setTimeout(function () {
+      var filters = e.split('_');
+      var key = e || 'default';
+      var room = e ? filters.splice(0, 1) : 'default';
+      var roomQuery = key !== 'default' ? room + (filters.length ? '%20and%20(' + filters.join('%20or%20') + ')' : '') : '';
+      var extension = roomQuery ? "&filter=label:" + roomQuery : '';
+      (0, _nodeFetch2.default)("https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?requireProduct=true&sort=Optimized&limit=18" + extension).then(function (response) {
+        console.log('Cron Job Fired');
+        return response.json();
+      }).then(function (data) {
+        dataObj.data[key] = {};
+        dataObj.nextData[key] = data.paging && data.paging.next ? data.paging.next : '';
+        var items = data.data ? data.data.items.length ? data.data.items : [] : {};
+        var redirectRoomQuery = roomQuery ? "&filter=" + roomQuery : '';
+        dataObj.data[key] = items.map(function (el) {
+          return {
+            imageUrl: el.media.large.link,
+            redirectUrl: "https://www.overstock.com/welcome?pageId=k8s2498&asset_id=" + el.id + redirectRoomQuery
+          };
+        });
+      }).catch(errHandle);
+    }, 1000 * i);
+  });
+}, null, true, 'America/Los_Angeles', null, true);
 
 function serverPageLoader(req, res) {
-  // console.log(dataObj);
   var _req$query = req.query,
       room = _req$query.room,
       style = _req$query.style;
 
-  var modRoom = room && room.length ? _utils.filterData.rooms.indexOf(filterCase(room)) !== -1 ? room.toLowerCase() : null : null;
-  console.log(modRoom);
+  var roomData = {};
+  var modRoom = room && room.length ? _utils.filterData.rooms.indexOf(filterCase(room.toLowerCase())) !== -1 ? room.toLowerCase() : '' : '';
   var styleArr = style && style.length ? style.split(',') : [];
-  console.log('styleArr: ', styleArr);
   var styleCheck = modRoom ? styleArr.length ? styleArr.filter(function (e) {
     return _utils.filterData.styles[modRoom].indexOf(filterCase(e)) !== -1;
   }) : [] : styleArr.length ? styleArr.filter(function (e) {
     return _utils.filterData.styles['all-rooms'].indexOf(filterCase(e)) !== -1;
   }) : [];
-  console.log('styleCheck: ', styleCheck);
+
   var key = modRoom ? styleCheck && styleCheck.length ? styleCheck.length === 1 ? modRoom + "_" + styleCheck[0].toLowerCase() : null : modRoom : styleCheck && styleCheck.length ? styleCheck.length === 1 ? styleCheck[0] : null : 'default';
-  console.log(key);
-  dataObj.queries = req.query;
-  // let room = req.query.room || 'default';
-  // let styles = req.query.style || '';
-  // let noDash = room ? room.replace('-', ' ') : '';
-  // let uppercase = noDash ? noDash.toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' ') : '';
-  // dataObj.room = filterData.rooms.indexOf(uppercase) !== -1 || !uppercase ? uppercase : '';
-  // let roomData = {};
-  // if(dataObj.data[room]){
-  //   roomData.room = uppercase !== 'Default' ? uppercase : '';
-  //   roomData.data = dataObj.data[room];
-  //   roomData.nextData = dataObj.nextData[room];
-  //   res.set('Cache-Control', 'public, max-age=31557600');
-  //   res.send(returnHTML(roomData, RoomsRoot));
-  // } else{
-  //   roomData.room = filterData.rooms.indexOf(uppercase) !== -1 || !uppercase ? uppercase : '';
-  //   roomData.data = dataObj.data['default'];
-  //   roomData.nextData = dataObj.nextData['default'];
-  //   res.set('Cache-Control', 'public, max-age=31557600');
-  //   res.send(returnHTML(roomData, RoomsRoot));
-  // }
+
+  if (key && key !== 'default' && dataObj && dataObj.data && dataObj.data[key] && dataObj.data[key].length) {
+    roomData.room = modRoom ? filterCase(modRoom) : '';
+    roomData.style = styleCheck && styleCheck.length ? styleCheck.map(function (e) {
+      return filterCase(e);
+    }) : [];
+    roomData.data = dataObj.data[key];
+    roomData.nextData = dataObj.nextData[key];
+    res.set('Cache-Control', 'public, max-age=31557600');
+    res.send(returnHTML(roomData, _Root2.default));
+  } else {
+    var roomQuery = key !== 'default' ? modRoom + (modRoom && styleCheck.length ? '%20and%20(' : '') + (styleCheck.length ? styleCheck.join('%20or%20') : '') + (modRoom && styleCheck.length ? ')' : '') : '';
+    var extension = roomQuery ? "&filter=label:" + roomQuery : '';
+    (0, _nodeFetch2.default)("https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?requireProduct=true&sort=Optimized&limit=18" + extension).then(function (response) {
+      return response.json();
+    }).then(function (data) {
+      roomData.room = modRoom ? filterCase(modRoom) : '';
+      roomData.style = styleCheck && styleCheck.length ? styleCheck.map(function (e) {
+        return filterCase(e);
+      }) : [];
+      roomData.data = data.data.items.map(function (e) {
+        return {
+          imageUrl: e.media.large.link,
+          redirectUrl: "https://www.overstock.com/welcome?pageId=k8s2498&asset_id=" + e.id + extension
+        };
+      });
+      roomData.nextData = data.paging && data.paging.next ? data.paging.next : '';
+
+      res.set('Cache-Control', 'public, max-age=31557600');
+      res.send(returnHTML(roomData, _Root2.default));
+    }).catch(errHandle);
+  }
 }
 
 app.get('/', serverPageLoader);
