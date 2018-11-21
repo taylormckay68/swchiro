@@ -54,7 +54,7 @@
     "webpack-cli": "^3.1.2"
   },
   "contributors": [
-    "Nicholas Marucci <nmarucci@overstock.com>, Taylor McKay <tmckay@overstock.com"
+    "Nicholas Marucci <nmarucci@overstock.com>, Taylor McKay <tmckay@overstock.com>, Matt French <mfrench@overstock.com>"
   ],
   "author": "Marucci",
   "license": "MIT"
