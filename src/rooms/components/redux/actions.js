@@ -54,18 +54,23 @@ const requestNextModsDataFailure = error => ({
   isFetching: false
 })
 
-export const fetchModsData = room => {
+export const fetchModsData = (room, styles) => {
+  console.log(styles)
   let roomName = room.length ? room.toLowerCase().replace(' ', '-') : ''
-  let query = roomName.length
-    ? `&filter=label:${roomName}` +
-      (styles && styles.length
-        ? '%20and%20(filter:' +
-          styles
-            .map(style => style.toLowerCase().replace(' ', '-'))
-            .join('%20or%20filter:') +
-          ')'
-        : '')
-    : ''
+  let styleString = styles
+    .map(style => style.toLowerCase().replace(/' '/g, '-'))
+    .join('%20or%20filter=label:')
+  let styleQuery = roomName
+    ? '%20and%20(filter=label:' + styleString + ')'
+    : styleString
+
+  let query = `&filter=label:${roomName}${styleQuery}`
+
+  console.log(
+    'QUERY',
+    'https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?requireProduct=true&sort=Optimized&limit=18' +
+      query
+  )
   return dispatch => {
     dispatch(requestModsData())
     fetch(
@@ -80,6 +85,7 @@ export const fetchModsData = room => {
         return dispatch(requestModsDataFailure(error))
       })
       .then(json => {
+        console.log('DATA', json)
         let redirectRoomQuery = roomName ? `&room=${roomName}` : ''
         let items = json.data
           ? json.data.items.length

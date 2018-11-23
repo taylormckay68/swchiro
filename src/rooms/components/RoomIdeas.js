@@ -22,7 +22,8 @@ class RoomIdeas extends Component {
       roomMenu: false,
       style: this.props.data.style,
       styleMenu: false,
-      selectedRoom: this.props.data.room || ''
+      selectedRoom: this.props.data.room || '',
+      selectedStyles: this.props.data.style || []
     }
     this.toggleMenu = this.toggleMenu.bind(this)
     this.offClick = this.offClick.bind(this)
@@ -46,6 +47,27 @@ class RoomIdeas extends Component {
   mobileSelectRoom(room) {
     this.props.fetchModsData(room)
     this.setState({ selectedRoom: room })
+  }
+
+  toggleStyle = style => {
+    let { selectedStyles } = this.state
+    let index = selectedStyles.indexOf(style)
+
+    this.setState(
+      state => ({
+        selectedStyles:
+          index !== -1
+            ? selectedStyles
+                .slice(0, index)
+                .concat(selectedStyles.slice(index + 1))
+            : [...state.selectedStyles, style]
+      }),
+      () =>
+        this.props.fetchModsData(
+          this.state.selectedRoom,
+          this.state.selectedStyles
+        )
+    )
   }
 
   offClick() {
@@ -97,19 +119,23 @@ class RoomIdeas extends Component {
         )}
         <HeroImg />
         <MobileFilter
+          toggleStyle={this.toggleStyle}
           className="mobile-filter"
           visible={this.state.mobileMenu}
           toggleMenu={this.toggleMenu}
           selectedRoom={this.state.selectedRoom}
+          selectedStyles={this.state.selectedStyles}
           selectRoom={this.mobileSelectRoom}
           ref="mobileFilter"
         />
         <FilterBar
           {...this.props}
+          toggleStyle={this.toggleStyle}
           toggleMenu={this.toggleMenu}
           roomMenu={this.state.roomMenu}
           styleMenu={this.state.styleMenu}
           selectedRoom={this.state.selectedRoom}
+          selectedStyles={this.state.selectedStyles}
           selectRoom={this.selectRoom}
         />
         {this.props.isFetching ? (

@@ -81,11 +81,17 @@ var requestNextModsDataFailure = function requestNextModsDataFailure(error) {
   };
 };
 
-var fetchModsData = exports.fetchModsData = function fetchModsData(room) {
+var fetchModsData = exports.fetchModsData = function fetchModsData(room, styles) {
+  console.log(styles);
   var roomName = room.length ? room.toLowerCase().replace(' ', '-') : '';
-  var query = roomName.length ? '&filter=label:' + roomName + (styles && styles.length ? '%20and%20(filter:' + styles.map(function (style) {
-    return style.toLowerCase().replace(' ', '-');
-  }).join('%20or%20filter:') + ')' : '') : '';
+  var styleString = styles.map(function (style) {
+    return style.toLowerCase().replace(/' '/g, '-');
+  }).join('%20or%20filter=label:');
+  var styleQuery = roomName ? '%20and%20(filter=label:' + styleString + ')' : styleString;
+
+  var query = '&filter=label:' + roomName + styleQuery;
+
+  console.log('QUERY', 'https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?requireProduct=true&sort=Optimized&limit=18' + query);
   return function (dispatch) {
     dispatch(requestModsData());
     (0, _crossFetch2.default)('https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?requireProduct=true&sort=Optimized&limit=18' + query).then(function (response) {
@@ -93,6 +99,7 @@ var fetchModsData = exports.fetchModsData = function fetchModsData(room) {
     }).catch(function (error) {
       return dispatch(requestModsDataFailure(error));
     }).then(function (json) {
+      console.log('DATA', json);
       var redirectRoomQuery = roomName ? '&room=' + roomName : '';
       var items = json.data ? json.data.items.length ? json.data.items : [] : {};
       var newData = items.map(function (e) {
