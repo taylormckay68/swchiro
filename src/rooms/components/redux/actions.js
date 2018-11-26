@@ -56,15 +56,16 @@ const requestNextModsDataFailure = error => ({
 
 export const fetchModsData = (room, styles) => {
   console.log(styles)
-  let roomName = room.length ? room.toLowerCase().replace(' ', '-') : ''
+  let roomName = room.length ? room.toLowerCase().replace(' ', '-') : '';
   let styleString = styles
-    .map(style => style.toLowerCase().replace(/' '/g, '-'))
-    .join('%20or%20filter=label:')
+    .map(style => style.toLowerCase().replace(' ', '-'))
+    .join('%20or%20label:')
+console.log(styleString);
   let styleQuery = roomName
-    ? '%20and%20(filter=label:' + styleString + ')'
+    ? '%20and%20(label:' + styleString + ')'
     : styleString
 
-  let query = `&filter=label:${roomName}${styleQuery}`
+  let query = roomName || styleQuery ? `&filter=label:${roomName}${styleQuery}` : '';
 
   console.log(
     'QUERY',

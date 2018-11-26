@@ -38,8 +38,6 @@ var _reactRedux = require("react-redux");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
 var CronJob = require('cron').CronJob;
 
 var store = (0, _store2.default)();
@@ -84,36 +82,38 @@ function filterCase(str) {
   }).join(' ');
 }
 
-new CronJob('* 0 0 * * *', function () {
-  var cronArray = generateFullArray();
-  var cronData = cronArray.length ? [''].concat(_toConsumableArray(cronArray)) : [];
-  dataObj.data = {};
-  dataObj.nextData = {};
-  cronData.map(function (e, i) {
-    setTimeout(function () {
-      var filters = e.split('_');
-      var key = e || 'default';
-      var room = e ? filters.splice(0, 1) : 'default';
-      var roomQuery = key !== 'default' ? room + (filters.length ? '%20and%20(label:' + filters.join('%20or%20label:') + ')' : '') : '';
-      var extension = roomQuery ? "&filter=label:" + roomQuery : '';
-      (0, _nodeFetch2.default)("https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?requireProduct=true&sort=Optimized&limit=18" + extension).then(function (response) {
-        console.log('Cron Job Fired');
-        return response.json();
-      }).then(function (data) {
-        dataObj.data[key] = {};
-        dataObj.nextData[key] = data.paging && data.paging.next ? data.paging.next : '';
-        var items = data.data ? data.data.items.length ? data.data.items : [] : {};
-        var redirectRoomQuery = roomQuery ? "&filter=" + roomQuery : '';
-        dataObj.data[key] = items.map(function (el) {
-          return {
-            imageUrl: el.media.large.link,
-            redirectUrl: "https://www.overstock.com/welcome?pageId=k8s2498&asset_id=" + el.id + redirectRoomQuery
-          };
-        });
-      }).catch(errHandle);
-    }, 1000 * i);
-  });
-}, null, true, 'America/Los_Angeles', null, true);
+// new CronJob('* 0 0 * * *', () => {
+//   let cronArray = generateFullArray()
+//   let cronData = cronArray.length ? ['', ...cronArray] : []
+//   dataObj.data = {}
+//   dataObj.nextData = {}
+//   cronData.map((e, i) => {
+//     setTimeout(() => {
+//       let filters = e.split('_')
+//       let key = e || 'default'
+//       let room = e ? filters.splice(0,1) : 'default'
+//       let roomQuery = key !== 'default' ? room + (filters.length ? '%20and%20(label:' + filters.join('%20or%20label:') + ')' : '') : ''
+//       let extension = roomQuery ? `&filter=label:${roomQuery}` : '';
+//       fetch(`https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?requireProduct=true&sort=Optimized&limit=18${extension}`)
+//       .then(function(response) {
+//         console.log('Cron Job Fired')
+//         return response.json()
+//       })
+//       .then(data => {
+//         dataObj.data[key] = {}
+//         dataObj.nextData[key] = data.paging && data.paging.next ? data.paging.next : ''
+//         let items = data.data ? (data.data.items.length ? data.data.items : []) : {};
+//         let redirectRoomQuery = roomQuery ? `&filter=${roomQuery}` : ''
+//         dataObj.data[key] = items.map(el => {
+//           return({
+//             imageUrl: el.media.large.link,
+//             redirectUrl: `https://www.overstock.com/welcome?pageId=k8s2498&asset_id=${el.id}${redirectRoomQuery}`
+//           })
+//         })
+//       }).catch(errHandle)
+//     }, (1000 * i))
+//   })
+// }, null, true, 'America/Los_Angeles', null, true)
 
 function serverPageLoader(req, res) {
   var _req$query = req.query,

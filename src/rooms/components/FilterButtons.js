@@ -5,16 +5,23 @@ import {
   FilterButtonInnerCont,
   FilterButtonText,
   FilterButtonArrow,
-  Dropdown,
-  FilterButtonInnerWrapper
+  RoomDropdown,
+  StyleDropdown,
+  FilterButtonInnerWrapper,
+  
 } from './styled-components/FilterButtons'
 import {
-  FilterWrapper,
+  StyleFilterWrapper,
+  RoomFilterWrapper,
   FilterOptionWrapper,
   FilterOptionContainer,
   FilterOptionText,
   CheckWrapper,
-  StyleFilterContainer
+  StyleFilterContainer,
+  CheckContainer,
+  StyleButtonWrapper,
+  ClearButton,
+  ApplyButton
 } from './styled-components/Filters'
 import ArrowsMinimalDown from 'overstock-component-library/lib/Icons/arrows/Minimal_Down'
 import ActionCheckThin from 'overstock-component-library/lib/Icons/action/Check_Thin'
@@ -65,36 +72,45 @@ class FilterButtons extends Component {
   }
   renderStyleFilter() {
     return (
-      <StyleFilterContainer>
-        {filterData.styles['all-rooms'].map((s, i) => {
-          const selected = this.props.selectedStyles.indexOf(s) !== -1
+        <StyleFilterWrapper className="style-filter-wrapper">
+            <StyleFilterContainer className="style-filter-container">
+                {filterData.styles['all-rooms'].map((s, i) => {
+                const selected = this.props.selectedStyles.indexOf(s) !== -1
 
-          return (
-            <FilterOptionContainer
-              key={i}
-              onClick={() => this.props.toggleStyle(s)}
-            >
-              <FilterOptionWrapper>
-                <CheckWrapper visible={selected}>
-                  <ActionCheckThin
-                    className="checkmark"
-                    fill="#545658"
-                    height="100%"
-                    width="100%"
-                  />
-                </CheckWrapper>
-                <FilterOptionText
-                  key={s}
-                  className="filter-option-text"
-                  bold={selected}
-                >
-                  {s}
-                </FilterOptionText>
-              </FilterOptionWrapper>
-            </FilterOptionContainer>
-          )
-        })}
-      </StyleFilterContainer>
+                return (
+                    <FilterOptionContainer
+                    key={i}
+                    onClick={() => this.props.toggleStyle(s)}
+                    className="filter-option-container"
+                    >
+                    <FilterOptionWrapper className="filter-option-wrapper">
+                        <CheckContainer className="check-container">
+                            <CheckWrapper className="check-wrapper" visible={selected}>
+                            <ActionCheckThin
+                                className="checkmark"
+                                fill="#545658"
+                                height="100%"
+                                width="100%"
+                            />
+                            </CheckWrapper>
+                        </CheckContainer>
+                        <FilterOptionText
+                        key={s}
+                        className="filter-option-text"
+                        bold={selected}
+                        >
+                        {s}
+                        </FilterOptionText>
+                    </FilterOptionWrapper>
+                    </FilterOptionContainer>
+                )
+                })}
+            </StyleFilterContainer>
+            <StyleButtonWrapper className="style-button-wrapper">
+                <ClearButton className='clear-button'>Clear</ClearButton>
+                <ApplyButton className='apply-button'>Apply</ApplyButton>
+            </StyleButtonWrapper>
+        </StyleFilterWrapper>
     )
   }
 
@@ -122,11 +138,11 @@ class FilterButtons extends Component {
               </FilterButtonArrow>
             </FilterButtonInnerCont>
           </FilterButtonInnerWrapper>
-          <Dropdown className="room-menu" open={this.props.roomMenu}>
-            <FilterWrapper className="filter-wrapper">
+          <RoomDropdown className="room-menu" open={this.props.roomMenu}>
+            <RoomFilterWrapper className="filter-wrapper">
               {this.renderRoomFilter()}
-            </FilterWrapper>
-          </Dropdown>
+            </RoomFilterWrapper>
+          </RoomDropdown>
         </FilterButton>
         <FilterButton className="filter-button">
           <FilterButtonInnerWrapper
@@ -148,13 +164,13 @@ class FilterButtons extends Component {
               </FilterButtonArrow>
             </FilterButtonInnerCont>
           </FilterButtonInnerWrapper>
-          <Dropdown
+          <StyleDropdown
             onClick={e => e.preventDefault()}
             className="style-menu"
             open={this.props.styleMenu}
           >
-            <FilterWrapper>{this.renderStyleFilter()}</FilterWrapper>
-          </Dropdown>
+            {this.renderStyleFilter()}
+          </StyleDropdown>
         </FilterButton>
       </FilterButtonWrapper>
     )

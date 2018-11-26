@@ -40,7 +40,7 @@ class RoomIdeas extends Component {
       )
   }
   selectRoom(room) {
-    room && this.props.fetchModsData(room)
+    room && this.props.fetchModsData(room, this.state.selectedStyles)
     this.setState({ selectedRoom: room })
     this.toggleMenu('roomMenu')
   }
@@ -68,6 +68,7 @@ class RoomIdeas extends Component {
           this.state.selectedStyles
         )
     )
+    // this.toggleMenu('styleMenu');
   }
 
   offClick() {

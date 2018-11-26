@@ -78,3 +78,37 @@ export const Dropdown = styled.div`
     left: 0;
   }
 `
+export const RoomDropdown = styled.div`
+  height: ${props => (props.open ? '272px' : '0px')};
+  width: 231px;
+  display: ${props => (props.open ? 'block' : 'none')};
+  background-color: #f5f5f5;
+  position: absolute;
+  right: 0;
+  top: 61px;
+  transition: height 0.3s ease-in-out;
+  padding: 4px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  z-index: 4;
+  @media (max-width: 743px) {
+    left: 0;
+  }
+`
+export const StyleDropdown = styled.div`
+  height: ${props => (props.open ? '314px' : '0px')};
+  width: 286px;
+  display: ${props => (props.open ? 'block' : 'none')};
+  background-color: #f5f5f5;
+  position: absolute;
+  right: 0;
+  top: 61px;
+  transition: height 0.3s ease-in-out;
+  padding: 4px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  z-index: 4;
+  @media (max-width: 743px) {
+    left: 0;
+  }
+`

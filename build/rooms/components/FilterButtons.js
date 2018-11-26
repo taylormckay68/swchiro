@@ -93,44 +93,67 @@ var FilterButtons = function (_Component) {
       var _this3 = this;
 
       return _react2.default.createElement(
-        _Filters.StyleFilterContainer,
-        null,
-        _utils.filterData.styles['all-rooms'].map(function (s, i) {
-          var selected = _this3.props.selectedStyles.indexOf(s) !== -1;
+        _Filters.StyleFilterWrapper,
+        { className: 'style-filter-wrapper' },
+        _react2.default.createElement(
+          _Filters.StyleFilterContainer,
+          { className: 'style-filter-container' },
+          _utils.filterData.styles['all-rooms'].map(function (s, i) {
+            var selected = _this3.props.selectedStyles.indexOf(s) !== -1;
 
-          return _react2.default.createElement(
-            _Filters.FilterOptionContainer,
-            {
-              key: i,
-              onClick: function onClick() {
-                return _this3.props.toggleStyle(s);
-              }
-            },
-            _react2.default.createElement(
-              _Filters.FilterOptionWrapper,
-              null,
-              _react2.default.createElement(
-                _Filters.CheckWrapper,
-                { visible: selected },
-                _react2.default.createElement(_Check_Thin2.default, {
-                  className: 'checkmark',
-                  fill: '#545658',
-                  height: '100%',
-                  width: '100%'
-                })
-              ),
-              _react2.default.createElement(
-                _Filters.FilterOptionText,
-                {
-                  key: s,
-                  className: 'filter-option-text',
-                  bold: selected
+            return _react2.default.createElement(
+              _Filters.FilterOptionContainer,
+              {
+                key: i,
+                onClick: function onClick() {
+                  return _this3.props.toggleStyle(s);
                 },
-                s
+                className: 'filter-option-container'
+              },
+              _react2.default.createElement(
+                _Filters.FilterOptionWrapper,
+                { className: 'filter-option-wrapper' },
+                _react2.default.createElement(
+                  _Filters.CheckContainer,
+                  { className: 'check-container' },
+                  _react2.default.createElement(
+                    _Filters.CheckWrapper,
+                    { className: 'check-wrapper', visible: selected },
+                    _react2.default.createElement(_Check_Thin2.default, {
+                      className: 'checkmark',
+                      fill: '#545658',
+                      height: '100%',
+                      width: '100%'
+                    })
+                  )
+                ),
+                _react2.default.createElement(
+                  _Filters.FilterOptionText,
+                  {
+                    key: s,
+                    className: 'filter-option-text',
+                    bold: selected
+                  },
+                  s
+                )
               )
-            )
-          );
-        })
+            );
+          })
+        ),
+        _react2.default.createElement(
+          _Filters.StyleButtonWrapper,
+          { className: 'style-button-wrapper' },
+          _react2.default.createElement(
+            _Filters.ClearButton,
+            { className: 'clear-button' },
+            'Clear'
+          ),
+          _react2.default.createElement(
+            _Filters.ApplyButton,
+            { className: 'apply-button' },
+            'Apply'
+          )
+        )
       );
     }
   }, {
@@ -175,10 +198,10 @@ var FilterButtons = function (_Component) {
             )
           ),
           _react2.default.createElement(
-            _FilterButtons.Dropdown,
+            _FilterButtons.RoomDropdown,
             { className: 'room-menu', open: this.props.roomMenu },
             _react2.default.createElement(
-              _Filters.FilterWrapper,
+              _Filters.RoomFilterWrapper,
               { className: 'filter-wrapper' },
               this.renderRoomFilter()
             )
@@ -217,7 +240,7 @@ var FilterButtons = function (_Component) {
             )
           ),
           _react2.default.createElement(
-            _FilterButtons.Dropdown,
+            _FilterButtons.StyleDropdown,
             {
               onClick: function onClick(e) {
                 return e.preventDefault();
@@ -225,11 +248,7 @@ var FilterButtons = function (_Component) {
               className: 'style-menu',
               open: this.props.styleMenu
             },
-            _react2.default.createElement(
-              _Filters.FilterWrapper,
-              null,
-              this.renderStyleFilter()
-            )
+            this.renderStyleFilter()
           )
         )
       );

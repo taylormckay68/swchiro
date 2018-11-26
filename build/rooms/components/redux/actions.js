@@ -85,11 +85,12 @@ var fetchModsData = exports.fetchModsData = function fetchModsData(room, styles)
   console.log(styles);
   var roomName = room.length ? room.toLowerCase().replace(' ', '-') : '';
   var styleString = styles.map(function (style) {
-    return style.toLowerCase().replace(/' '/g, '-');
-  }).join('%20or%20filter=label:');
-  var styleQuery = roomName ? '%20and%20(filter=label:' + styleString + ')' : styleString;
+    return style.toLowerCase().replace(' ', '-');
+  }).join('%20or%20label:');
+  console.log(styleString);
+  var styleQuery = roomName ? '%20and%20(label:' + styleString + ')' : styleString;
 
-  var query = '&filter=label:' + roomName + styleQuery;
+  var query = roomName || styleQuery ? '&filter=label:' + roomName + styleQuery : '';
 
   console.log('QUERY', 'https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?requireProduct=true&sort=Optimized&limit=18' + query);
   return function (dispatch) {
