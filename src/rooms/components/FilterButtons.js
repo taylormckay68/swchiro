@@ -66,7 +66,7 @@ class FilterButtons extends Component {
           <InnerButton
             roomMenu={roomMenu}
             selectedRoom={selectedRoom}
-            selectedStyles={selectedStyles}
+            selectedStyles={this.props.selectedStyles}
             styleMenu={styleMenu}
             toggleMenu={toggleMenu}
             type="room"
@@ -86,7 +86,7 @@ class FilterButtons extends Component {
           <InnerButton
             roomMenu={roomMenu}
             selectedRoom={selectedRoom}
-            selectedStyles={selectedStyles}
+            selectedStyles={this.props.selectedStyles}
             styleMenu={styleMenu}
             toggleMenu={toggleMenu}
             type="style"

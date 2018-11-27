@@ -60,12 +60,10 @@ export const fetchModsData = (room, styles) => {
     .map(style => style.toLowerCase().replace(' ', '-'))
     .join('%20or%20label:')
   let styleQuery = roomName
-    ? '%20and%20(label:' + styleString + ')'
+    ? (styleString ? '%20and%20(label:' + styleString + ')' : '')
     : styleString
-
   let query =
     roomName || styleQuery ? `&filter=label:${roomName}${styleQuery}` : ''
-
   return dispatch => {
     dispatch(requestModsData())
     fetch(

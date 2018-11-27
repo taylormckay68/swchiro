@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import ArrowsMinimalDown from 'overstock-component-library/lib/Icons/arrows/Minimal_Down'
 import {
   FilterButtonInnerCont,
@@ -9,8 +9,8 @@ import {
 
 export default ({ roomMenu, selectedRoom, selectedStyles, styleMenu, toggleMenu, type }) => (
   <FilterButtonInnerWrapper
-    className="filter-button-inner-wrapper"
-    onClick={() => toggleMenu(type === 'room' ? 'roomMenu' : 'styleMenu')}
+  className="filter-button-inner-wrapper"
+  onClick={() => toggleMenu(type === 'room' ? 'roomMenu' : 'styleMenu')}
   >
     <FilterButtonInnerCont className="filter-button-inner-cont">
       <FilterButtonText className="filter-button-text">
