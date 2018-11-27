@@ -52,9 +52,52 @@ var RoomIdeas = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, (RoomIdeas.__proto__ || Object.getPrototypeOf(RoomIdeas)).call(this, props));
 
+    _this.loadMore = function () {
+      _this.props.nextRoomsData && _this.props.fetchNextModsData(_this.props.nextRoomsData, _this.state.selectedRoom);
+    };
+
+    _this.selectRoom = function (room) {
+      var rm = room === _this.state.selectedRoom ? '' : room;
+      room && _this.props.fetchModsData(rm, _this.state.selectedStyles);
+      _this.setState({ selectedRoom: rm });
+      _this.toggleMenu('roomMenu');
+    };
+
+    _this.mobileSelectFilter = function (room, styles) {
+      _this.props.fetchModsData(room, styles);
+      _this.setState({ selectedRoom: room, selectedStyles: styles });
+    };
+
     _this.setStyles = function (styles) {
       return _this.setState({ selectedStyles: styles }, function () {
         _this.props.fetchModsData(_this.state.selectedRoom, _this.state.selectedStyles);
+      });
+    };
+
+    _this.offClick = function () {
+      _this.setState({
+        roomMenu: false,
+        styleMenu: false
+      });
+    };
+
+    _this.toggleMenu = function (menu) {
+      if (menu === 'mobileMenu') {
+        _this.setState({
+          mobileMenu: !_this.state.mobileMenu,
+          roomMenu: false,
+          styleMenu: false
+        });
+      }
+      if (menu === 'roomMenu') _this.setState({
+        mobileMenu: false,
+        roomMenu: !_this.state.roomMenu,
+        styleMenu: false
+      });
+      if (menu === 'styleMenu') _this.setState({
+        mobileMenu: false,
+        roomMenu: false,
+        styleMenu: !_this.state.styleMenu
       });
     };
 
@@ -66,63 +109,12 @@ var RoomIdeas = function (_Component) {
       selectedRoom: _this.props.data.room || '',
       selectedStyles: _this.props.data.style || []
     };
-    _this.toggleMenu = _this.toggleMenu.bind(_this);
-    _this.offClick = _this.offClick.bind(_this);
-    _this.selectRoom = _this.selectRoom.bind(_this);
-    _this.mobileSelectRoom = _this.mobileSelectRoom.bind(_this);
-    _this.loadMore = _this.loadMore.bind(_this);
     return _this;
   }
 
   _createClass(RoomIdeas, [{
-    key: 'loadMore',
-    value: function loadMore() {
-      this.props.nextRoomsData && this.props.fetchNextModsData(this.props.nextRoomsData, this.state.selectedRoom);
-    }
-  }, {
-    key: 'selectRoom',
-    value: function selectRoom(room) {
-      var rm = room === this.state.selectedRoom ? '' : room;
-      room && this.props.fetchModsData(rm, this.state.selectedStyles);
-      this.setState({ selectedRoom: rm });
-      this.toggleMenu('roomMenu');
-    }
-  }, {
-    key: 'mobileSelectRoom',
-    value: function mobileSelectRoom(room) {
-      this.props.fetchModsData(room);
-      this.setState({ selectedRoom: room });
-    }
-  }, {
-    key: 'offClick',
-    value: function offClick() {
-      this.setState({
-        roomMenu: false,
-        styleMenu: false
-      });
-    }
-  }, {
-    key: 'toggleMenu',
-    value: function toggleMenu(menu) {
-      if (menu === 'mobileMenu') {
-        this.setState({
-          mobileMenu: !this.state.mobileMenu,
-          roomMenu: false,
-          styleMenu: false
-        });
-        this.state.mobileMenu && this.refs.mobileFilter.showMoreRooms();
-      }
-      if (menu === 'roomMenu') this.setState({
-        mobileMenu: false,
-        roomMenu: !this.state.roomMenu,
-        styleMenu: false
-      });
-      if (menu === 'styleMenu') this.setState({
-        mobileMenu: false,
-        roomMenu: false,
-        styleMenu: !this.state.styleMenu
-      });
-    }
+    key: 'render',
+
 
     // componentDidMount(){
     //     window.onpopstate = () => {
@@ -130,8 +122,6 @@ var RoomIdeas = function (_Component) {
     //     }
     // }
 
-  }, {
-    key: 'render',
     value: function render() {
       _utils.config.data = this.props && this.props.modsData ? this.props.modsData : this.props.data.data;
       return _react2.default.createElement(
@@ -140,13 +130,12 @@ var RoomIdeas = function (_Component) {
         this.state.roomMenu || this.state.styleMenu ? _react2.default.createElement(_RoomIdeas.OffClick, { onClick: this.offClick, className: 'offclick' }) : '',
         _react2.default.createElement(_RoomIdeas.HeroImg, null),
         _react2.default.createElement(_MobileFilter2.default, {
-          setStyles: this.setStyles,
           className: 'mobile-filter',
           visible: this.state.mobileMenu,
           toggleMenu: this.toggleMenu,
           selectedRoom: this.state.selectedRoom,
           selectedStyles: this.state.selectedStyles,
-          selectRoom: this.mobileSelectRoom,
+          selectFilter: this.mobileSelectFilter,
           ref: 'mobileFilter'
         }),
         _react2.default.createElement(_FilterBar2.default, _extends({}, this.props, {

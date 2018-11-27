@@ -1,40 +1,40 @@
-"use strict";
+'use strict';
 
-var _express = require("express");
+var _express = require('express');
 
 var _express2 = _interopRequireDefault(_express);
 
-var _nodeFetch = require("node-fetch");
+var _nodeFetch = require('node-fetch');
 
 var _nodeFetch2 = _interopRequireDefault(_nodeFetch);
 
-var _react = require("react");
+var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _server = require("react-dom/server");
+var _server = require('react-dom/server');
 
-var _Root = require("./rooms/Root");
+var _Root = require('./rooms/Root');
 
 var _Root2 = _interopRequireDefault(_Root);
 
-var _styledComponents = require("styled-components");
+var _styledComponents = require('styled-components');
 
-var _fs = require("fs");
+var _fs = require('fs');
 
 var _fs2 = _interopRequireDefault(_fs);
 
-var _compression = require("compression");
+var _compression = require('compression');
 
 var _compression2 = _interopRequireDefault(_compression);
 
-var _utils = require("./rooms/utils");
+var _utils = require('./rooms/utils');
 
-var _store = require("./rooms/components/redux/store");
+var _store = require('./rooms/components/redux/store');
 
 var _store2 = _interopRequireDefault(_store);
 
-var _reactRedux = require("react-redux");
+var _reactRedux = require('react-redux');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -42,16 +42,16 @@ var CronJob = require('cron').CronJob;
 
 var store = (0, _store2.default)();
 
-var PORT = process.env.PORT || 3000;
+var PORT = process.env.PORT || 3001;
 
 var app = (0, _express2.default)();
 app.use((0, _compression2.default)());
 
-var bundle = "";
+var bundle = '';
 var dataObj = {};
-_fs2.default.readFile('./dist/js/bundle.min.js', "utf8", function (err, data) {
-  if (err) console.log("ERR", err);
-  bundle = data || "";
+_fs2.default.readFile('./dist/js/bundle.min.js', 'utf8', function (err, data) {
+  if (err) console.log('ERR', err);
+  bundle = data || '';
 });
 
 function generateFullArray() {
@@ -129,7 +129,7 @@ function serverPageLoader(req, res) {
     return _utils.filterData.styles['all-rooms'].indexOf(filterCase(e)) !== -1;
   }) : [];
 
-  var key = modRoom ? styleCheck && styleCheck.length ? styleCheck.length === 1 ? modRoom + "_" + styleCheck[0].toLowerCase() : null : modRoom : styleCheck && styleCheck.length ? styleCheck.length === 1 ? styleCheck[0] : null : 'default';
+  var key = modRoom ? styleCheck && styleCheck.length ? styleCheck.length === 1 ? modRoom + '_' + styleCheck[0].toLowerCase() : null : modRoom : styleCheck && styleCheck.length ? styleCheck.length === 1 ? styleCheck[0] : null : 'default';
 
   if (key && key !== 'default' && dataObj && dataObj.data && dataObj.data[key] && dataObj.data[key].length) {
     roomData.room = modRoom ? filterCase(modRoom) : '';
@@ -142,9 +142,9 @@ function serverPageLoader(req, res) {
     res.send(returnHTML(roomData, _Root2.default));
   } else {
     var roomQuery = key !== 'default' ? modRoom + (modRoom && styleCheck.length ? '%20and%20(label:' : '') + (styleCheck.length ? styleCheck.join('%20or%20label:') : '') + (modRoom && styleCheck.length ? ')' : '') : '';
-    var extension = roomQuery ? "&filter=label:" + roomQuery : '';
-    console.log("extension: ", extension);
-    (0, _nodeFetch2.default)("https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?requireProduct=true&sort=Optimized&limit=18" + extension).then(function (response) {
+    var extension = roomQuery ? '&filter=label:' + roomQuery : '';
+    console.log('extension: ', extension);
+    (0, _nodeFetch2.default)('https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?requireProduct=true&sort=Optimized&limit=18' + extension).then(function (response) {
       return response.json();
     }).then(function (data) {
       roomData.room = modRoom ? filterCase(modRoom) : '';
@@ -154,7 +154,7 @@ function serverPageLoader(req, res) {
       roomData.data = data.data.items.map(function (e) {
         return {
           imageUrl: e.media.large.link,
-          redirectUrl: "https://www.overstock.com/welcome?pageId=k8s2498&asset_id=" + e.id + extension
+          redirectUrl: 'https://www.overstock.com/welcome?pageId=k8s2498&asset_id=' + e.id + extension
         };
       });
       roomData.nextData = data.paging && data.paging.next ? data.paging.next : '';
@@ -172,11 +172,10 @@ app.get('/health', function (req, res) {
 });
 
 app.listen(PORT, function () {
-  console.log("Running on http://localhost:" + PORT);
+  console.log('Running on http://localhost:' + PORT);
 });
 
 // functions!!!!!!!!!!!!!
-
 
 function getQueries(req, res) {
   var qOb = {};
@@ -208,7 +207,7 @@ function returnHTML(data, Root) {
     _react2.default.createElement(Root, { data: data })
   )));
   var styles = sheet.getStyleTags();
-  return "\n    <!DOCTYPE html>\n      <html lang=\"en\">\n        <head>\n          <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n          <title>Room Ideas</title>\n          <meta name=\"Description\" content=\"Room Ideas. Explore hundreds of room ideas to inspire your style.\">\n        </head>\n        <script>window.__LPO__=" + dataString + "</script>\n        " + styles + "\n        <style>body {margin: 0;}</style>\n        <div id=\"app\">" + body + "</div>\n        <script defer>" + bundle + "</script>\n      </html>\n    ";
+  return '\n    <!DOCTYPE html>\n      <html lang="en">\n        <head>\n          <meta name="viewport" content="width=device-width, initial-scale=1">\n          <title>Room Ideas</title>\n          <meta name="Description" content="Room Ideas. Explore hundreds of room ideas to inspire your style.">\n        </head>\n        <script>window.__LPO__=' + dataString + '</script>\n        ' + styles + '\n        <style>body {margin: 0;}</style>\n        <div id="app">' + body + '</div>\n        <script defer>' + bundle + '</script>\n      </html>\n    ';
 }
 
 function errHandle(err) {

@@ -66,6 +66,8 @@ export const fetchModsData = (room, styles) => {
   let query =
     roomName || styleQuery ? `&filter=label:${roomName}${styleQuery}` : ''
 
+  console.log('QUERY', query)
+
   return dispatch => {
     dispatch(requestModsData())
     fetch(

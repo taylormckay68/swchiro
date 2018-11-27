@@ -90,6 +90,8 @@ var fetchModsData = exports.fetchModsData = function fetchModsData(room, styles)
 
   var query = roomName || styleQuery ? '&filter=label:' + roomName + styleQuery : '';
 
+  console.log('QUERY', query);
+
   return function (dispatch) {
     dispatch(requestModsData());
     (0, _crossFetch2.default)('https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?requireProduct=true&sort=Optimized&limit=18' + query).then(function (response) {

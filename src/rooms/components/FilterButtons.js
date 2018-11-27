@@ -46,9 +46,9 @@ class FilterButtons extends Component {
   }
 
   applySelections = () => {
-      this.props.setStyles(this.state.selectedStyles)
-      this.props.toggleMenu('styleMenu');
-    }
+    this.props.setStyles(this.state.selectedStyles)
+    this.props.toggleMenu('styleMenu')
+  }
   clearSelections = () => this.setState({ selectedStyles: [] })
 
   render() {

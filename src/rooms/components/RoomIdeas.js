@@ -25,29 +25,24 @@ class RoomIdeas extends Component {
       selectedRoom: this.props.data.room || '',
       selectedStyles: this.props.data.style || []
     }
-    this.toggleMenu = this.toggleMenu.bind(this)
-    this.offClick = this.offClick.bind(this)
-    this.selectRoom = this.selectRoom.bind(this)
-    this.mobileSelectRoom = this.mobileSelectRoom.bind(this)
-    this.loadMore = this.loadMore.bind(this)
   }
 
-  loadMore() {
+  loadMore = () => {
     this.props.nextRoomsData &&
       this.props.fetchNextModsData(
         this.props.nextRoomsData,
         this.state.selectedRoom
       )
   }
-  selectRoom(room) {
+  selectRoom = room => {
     const rm = room === this.state.selectedRoom ? '' : room
     room && this.props.fetchModsData(rm, this.state.selectedStyles)
     this.setState({ selectedRoom: rm })
     this.toggleMenu('roomMenu')
   }
-  mobileSelectRoom(room) {
-    this.props.fetchModsData(room)
-    this.setState({ selectedRoom: room })
+  mobileSelectFilter = (room, styles) => {
+    this.props.fetchModsData(room, styles)
+    this.setState({ selectedRoom: room, selectedStyles: styles })
   }
 
   setStyles = styles =>
@@ -58,20 +53,19 @@ class RoomIdeas extends Component {
       )
     })
 
-  offClick() {
+  offClick = () => {
     this.setState({
       roomMenu: false,
       styleMenu: false
     })
   }
-  toggleMenu(menu) {
+  toggleMenu = menu => {
     if (menu === 'mobileMenu') {
       this.setState({
         mobileMenu: !this.state.mobileMenu,
         roomMenu: false,
         styleMenu: false
       })
-      this.state.mobileMenu && this.refs.mobileFilter.showMoreRooms()
     }
     if (menu === 'roomMenu')
       this.setState({
@@ -107,13 +101,12 @@ class RoomIdeas extends Component {
         )}
         <HeroImg />
         <MobileFilter
-          setStyles={this.setStyles}
           className="mobile-filter"
           visible={this.state.mobileMenu}
           toggleMenu={this.toggleMenu}
           selectedRoom={this.state.selectedRoom}
           selectedStyles={this.state.selectedStyles}
-          selectRoom={this.mobileSelectRoom}
+          selectFilter={this.mobileSelectFilter}
           ref="mobileFilter"
         />
         <FilterBar
