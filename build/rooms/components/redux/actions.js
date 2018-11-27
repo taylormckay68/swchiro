@@ -82,12 +82,10 @@ var requestNextModsDataFailure = function requestNextModsDataFailure(error) {
 };
 
 var fetchModsData = exports.fetchModsData = function fetchModsData(room, styles) {
-  console.log(styles);
   var roomName = room.length ? room.toLowerCase().replace(' ', '-') : '';
   var styleString = styles.map(function (style) {
     return style.toLowerCase().replace(' ', '-');
   }).join('%20or%20label:');
-  console.log(styleString);
   var styleQuery = roomName ? '%20and%20(label:' + styleString + ')' : styleString;
 
   var query = roomName || styleQuery ? '&filter=label:' + roomName + styleQuery : '';

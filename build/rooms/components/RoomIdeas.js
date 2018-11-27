@@ -38,8 +38,6 @@ var _LoadingLogo2 = _interopRequireDefault(_LoadingLogo);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -54,19 +52,10 @@ var RoomIdeas = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, (RoomIdeas.__proto__ || Object.getPrototypeOf(RoomIdeas)).call(this, props));
 
-    _this.toggleStyle = function (style) {
-      var selectedStyles = _this.state.selectedStyles;
-
-      var index = selectedStyles.indexOf(style);
-
-      _this.setState(function (state) {
-        return {
-          selectedStyles: index !== -1 ? selectedStyles.slice(0, index).concat(selectedStyles.slice(index + 1)) : [].concat(_toConsumableArray(state.selectedStyles), [style])
-        };
-      }, function () {
-        return _this.props.fetchModsData(_this.state.selectedRoom, _this.state.selectedStyles);
+    _this.setStyles = function (styles) {
+      return _this.setState({ selectedStyles: styles }, function () {
+        _this.props.fetchModsData(_this.state.selectedRoom, _this.state.selectedStyles);
       });
-      // this.toggleMenu('styleMenu');
     };
 
     _this.state = {
@@ -93,8 +82,9 @@ var RoomIdeas = function (_Component) {
   }, {
     key: 'selectRoom',
     value: function selectRoom(room) {
-      room && this.props.fetchModsData(room, this.state.selectedStyles);
-      this.setState({ selectedRoom: room });
+      var rm = room === this.state.selectedRoom ? '' : room;
+      room && this.props.fetchModsData(rm, this.state.selectedStyles);
+      this.setState({ selectedRoom: rm });
       this.toggleMenu('roomMenu');
     }
   }, {
@@ -150,7 +140,7 @@ var RoomIdeas = function (_Component) {
         this.state.roomMenu || this.state.styleMenu ? _react2.default.createElement(_RoomIdeas.OffClick, { onClick: this.offClick, className: 'offclick' }) : '',
         _react2.default.createElement(_RoomIdeas.HeroImg, null),
         _react2.default.createElement(_MobileFilter2.default, {
-          toggleStyle: this.toggleStyle,
+          setStyles: this.setStyles,
           className: 'mobile-filter',
           visible: this.state.mobileMenu,
           toggleMenu: this.toggleMenu,
@@ -160,7 +150,7 @@ var RoomIdeas = function (_Component) {
           ref: 'mobileFilter'
         }),
         _react2.default.createElement(_FilterBar2.default, _extends({}, this.props, {
-          toggleStyle: this.toggleStyle,
+          setStyles: this.setStyles,
           toggleMenu: this.toggleMenu,
           roomMenu: this.state.roomMenu,
           styleMenu: this.state.styleMenu,

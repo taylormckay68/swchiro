@@ -14,17 +14,17 @@ var _FilterButtons = require('./styled-components/FilterButtons');
 
 var _Filters = require('./styled-components/Filters');
 
-var _Minimal_Down = require('overstock-component-library/lib/Icons/arrows/Minimal_Down');
+var _FilterOptions = require('./FilterOptions');
 
-var _Minimal_Down2 = _interopRequireDefault(_Minimal_Down);
+var _FilterOptions2 = _interopRequireDefault(_FilterOptions);
 
-var _Check_Thin = require('overstock-component-library/lib/Icons/action/Check_Thin');
+var _InnerButton = require('./InnerButton');
 
-var _Check_Thin2 = _interopRequireDefault(_Check_Thin);
-
-var _utils = require('../utils');
+var _InnerButton2 = _interopRequireDefault(_InnerButton);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -40,126 +40,52 @@ var FilterButtons = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, (FilterButtons.__proto__ || Object.getPrototypeOf(FilterButtons)).call(this, props));
 
-    _this.state = {};
+    _this.toggleStyle = function (style) {
+      _this.setState(function (state) {
+        var ss = state.selectedStyles;
+
+        var index = ss.indexOf(style);
+        var modifiedStyles = index !== -1 ? ss.slice(0, index).concat(ss.slice(index + 1)) : [style].concat(_toConsumableArray(ss));
+
+        return {
+          selectedStyles: modifiedStyles
+        };
+      });
+    };
+
+    _this.applySelections = function () {
+      return _this.props.setStyles(_this.state.selectedStyles);
+    };
+
+    _this.clearSelections = function () {
+      return _this.setState({ selectedStyles: [] });
+    };
+
+    _this.state = {
+      selectedStyles: props.selectedStyles || []
+    };
     return _this;
   }
 
   _createClass(FilterButtons, [{
-    key: 'renderRoomFilter',
-    value: function renderRoomFilter() {
-      var _this2 = this;
-
-      var rooms = _utils.filterData.rooms.slice();
-      var index = rooms.indexOf(this.props.selectedRoom);
-      var modifiedRooms = index !== -1 ? rooms.splice(rooms.indexOf(this.props.selectedRoom), 1).concat(rooms) : rooms;
-      return modifiedRooms.map(function (e, i, arr) {
-        var selected = e === _this2.props.selectedRoom;
-        return _react2.default.createElement(
-          _Filters.FilterOptionContainer,
-          {
-            key: e,
-            className: 'filter-option-container',
-            onClick: _this2.props.selectRoom.bind(_this2, e)
-          },
-          _react2.default.createElement(
-            _Filters.FilterOptionWrapper,
-            { className: 'filter-option-wrapper' },
-            _react2.default.createElement(
-              _Filters.CheckWrapper,
-              { className: 'check-wrapper', visible: selected },
-              _react2.default.createElement(_Check_Thin2.default, {
-                className: 'checkmark',
-                fill: '#545658',
-                height: '100%',
-                width: '100%'
-              })
-            ),
-            _react2.default.createElement(
-              _Filters.FilterOptionText,
-              {
-                key: e,
-                className: 'filter-option-text',
-                bold: selected
-              },
-              e
-            )
-          )
-        );
-      });
-    }
-  }, {
-    key: 'renderStyleFilter',
-    value: function renderStyleFilter() {
-      var _this3 = this;
-
-      return _react2.default.createElement(
-        _Filters.StyleFilterWrapper,
-        { className: 'style-filter-wrapper' },
-        _react2.default.createElement(
-          _Filters.StyleFilterContainer,
-          { className: 'style-filter-container' },
-          _utils.filterData.styles['all-rooms'].map(function (s, i) {
-            var selected = _this3.props.selectedStyles.indexOf(s) !== -1;
-
-            return _react2.default.createElement(
-              _Filters.FilterOptionContainer,
-              {
-                key: i,
-                onClick: function onClick() {
-                  return _this3.props.toggleStyle(s);
-                },
-                className: 'filter-option-container'
-              },
-              _react2.default.createElement(
-                _Filters.FilterOptionWrapper,
-                { className: 'filter-option-wrapper' },
-                _react2.default.createElement(
-                  _Filters.CheckContainer,
-                  { className: 'check-container' },
-                  _react2.default.createElement(
-                    _Filters.CheckWrapper,
-                    { className: 'check-wrapper', visible: selected },
-                    _react2.default.createElement(_Check_Thin2.default, {
-                      className: 'checkmark',
-                      fill: '#545658',
-                      height: '100%',
-                      width: '100%'
-                    })
-                  )
-                ),
-                _react2.default.createElement(
-                  _Filters.FilterOptionText,
-                  {
-                    key: s,
-                    className: 'filter-option-text',
-                    bold: selected
-                  },
-                  s
-                )
-              )
-            );
-          })
-        ),
-        _react2.default.createElement(
-          _Filters.StyleButtonWrapper,
-          { className: 'style-button-wrapper' },
-          _react2.default.createElement(
-            _Filters.ClearButton,
-            { className: 'clear-button' },
-            'Clear'
-          ),
-          _react2.default.createElement(
-            _Filters.ApplyButton,
-            { className: 'apply-button' },
-            'Apply'
-          )
-        )
-      );
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(next) {
+      if (next.styleMenu !== this.props.styleMenu) this.setState({ selectedStyles: next.selectedStyles });
     }
   }, {
     key: 'render',
     value: function render() {
-      var _this4 = this;
+      var applySelections = this.applySelections,
+          clearSelections = this.clearSelections,
+          _props = this.props,
+          roomMenu = _props.roomMenu,
+          selectedRoom = _props.selectedRoom,
+          selectRoom = _props.selectRoom,
+          styleMenu = _props.styleMenu,
+          toggleMenu = _props.toggleMenu,
+          selectedStyles = this.state.selectedStyles,
+          toggleStyle = this.toggleStyle;
+
 
       return _react2.default.createElement(
         _FilterButtons.FilterButtonWrapper,
@@ -167,78 +93,38 @@ var FilterButtons = function (_Component) {
         _react2.default.createElement(
           _FilterButtons.FilterButton,
           { className: 'filter-button' },
-          _react2.default.createElement(
-            _FilterButtons.FilterButtonInnerWrapper,
-            {
-              className: 'filter-button-inner-wrapper',
-              onClick: function onClick() {
-                return _this4.props.toggleMenu('roomMenu');
-              }
-            },
-            _react2.default.createElement(
-              _FilterButtons.FilterButtonInnerCont,
-              { className: 'filter-button-inner-cont' },
-              _react2.default.createElement(
-                _FilterButtons.FilterButtonText,
-                { className: 'filter-button-text' },
-                this.props.selectedRoom ? this.props.selectedRoom : 'Room'
-              ),
-              _react2.default.createElement(
-                _FilterButtons.FilterButtonArrow,
-                {
-                  className: 'filter-button-arrow',
-                  open: this.props.roomMenu
-                },
-                _react2.default.createElement(_Minimal_Down2.default, {
-                  className: 'downArrow',
-                  style: { width: '13px' },
-                  color: '#545658'
-                })
-              )
-            )
-          ),
+          _react2.default.createElement(_InnerButton2.default, {
+            roomMenu: roomMenu,
+            selectedRoom: selectedRoom,
+            styleMenu: styleMenu,
+            toggleMenu: toggleMenu,
+            type: 'room'
+          }),
           _react2.default.createElement(
             _FilterButtons.RoomDropdown,
             { className: 'room-menu', open: this.props.roomMenu },
             _react2.default.createElement(
               _Filters.RoomFilterWrapper,
               { className: 'filter-wrapper' },
-              this.renderRoomFilter()
+              _react2.default.createElement(_FilterOptions2.default, {
+                selectRoom: selectRoom,
+                selectedStyles: selectedStyles,
+                selectedRoom: selectedRoom,
+                type: 'room'
+              })
             )
           )
         ),
         _react2.default.createElement(
           _FilterButtons.FilterButton,
           { className: 'filter-button' },
-          _react2.default.createElement(
-            _FilterButtons.FilterButtonInnerWrapper,
-            {
-              onClick: function onClick() {
-                return _this4.props.toggleMenu('styleMenu');
-              }
-            },
-            _react2.default.createElement(
-              _FilterButtons.FilterButtonInnerCont,
-              { className: 'filter-button-inner-cont' },
-              _react2.default.createElement(
-                _FilterButtons.FilterButtonText,
-                { className: 'filter-button-text' },
-                'Style'
-              ),
-              _react2.default.createElement(
-                _FilterButtons.FilterButtonArrow,
-                {
-                  className: 'filter-button-arrow',
-                  open: this.props.styleMenu
-                },
-                _react2.default.createElement(_Minimal_Down2.default, {
-                  className: 'downArrow',
-                  style: { width: '13px' },
-                  color: '#545658'
-                })
-              )
-            )
-          ),
+          _react2.default.createElement(_InnerButton2.default, {
+            roomMenu: roomMenu,
+            selectedRoom: selectedRoom,
+            styleMenu: styleMenu,
+            toggleMenu: toggleMenu,
+            type: 'style'
+          }),
           _react2.default.createElement(
             _FilterButtons.StyleDropdown,
             {
@@ -248,7 +134,35 @@ var FilterButtons = function (_Component) {
               className: 'style-menu',
               open: this.props.styleMenu
             },
-            this.renderStyleFilter()
+            _react2.default.createElement(
+              _Filters.StyleFilterWrapper,
+              null,
+              _react2.default.createElement(
+                _Filters.StyleFilterContainer,
+                null,
+                _react2.default.createElement(_FilterOptions2.default, {
+                  selectRoom: selectRoom,
+                  selectedStyles: selectedStyles,
+                  selectedRoom: selectedRoom,
+                  toggleStyle: toggleStyle,
+                  type: 'style'
+                })
+              ),
+              _react2.default.createElement(
+                _Filters.StyleButtonWrapper,
+                { className: 'style-button-wrapper' },
+                _react2.default.createElement(
+                  _Filters.ClearButton,
+                  { className: 'clear-button', onClick: clearSelections },
+                  'Clear'
+                ),
+                _react2.default.createElement(
+                  _Filters.ApplyButton,
+                  { className: 'apply-button', onClick: applySelections },
+                  'Apply'
+                )
+              )
+            )
           )
         )
       );

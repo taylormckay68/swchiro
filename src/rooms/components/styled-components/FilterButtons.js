@@ -14,8 +14,9 @@ export const FilterButton = styled.div`
   }
   &:hover {
     background-color: #0272a2;
-    div {
-      color: #ffffff;
+
+    .filter-button-inner-wrapper {
+      color: #fff;
     }
     .downArrow polyline {
       stroke: #ffffff;
@@ -34,10 +35,11 @@ export const FilterButtonInnerCont = styled.div`
   width: 100%;
 `
 export const FilterButtonInnerWrapper = styled.div`
+  align-items: center;
+  color: #545658;
+  display: flex;
   height: 100%;
   width: 100%;
-  display: flex;
-  align-items: center;
 `
 export const FilterButtonText = styled.div`
   font-family: HelveticaNeue;
@@ -47,7 +49,6 @@ export const FilterButtonText = styled.div`
   font-stretch: normal;
   line-height: 1.71;
   letter-spacing: normal;
-  color: #545658;
   margin-right: 8px;
 `
 export const FilterButtonWrapper = styled.div`
