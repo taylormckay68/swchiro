@@ -66,11 +66,6 @@ export const fetchModsData = (room, styles) => {
   let query =
     roomName || styleQuery ? `&filter=label:${roomName}${styleQuery}` : ''
 
-  console.log(
-    'QUERY',
-    'https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?requireProduct=true&sort=Optimized&limit=18' +
-      query
-  )
   return dispatch => {
     dispatch(requestModsData())
     fetch(

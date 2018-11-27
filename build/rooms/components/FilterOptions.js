@@ -33,8 +33,6 @@ exports.default = function (_ref) {
   return (type === 'room' ? modifiedRooms : styles).map(function (e, i) {
     var selected = type === 'room' ? e === selectedRoom : selectedStyles.indexOf(e) !== -1;
 
-    console.log('thing', e, selected);
-
     return _react2.default.createElement(
       _Filters.FilterOptionContainer,
       {

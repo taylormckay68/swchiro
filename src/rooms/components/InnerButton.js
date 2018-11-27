@@ -7,14 +7,14 @@ import {
   FilterButtonInnerWrapper
 } from './styled-components/FilterButtons'
 
-export default ({ roomMenu, selectedRoom, styleMenu, toggleMenu, type }) => (
+export default ({ roomMenu, selectedRoom, selectedStyles, styleMenu, toggleMenu, type }) => (
   <FilterButtonInnerWrapper
     className="filter-button-inner-wrapper"
     onClick={() => toggleMenu(type === 'room' ? 'roomMenu' : 'styleMenu')}
   >
     <FilterButtonInnerCont className="filter-button-inner-cont">
       <FilterButtonText className="filter-button-text">
-        {type === 'room' ? (selectedRoom ? selectedRoom : 'Room') : 'Style'}
+        {type === 'room' ? (selectedRoom ? selectedRoom : 'Room') : (selectedStyles && selectedStyles.length >= 1 ? `Style \u2014 ${selectedStyles.length}` : 'Style')}
       </FilterButtonText>
       <FilterButtonArrow
         className="filter-button-arrow"

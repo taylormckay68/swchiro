@@ -19,6 +19,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = function (_ref) {
   var roomMenu = _ref.roomMenu,
       selectedRoom = _ref.selectedRoom,
+      selectedStyles = _ref.selectedStyles,
       styleMenu = _ref.styleMenu,
       toggleMenu = _ref.toggleMenu,
       type = _ref.type;
@@ -36,7 +37,7 @@ exports.default = function (_ref) {
       _react2.default.createElement(
         _FilterButtons.FilterButtonText,
         { className: 'filter-button-text' },
-        type === 'room' ? selectedRoom ? selectedRoom : 'Room' : 'Style'
+        type === 'room' ? selectedRoom ? selectedRoom : 'Room' : selectedStyles && selectedStyles.length >= 1 ? 'Style \u2014 ' + selectedStyles.length : 'Style'
       ),
       _react2.default.createElement(
         _FilterButtons.FilterButtonArrow,

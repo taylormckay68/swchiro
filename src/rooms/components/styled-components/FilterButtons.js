@@ -26,6 +26,7 @@ export const FilterButton = styled.div`
 export const FilterButtonArrow = styled.div`
   margin-right: 16px;
   transform: ${props => props.open && 'rotate(180deg)'};
+  display: flex;
 `
 export const FilterButtonInnerCont = styled.div`
   display: flex;

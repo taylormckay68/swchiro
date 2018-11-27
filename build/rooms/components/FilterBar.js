@@ -55,7 +55,7 @@ var FilterBar = function (_Component) {
                         _react2.default.createElement(
                             _FilterBar.MainText,
                             { className: 'main-text' },
-                            this.props.selectedRoom ? this.props.selectedRoom : 'Room',
+                            this.props.selectedRoom ? this.props.selectedStyles.length >= 1 ? this.props.selectedStyles[0] + ' ' + this.props.selectedRoom : this.props.selectedRoom : this.props.selectedStyles.length > 1 ? this.props.selectedStyles[0] + ' ' + this.props.selectedStyles[1] : this.props.selectedStyles.length === 1 ? this.props.selectedStyles[0] : 'Room',
                             ' Ideas'
                         )
                     ),

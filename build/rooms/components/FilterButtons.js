@@ -54,7 +54,8 @@ var FilterButtons = function (_Component) {
     };
 
     _this.applySelections = function () {
-      return _this.props.setStyles(_this.state.selectedStyles);
+      _this.props.setStyles(_this.state.selectedStyles);
+      _this.props.toggleMenu('styleMenu');
     };
 
     _this.clearSelections = function () {
@@ -96,6 +97,7 @@ var FilterButtons = function (_Component) {
           _react2.default.createElement(_InnerButton2.default, {
             roomMenu: roomMenu,
             selectedRoom: selectedRoom,
+            selectedStyles: selectedStyles,
             styleMenu: styleMenu,
             toggleMenu: toggleMenu,
             type: 'room'
@@ -121,6 +123,7 @@ var FilterButtons = function (_Component) {
           _react2.default.createElement(_InnerButton2.default, {
             roomMenu: roomMenu,
             selectedRoom: selectedRoom,
+            selectedStyles: selectedStyles,
             styleMenu: styleMenu,
             toggleMenu: toggleMenu,
             type: 'style'

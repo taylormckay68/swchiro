@@ -45,7 +45,10 @@ class FilterButtons extends Component {
     })
   }
 
-  applySelections = () => this.props.setStyles(this.state.selectedStyles)
+  applySelections = () => {
+      this.props.setStyles(this.state.selectedStyles)
+      this.props.toggleMenu('styleMenu');
+    }
   clearSelections = () => this.setState({ selectedStyles: [] })
 
   render() {
@@ -63,6 +66,7 @@ class FilterButtons extends Component {
           <InnerButton
             roomMenu={roomMenu}
             selectedRoom={selectedRoom}
+            selectedStyles={selectedStyles}
             styleMenu={styleMenu}
             toggleMenu={toggleMenu}
             type="room"
@@ -82,6 +86,7 @@ class FilterButtons extends Component {
           <InnerButton
             roomMenu={roomMenu}
             selectedRoom={selectedRoom}
+            selectedStyles={selectedStyles}
             styleMenu={styleMenu}
             toggleMenu={toggleMenu}
             type="style"
