@@ -128,7 +128,7 @@ var RoomIdeas = function (_Component) {
         _RoomIdeas.RoomIdeasDiv,
         { className: 'room-ideas-div' },
         this.state.roomMenu || this.state.styleMenu ? _react2.default.createElement(_RoomIdeas.OffClick, { onClick: this.offClick, className: 'offclick' }) : '',
-        _react2.default.createElement(_RoomIdeas.HeroImg, null),
+        _react2.default.createElement(_RoomIdeas.HeroImg, { alt: 'Explore hundreds of room ideas to inspire your style' }),
         _react2.default.createElement(_MobileFilter2.default, {
           className: 'mobile-filter',
           visible: this.state.mobileMenu,

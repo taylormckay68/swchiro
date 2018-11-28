@@ -45,8 +45,14 @@ class FilterButtons extends Component {
     })
   }
 
+  arraysAreEqual = (a,b) => {
+    return a.sort().toString() === b.sort().toString()
+  }
+
   applySelections = () => {
-    this.props.setStyles(this.state.selectedStyles)
+    if(!this.arraysAreEqual(this.state.selectedStyles, this.props.selectedStyles)) {
+        this.props.setStyles(this.state.selectedStyles)
+    }
     this.props.toggleMenu('styleMenu')
   }
   clearSelections = () => this.setState({ selectedStyles: [] })

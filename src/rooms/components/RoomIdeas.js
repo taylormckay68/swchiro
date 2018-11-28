@@ -99,7 +99,7 @@ class RoomIdeas extends Component {
         ) : (
           ''
         )}
-        <HeroImg />
+        <HeroImg alt="Explore hundreds of room ideas to inspire your style"/>
         <MobileFilter
           className="mobile-filter"
           visible={this.state.mobileMenu}

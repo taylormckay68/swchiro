@@ -73,8 +73,6 @@ var MobileFilter = function (_Component) {
 
         var index = ss.indexOf(style);
 
-        console.log('ONE', ss, 'TWO', ss.slice(0, index).concat(ss.slice(index + 1)));
-
         return {
           selectedStyles: index !== -1 ? ss.slice(0, index).concat(ss.slice(index + 1)) : [].concat(_toConsumableArray(ss), [style])
         };
@@ -129,7 +127,6 @@ var MobileFilter = function (_Component) {
       var index = rooms.indexOf(selectedRoom);
       var modifiedRooms = index !== -1 ? rooms.splice(rooms.indexOf(selectedRoom), 1).concat(rooms) : rooms;
       var styles = _utils.filterData.styles['all-rooms'];
-
       return _react2.default.createElement(
         _MobileFilter.MobFilterWrapper,
         { className: 'mob-filter-wrapper', visible: visible },
@@ -173,6 +170,7 @@ var MobileFilter = function (_Component) {
             selectFunction: handleStyleSelect,
             showAll: showMoreStyles,
             toggleMore: toggleMore,
+            room: pending,
             type: 'Styles'
           })
         ),

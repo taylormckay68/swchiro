@@ -18,6 +18,7 @@ export const MobFilterOptionText = styled.p`
   letter-spacing: normal;
   color: #545658;
   margin-left: 8px;
+  opacity: ${props => props.grayStyle ? '.5' : '1'};
 `
 export const HeaderTextWrapper = styled.div`
   height: 100%;
@@ -149,7 +150,7 @@ export const RoomsFilterOptionsCont = styled.div`
   display: flex;
   align-items: center;
   margin-top: 24px;
-  cursor: pointer;
+  cursor: ${props => props.grayStyle ? 'default' : 'pointer'};
 `
 export const ToggleMore = styled.div`
   font-family: HelveticaNeue;

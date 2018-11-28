@@ -44,7 +44,7 @@ export const FixedFilterButton = styled.div`
     }
 `
 export const MainText = styled.h1`
-    height: 44px;
+    /* height: 44px; */
     font-family: HelveticaNeue;
     font-size: 28px;
     font-weight: bold;
@@ -52,6 +52,9 @@ export const MainText = styled.h1`
     color: #545658;
     line-height: 1.57;
     margin: 0;
+    @media(min-width: 743px) {
+        width: 50vw;
+    }
 `
 export const TextWrapper = styled.div`
 `

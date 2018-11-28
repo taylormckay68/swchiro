@@ -50,14 +50,7 @@ class MobileFilter extends Component {
     this.setState(state => {
       const { selectedStyles: ss } = state
       const index = ss.indexOf(style)
-
-      console.log(
-        'ONE',
-        ss,
-        'TWO',
-        ss.slice(0, index).concat(ss.slice(index + 1))
-      )
-
+      
       return {
         selectedStyles:
           index !== -1
@@ -96,7 +89,6 @@ class MobileFilter extends Component {
         ? rooms.splice(rooms.indexOf(selectedRoom), 1).concat(rooms)
         : rooms
     const styles = filterData.styles['all-rooms']
-
     return (
       <MobFilterWrapper className="mob-filter-wrapper" visible={visible}>
         <MobileInnerWrapper>
@@ -125,6 +117,7 @@ class MobileFilter extends Component {
             selectFunction={handleStyleSelect}
             showAll={showMoreStyles}
             toggleMore={toggleMore}
+            room={pending}
             type="Styles"
           />
         </MobileInnerWrapper>

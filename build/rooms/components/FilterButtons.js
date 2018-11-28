@@ -53,8 +53,14 @@ var FilterButtons = function (_Component) {
       });
     };
 
+    _this.arraysAreEqual = function (a, b) {
+      return a.sort().toString() === b.sort().toString();
+    };
+
     _this.applySelections = function () {
-      _this.props.setStyles(_this.state.selectedStyles);
+      if (!_this.arraysAreEqual(_this.state.selectedStyles, _this.props.selectedStyles)) {
+        _this.props.setStyles(_this.state.selectedStyles);
+      }
       _this.props.toggleMenu('styleMenu');
     };
 

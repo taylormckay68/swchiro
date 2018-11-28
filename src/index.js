@@ -142,7 +142,6 @@ function serverPageLoader(req, res) {
           (modRoom && styleCheck.length ? ')' : '')
         : ''
     let extension = roomQuery ? `&filter=label:${roomQuery}` : ''
-    console.log('extension: ', extension)
     fetch(
       `https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?requireProduct=true&sort=Optimized&limit=18${extension}`
     )
@@ -150,6 +149,7 @@ function serverPageLoader(req, res) {
         return response.json()
       })
       .then(data => {
+        console.log(data.data.items[0]);
         roomData.room = modRoom ? filterCase(modRoom) : ''
         roomData.style =
           styleCheck && styleCheck.length
@@ -160,7 +160,7 @@ function serverPageLoader(req, res) {
             imageUrl: e.media.large.link,
             redirectUrl: `https://www.overstock.com/welcome?pageId=k8s2498&asset_id=${
               e.id
-            }${extension}`
+            }${extension}` 
           }
         })
         roomData.nextData =
