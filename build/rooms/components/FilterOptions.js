@@ -32,19 +32,23 @@ exports.default = function (_ref) {
 
   return (type === 'room' ? modifiedRooms : styles).map(function (e, i) {
     var selected = type === 'room' ? e === selectedRoom : selectedStyles.indexOf(e) !== -1;
-
+    var modifiedRoom = selectedRoom ? selectedRoom.toLowerCase().replace(' ', '-') : '';
+    var grayStyle = modifiedRoom && type === 'style' ? _utils.filterData.styles[modifiedRoom].indexOf(e) === -1 : false;
     return _react2.default.createElement(
       _Filters.FilterOptionContainer,
       {
         key: e,
         className: 'filter-option-container',
-        onClick: type === 'room' ? selectRoom.bind(undefined, e) : function () {
+        onClick: type === 'room' ? selectRoom.bind(undefined, e) : !grayStyle ? function () {
           return toggleStyle(e);
-        }
+        } : ''
       },
       _react2.default.createElement(
         _Filters.FilterOptionWrapper,
-        { className: 'filter-option-wrapper' },
+        {
+          className: 'filter-option-wrapper',
+          grayStyle: grayStyle
+        },
         type === 'room' ? _react2.default.createElement(
           _Filters.CheckWrapper,
           { className: 'check-wrapper', visible: selected },
@@ -73,7 +77,8 @@ exports.default = function (_ref) {
           {
             key: e,
             className: 'filter-option-text',
-            bold: selected
+            bold: selected,
+            grayStyle: grayStyle
           },
           e
         )

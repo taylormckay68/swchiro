@@ -28,16 +28,21 @@ export default ({
   return (type === 'room' ? modifiedRooms : styles).map((e, i) => {
     const selected =
       type === 'room' ? e === selectedRoom : selectedStyles.indexOf(e) !== -1
-
+    let modifiedRoom = selectedRoom ? selectedRoom.toLowerCase().replace(' ', '-') : '';
+    const grayStyle = 
+      modifiedRoom && type === 'style' ? filterData.styles[modifiedRoom].indexOf(e) === -1 : false;
     return (
       <FilterOptionContainer
         key={e}
         className="filter-option-container"
         onClick={
-          type === 'room' ? selectRoom.bind(this, e) : () => toggleStyle(e)
+          type === 'room' ? selectRoom.bind(this, e) : (!grayStyle ? () => toggleStyle(e) : '')
         }
       >
-        <FilterOptionWrapper className="filter-option-wrapper">
+        <FilterOptionWrapper 
+          className="filter-option-wrapper"
+          grayStyle={grayStyle}
+          >
           {type === 'room' ? (
             <CheckWrapper className="check-wrapper" visible={selected}>
               <ActionCheckThin
@@ -63,6 +68,7 @@ export default ({
             key={e}
             className="filter-option-text"
             bold={selected}
+            grayStyle={grayStyle}
           >
             {e}
           </FilterOptionText>
