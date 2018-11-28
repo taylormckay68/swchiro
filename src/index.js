@@ -112,7 +112,6 @@ function serverPageLoader (req, res) {
       modRoom + (modRoom && styleCheck.length ? '%20and%20(label:' : '') + (styleCheck.length ? styleCheck.join('%20or%20label:') : '') + (modRoom && styleCheck.length ? ')' : '')  
       : '';
     let extension = roomQuery ? `&filter=label:${roomQuery}` : '';
-    console.log("extension: ", extension);
     fetch(`https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?requireProduct=true&sort=Optimized&limit=18${extension}`)
     .then(function(response) {
       return response.json()

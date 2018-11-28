@@ -49,6 +49,7 @@ export const FilterOptionWrapper = styled.div`
     width: 100%;
     display: flex;
     align-items: center;
+    cursor: ${props => props.grayStyle ? 'default' : 'pointer'}
 `
 export const FilterOptionText = styled.p`
     font-family: HelveticaNeue;
@@ -57,6 +58,7 @@ export const FilterOptionText = styled.p`
     line-height: 1.71;
     color: #545658;
     margin-left: 8px;
+    opacity: ${props => props.grayStyle ? '.5' : '1'}
 `
 export const StyleFilterWrapper = styled.div`
     height: 264px;

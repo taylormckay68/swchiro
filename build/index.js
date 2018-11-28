@@ -143,7 +143,6 @@ function serverPageLoader(req, res) {
   } else {
     var roomQuery = key !== 'default' ? modRoom + (modRoom && styleCheck.length ? '%20and%20(label:' : '') + (styleCheck.length ? styleCheck.join('%20or%20label:') : '') + (modRoom && styleCheck.length ? ')' : '') : '';
     var extension = roomQuery ? "&filter=label:" + roomQuery : '';
-    console.log("extension: ", extension);
     (0, _nodeFetch2.default)("https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?requireProduct=true&sort=Optimized&limit=18" + extension).then(function (response) {
       return response.json();
     }).then(function (data) {
