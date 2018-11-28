@@ -58,8 +58,8 @@ var RoomIdeas = function (_Component) {
 
     _this.selectRoom = function (room) {
       var rm = room === _this.state.selectedRoom ? '' : room;
-      room && _this.props.fetchModsData(rm, _this.state.selectedStyles);
-      _this.setState({ selectedRoom: rm });
+      _this.setState({ selectedRoom: rm, selectedStyles: [] });
+      room && _this.props.fetchModsData(rm, []);
       _this.toggleMenu('roomMenu');
     };
 

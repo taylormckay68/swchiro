@@ -97,7 +97,7 @@ var FilterButtons = function (_Component) {
           _react2.default.createElement(_InnerButton2.default, {
             roomMenu: roomMenu,
             selectedRoom: selectedRoom,
-            selectedStyles: selectedStyles,
+            selectedStyles: this.props.selectedStyles,
             styleMenu: styleMenu,
             toggleMenu: toggleMenu,
             type: 'room'
@@ -123,7 +123,7 @@ var FilterButtons = function (_Component) {
           _react2.default.createElement(_InnerButton2.default, {
             roomMenu: roomMenu,
             selectedRoom: selectedRoom,
-            selectedStyles: selectedStyles,
+            selectedStyles: this.props.selectedStyles,
             styleMenu: styleMenu,
             toggleMenu: toggleMenu,
             type: 'style'

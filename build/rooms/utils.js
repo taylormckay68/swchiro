@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 var filterData = exports.filterData = {
-    rooms: ['Bedroom', 'Office', 'Bathroom', 'Outdoor', 'Dining Room', 'Kitchen', 'Living Room', 'Kids Bedroom', 'Entryway'],
+    rooms: ['Bedroom', 'Office', 'Bathroom', 'Outdoor', 'Dining Room', 'Kitchen', 'Living Room', 'Kids Bedroom', 'Entryway', 'Nursery', 'Guest Room'],
     roomModified: [],
     styles: {
         'all-rooms': ['Boho', 'Coastal', 'Colonial', 'Contemporary', 'Eclectic', 'Farmhouse', 'French Country', 'Glam', 'Hygge', 'Industrial', 'Mid Century', 'Minimalist', 'Modern', 'Rustic', 'Scandinavian', 'Shabby Chic', 'Southwestern', 'Traditional', 'Transitional', 'Updated Global', 'Urban Industrial'],
@@ -21,9 +21,15 @@ var filterData = exports.filterData = {
 
         'kitchen': ['Farmhouse', 'Transitional', 'Scandinavian', 'Modern', 'Rustic', 'Glam'],
 
-        'living-room': ['Transitional', 'Scandinavian', 'Modern', 'Boho', 'Eclectic', 'Minimalist', 'Updated Global', 'Farmhouse', 'Glam', 'Mid Century', 'Contemporary', 'Colonial', 'Traditional']
+        'living-room': ['Transitional', 'Scandinavian', 'Modern', 'Boho', 'Eclectic', 'Minimalist', 'Updated Global', 'Farmhouse', 'Glam', 'Mid Century', 'Contemporary', 'Colonial', 'Traditional'],
 
-        // 'kids-bedroom': 
+        'kids-bedroom': ['transitional', 'glam', 'rustic', 'industrial', 'eclectic', 'minimalist', 'scandinavian', 'urban-industrial', 'southwestern', 'boho', 'hygge'],
+
+        'entryway': ['boho', 'modern', 'farmhouse', 'southwestern'],
+
+        'nursery': ['transitional', 'modern', 'boho', 'mid-century', 'modern'],
+
+        'guest-room': ['mid-century', 'transitional', 'eclectic', 'minimalist', 'farmhouse', 'hygge', 'boho']
     }
 };
 var styleData = exports.styleData = {

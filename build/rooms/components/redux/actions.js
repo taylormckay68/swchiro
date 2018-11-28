@@ -86,12 +86,8 @@ var fetchModsData = exports.fetchModsData = function fetchModsData(room, styles)
   var styleString = styles.map(function (style) {
     return style.toLowerCase().replace(' ', '-');
   }).join('%20or%20label:');
-  var styleQuery = roomName ? '%20and%20(label:' + styleString + ')' : styleString;
-
+  var styleQuery = roomName ? styleString ? '%20and%20(label:' + styleString + ')' : '' : styleString;
   var query = roomName || styleQuery ? '&filter=label:' + roomName + styleQuery : '';
-
-  console.log('QUERY', query);
-
   return function (dispatch) {
     dispatch(requestModsData());
     (0, _crossFetch2.default)('https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?requireProduct=true&sort=Optimized&limit=18' + query).then(function (response) {

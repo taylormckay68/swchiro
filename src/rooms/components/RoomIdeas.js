@@ -36,8 +36,8 @@ class RoomIdeas extends Component {
   }
   selectRoom = room => {
     const rm = room === this.state.selectedRoom ? '' : room
-    room && this.props.fetchModsData(rm, this.state.selectedStyles)
-    this.setState({ selectedRoom: rm })
+    this.setState({ selectedRoom: rm , selectedStyles: []})
+    room && this.props.fetchModsData(rm, [])
     this.toggleMenu('roomMenu')
   }
   mobileSelectFilter = (room, styles) => {
