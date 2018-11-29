@@ -88,6 +88,7 @@ var fetchModsData = exports.fetchModsData = function fetchModsData(room, styles)
   }).join('%20or%20label:');
   var styleQuery = roomName ? styleString ? '%20and%20(label:' + styleString + ')' : '' : styleString;
   var query = roomName || styleQuery ? '&filter=label:' + roomName + styleQuery : '';
+  var altText = room ? styles.length ? styles[0] + ' ' + room + ' Design' : room + ' Design' : styles.length ? styles[0] + ' Room Design' : 'Room Design';
   return function (dispatch) {
     dispatch(requestModsData());
     (0, _crossFetch2.default)('https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?requireProduct=true&sort=Optimized&limit=18' + query).then(function (response) {
@@ -96,11 +97,13 @@ var fetchModsData = exports.fetchModsData = function fetchModsData(room, styles)
       return dispatch(requestModsDataFailure(error));
     }).then(function (json) {
       var redirectRoomQuery = roomName ? '&room=' + roomName : '';
+      var redirectStyleQuery = styles.length ? '&style=' + styles.join(',').toLowerCase().replace(' ', '-') : '';
       var items = json.data ? json.data.items.length ? json.data.items : [] : {};
       var newData = items.map(function (e) {
         return {
           imageUrl: e.media.large.link,
-          redirectUrl: 'https://www.overstock.com/welcome?pageId=k8s2498&asset_id=' + e.id + redirectRoomQuery
+          redirectUrl: 'https://www.overstock.com/welcome?pageId=k8s2498&asset_id=' + e.id + redirectRoomQuery + redirectStyleQuery,
+          altTag: altText
         };
       });
       var nextRoomsData = json.paging.next;
@@ -110,7 +113,7 @@ var fetchModsData = exports.fetchModsData = function fetchModsData(room, styles)
     });
   };
 };
-var fetchNextModsData = exports.fetchNextModsData = function fetchNextModsData(nextUrl, room) {
+var fetchNextModsData = exports.fetchNextModsData = function fetchNextModsData(nextUrl, room, styles) {
   var roomName = room.length ? room.toLowerCase().replace(' ', '-') : '';
   return function (dispatch) {
     dispatch(requestNextModsData());
@@ -118,11 +121,12 @@ var fetchNextModsData = exports.fetchNextModsData = function fetchNextModsData(n
       return response.status !== 200 ? Error(response.statusText) : response.json();
     }).then(function (json) {
       var redirectRoomQuery = roomName ? '&room=' + roomName : '';
+      var redirectStyleQuery = styles.length ? '&style=' + styles.join(',').toLowerCase().replace(' ', '-') : '';
       var items = json.data ? json.data.items.length ? json.data.items : [] : {};
       var newData = items.map(function (e) {
         return {
           imageUrl: e.media.large.link,
-          redirectUrl: 'https://www.overstock.com/welcome?pageId=k8s2498&asset_id=' + e.id + redirectRoomQuery
+          redirectUrl: 'https://www.overstock.com/welcome?pageId=k8s2498&asset_id=' + e.id + redirectRoomQuery + redirectStyleQuery
         };
       });
       var nextRoomsData = json.paging.next;

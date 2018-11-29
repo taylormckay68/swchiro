@@ -66,6 +66,13 @@ export const fetchModsData = (room, styles) => {
     : styleString
   let query =
     roomName || styleQuery ? `&filter=label:${roomName}${styleQuery}` : ''
+  let altText = room 
+    ? (styles.length 
+      ? `${styles[0]} ${room} Design`
+      : `${room} Design`)
+    : (styles.length 
+      ? `${styles[0]} Room Design`
+      : `Room Design`)
   return dispatch => {
     dispatch(requestModsData())
     fetch(
@@ -81,6 +88,7 @@ export const fetchModsData = (room, styles) => {
       })
       .then(json => {
         let redirectRoomQuery = roomName ? `&room=${roomName}` : ''
+        let redirectStyleQuery = styles.length ? `&style=${styles.join(',').toLowerCase().replace(' ', '-')}` : ''
         let items = json.data
           ? json.data.items.length
             ? json.data.items
@@ -91,7 +99,8 @@ export const fetchModsData = (room, styles) => {
             imageUrl: e.media.large.link,
             redirectUrl: `https://www.overstock.com/welcome?pageId=k8s2498&asset_id=${
               e.id
-            }${redirectRoomQuery}`
+            }${redirectRoomQuery}${redirectStyleQuery}`,
+            altTag: altText
           }
         })
         let nextRoomsData = json.paging.next
@@ -100,7 +109,7 @@ export const fetchModsData = (room, styles) => {
       .catch(error => dispatch(requestModsDataFailure(error)))
   }
 }
-export const fetchNextModsData = (nextUrl, room) => {
+export const fetchNextModsData = (nextUrl, room, styles) => {
   let roomName = room.length ? room.toLowerCase().replace(' ', '-') : ''
   return dispatch => {
     dispatch(requestNextModsData())
@@ -110,6 +119,7 @@ export const fetchNextModsData = (nextUrl, room) => {
       )
       .then(json => {
         let redirectRoomQuery = roomName ? `&room=${roomName}` : ''
+        let redirectStyleQuery = styles.length ? `&style=${styles.join(',').toLowerCase().replace(' ', '-')}` : ''
         let items = json.data
           ? json.data.items.length
             ? json.data.items
@@ -120,7 +130,7 @@ export const fetchNextModsData = (nextUrl, room) => {
             imageUrl: e.media.large.link,
             redirectUrl: `https://www.overstock.com/welcome?pageId=k8s2498&asset_id=${
               e.id
-            }${redirectRoomQuery}`
+            }${redirectRoomQuery}${redirectStyleQuery}`
           }
         })
         let nextRoomsData = json.paging.next

@@ -53,7 +53,7 @@ var RoomIdeas = function (_Component) {
     var _this = _possibleConstructorReturn(this, (RoomIdeas.__proto__ || Object.getPrototypeOf(RoomIdeas)).call(this, props));
 
     _this.loadMore = function () {
-      _this.props.nextRoomsData && _this.props.fetchNextModsData(_this.props.nextRoomsData, _this.state.selectedRoom);
+      _this.props.nextRoomsData && _this.props.fetchNextModsData(_this.props.nextRoomsData, _this.state.selectedRoom, _this.state.selectedStyles);
     };
 
     _this.selectRoom = function (room) {
@@ -148,6 +148,7 @@ var RoomIdeas = function (_Component) {
           selectRoom: this.selectRoom
         })),
         this.props.isFetching ? _react2.default.createElement(_LoadingLogo2.default, { center: true }) : _react2.default.createElement(_ProductGrid2.default, { className: 'product-grid', config: _utils.config }),
+        this.props.isFetchingNext && _react2.default.createElement(_LoadingLogo2.default, { center: true }),
         this.props.nextRoomsData && !this.props.isFetchingNext && !this.props.isFetching && _react2.default.createElement(
           _RoomIdeas.LoadMore,
           { onClick: this.loadMore, className: 'load-more' },

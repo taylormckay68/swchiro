@@ -31,7 +31,8 @@ class RoomIdeas extends Component {
     this.props.nextRoomsData &&
       this.props.fetchNextModsData(
         this.props.nextRoomsData,
-        this.state.selectedRoom
+        this.state.selectedRoom,
+        this.state.selectedStyles
       )
   }
   selectRoom = room => {
@@ -124,7 +125,7 @@ class RoomIdeas extends Component {
         ) : (
           <ProductGrid className="product-grid" config={config} />
         )}
-        {/* {this.props.isFetchingNext && <LoadingLogo center/> } */}
+        {this.props.isFetchingNext && <LoadingLogo center/> }
         {this.props.nextRoomsData &&
           !this.props.isFetchingNext &&
           !this.props.isFetching && (

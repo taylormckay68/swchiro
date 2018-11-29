@@ -23,13 +23,13 @@ var filterData = exports.filterData = {
 
         'living-room': ['Transitional', 'Scandinavian', 'Modern', 'Boho', 'Eclectic', 'Minimalist', 'Updated Global', 'Farmhouse', 'Glam', 'Mid Century', 'Contemporary', 'Colonial', 'Traditional'],
 
-        'kids-bedroom': ['transitional', 'glam', 'rustic', 'industrial', 'eclectic', 'minimalist', 'scandinavian', 'urban-industrial', 'southwestern', 'boho', 'hygge'],
+        'kids-bedroom': ['Transitional', 'Glam', 'Rustic', 'Industrial', 'Eclectic', 'Minimalist', 'Scandinavian', 'Urban Industrial', 'Southwestern', 'Boho', 'Hygge'],
 
-        'entryway': ['boho', 'modern', 'farmhouse', 'southwestern'],
+        'entryway': ['Boho', 'Modern', 'Farmhouse', 'Southwestern'],
 
-        'nursery': ['transitional', 'modern', 'boho', 'mid-century', 'modern'],
+        'nursery': ['Transitional', 'Modern', 'Boho', 'Mid Century', 'Modern'],
 
-        'guest-room': ['mid-century', 'transitional', 'eclectic', 'minimalist', 'farmhouse', 'hygge', 'boho']
+        'guest-room': ['Mid Century', 'Transitional', 'Eclectic', 'Minimalist', 'Farmhouse', 'Hygge', 'Boho']
     }
 };
 var styleData = exports.styleData = {
