@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import RoomIdeas from './components/RoomIdeas';
+import Main from './components/Main';
 
 class Root extends Component {
     render() {
         return (
           <div id="userActiveRooms">
-            <RoomIdeas {...this.props}/>
+            <Main {...this.props}/>
           </div>
         )
     }

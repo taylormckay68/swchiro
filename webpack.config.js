@@ -3,7 +3,7 @@ const webpack = require('webpack');
 //const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
-    entry: ['./src/rooms/bundle.js'],
+    entry: ['./src/home/bundle.js'],
     module: {
         rules: [
             {
@@ -12,7 +12,11 @@ module.exports = {
                 use: {
                     loader: 'babel-loader'
                 }
-            }
+            },
+            {
+                test: /\.(png|jpg|)$/,
+                loader: 'url-loader?limit=200000'
+              }
         ]
     },
     output: {

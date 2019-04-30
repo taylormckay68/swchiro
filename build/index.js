@@ -14,7 +14,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _server = require("react-dom/server");
 
-var _Root = require("./rooms/Root");
+var _Root = require("./home/Root");
 
 var _Root2 = _interopRequireDefault(_Root);
 
@@ -28,23 +28,9 @@ var _compression = require("compression");
 
 var _compression2 = _interopRequireDefault(_compression);
 
-var _utils = require("./rooms/utils");
-
-var _store = require("./rooms/components/redux/store");
-
-var _store2 = _interopRequireDefault(_store);
-
-var _reactRedux = require("react-redux");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-var CronJob = require("cron").CronJob;
-
-var store = (0, _store2.default)();
-
-var PORT = process.env.PORT || 3001;
+var PORT = process.env.PORT || 3000;
 
 var app = (0, _express2.default)();
 app.use((0, _compression2.default)());
@@ -56,124 +42,10 @@ _fs2.default.readFile("./dist/js/bundle.min.js", "utf8", function (err, data) {
   bundle = data || "";
 });
 
-function generateFullArray() {
-  return _utils.filterData.rooms.map(function (rm) {
-    return format(rm);
-  }).concat(_utils.filterData.styles["all-rooms"].map(function (sty) {
-    return format(sty);
-  })).concat(combine(_utils.filterData.styles));
-}
-function combine(obj) {
-  return Object.keys(obj).map(function (key) {
-    return key === "all-rooms" ? null : obj[key].map(function (el) {
-      return key + "_" + format(el);
-    });
-  }).filter(function (el) {
-    return !!el;
-  }).reduce(function (a, b) {
-    return a.concat(b);
-  });
-}
-
-function format(str) {
-  return str.toLowerCase().replace(/ /g, "-");
-}
-function filterCase(str) {
-  return str.split("-").map(function (e) {
-    return e.charAt(0).toUpperCase() + e.substring(1);
-  }).join(" ");
-}
-
-new CronJob("0 0 0 * * *", function () {
-  var cronArray = generateFullArray();
-  var cronData = cronArray.length ? [""].concat(_toConsumableArray(cronArray)) : [];
-  dataObj.data = {};
-  dataObj.nextData = {};
-  cronData.map(function (e, i) {
-    setTimeout(function () {
-      var filters = e.split("_");
-      var room = filters.length === 2 ? filters[0] : filters.length === 1 && _utils.filterData.rooms.indexOf(filterCase(filters[0])) !== -1 ? filters[0] : '';
-      var style = room && filters.length > 1 ? filters[1] : !room && filters.length && filters[0] ? filters[0] : '';
-      var altText = room ? style ? filterCase(style) + " " + filterCase(room) + " Design" : filterCase(room) + " Design" : style ? filterCase(style) + " Room Design" : "Room Design";
-      var key = e || "default";
-      var firstFilter = e ? filters.splice(0, 1) : "default";
-      var roomQuery = key !== "default" ? firstFilter + (filters.length ? "%20and%20(label:" + filters.join("%20or%20label:") + ")" : "") : "";
-      var extension = roomQuery ? "&filter=label:" + roomQuery : "";
-      (0, _nodeFetch2.default)("https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?requireProduct=true&sort=Optimized&limit=18" + extension).then(function (response) {
-        console.log("Cron Job " + (i + 1) + " Fired");
-        return response.json();
-      }).then(function (data) {
-        dataObj.data[key] = {};
-        dataObj.nextData[key] = data.paging && data.paging.next ? data.paging.next : "";
-        var items = data.data ? data.data.items.length ? data.data.items : [] : {};
-        var redirectRoomQuery = room ? "&room=" + room : "";
-        var redirectStyleQuery = style ? "&style=" + style : '';
-        dataObj.data[key] = items.map(function (el) {
-          return {
-            imageUrl: el.media.large.link,
-            redirectUrl: "https://www.overstock.com/welcome?pageId=k8s2498&asset_id=" + el.id + redirectRoomQuery + redirectStyleQuery,
-            altTag: altText
-          };
-        });
-      }).catch(errHandle);
-    }, 2000 * i);
-  });
-}, null, true, "America/Los_Angeles", null, true);
-
 function serverPageLoader(req, res) {
-  var _req$query = req.query,
-      room = _req$query.room,
-      style = _req$query.style;
-
-  var roomData = {};
-  var modRoom = room && room.length ? _utils.filterData.rooms.indexOf(filterCase(room.toLowerCase())) !== -1 ? room.toLowerCase() : "" : "";
-  var styleArr = style && style.length ? style.split(",") : [];
-  var styleCheck = modRoom ? styleArr.length ? styleArr.filter(function (e) {
-    return _utils.filterData.styles[modRoom].indexOf(filterCase(e)) !== -1;
-  }) : [] : styleArr.length ? styleArr.filter(function (e) {
-    return _utils.filterData.styles["all-rooms"].indexOf(filterCase(e)) !== -1;
-  }) : [];
-
-  var key = modRoom ? styleCheck && styleCheck.length ? styleCheck.length === 1 ? modRoom + "_" + styleCheck[0].toLowerCase() : null : modRoom : styleCheck && styleCheck.length ? styleCheck.length === 1 ? styleCheck[0] : null : "default";
-
-  if (key && key !== "default" && dataObj && dataObj.data && dataObj.data[key] && dataObj.data[key].length) {
-    roomData.room = modRoom ? filterCase(modRoom) : "";
-    roomData.style = styleCheck && styleCheck.length ? styleCheck.map(function (e) {
-      return filterCase(e);
-    }) : [];
-    roomData.data = dataObj.data[key];
-    roomData.nextData = dataObj.nextData[key];
-    res.set("Cache-Control", "public, max-age=31557600");
-    res.send(returnHTML(roomData, _Root2.default));
-  } else {
-    var roomQuery = key !== "default" ? modRoom + (modRoom && styleCheck.length ? "%20and%20(label:" : "") + (styleCheck.length ? styleCheck.join("%20or%20label:") : "") + (modRoom && styleCheck.length ? ")" : "") : "";
-    var extension = roomQuery ? "&filter=label:" + roomQuery : "";
-    (0, _nodeFetch2.default)("https://api-2.curalate.com/v1/media/gFNSZQbGWhQpNfaK?requireProduct=true&sort=Optimized&limit=18" + extension).then(function (response) {
-      return response.json();
-    }).then(function (data) {
-      roomData.room = modRoom ? filterCase(modRoom) : "";
-      roomData.style = styleCheck && styleCheck.length ? styleCheck.map(function (e) {
-        return filterCase(e);
-      }) : [];
-      var room = roomData.room,
-          style = roomData.style;
-
-      var redirectRoomQuery = modRoom ? "&room=" + modRoom : "";
-      var redirectStyleQuery = styleCheck.length ? "&style=" + styleCheck.join(",") : "";
-      var altText = room ? style.length ? style[0] + " " + room + " Design" : room + " Design" : style.length > 1 ? style[0] + " or " + style[1] + " Room Design" : style.length === 1 ? style[0] + " Room Design" : "Room Design";
-      roomData.data = data.data.items.map(function (e) {
-        return {
-          imageUrl: e.media.large.link,
-          redirectUrl: "https://www.overstock.com/welcome?pageId=k8s2498&asset_id=" + e.id + redirectRoomQuery + redirectStyleQuery,
-          altTag: altText
-        };
-      });
-      roomData.nextData = data.paging && data.paging.next ? data.paging.next : "";
-
-      res.set("Cache-Control", "public, max-age=31557600");
-      res.send(returnHTML(roomData, _Root2.default));
-    }).catch(errHandle);
-  }
+  var data = {};
+  res.set("Cache-Control", "public, max-age=31557600");
+  res.send(returnHTML(data, _Root2.default));
 }
 
 app.get("/", serverPageLoader);
@@ -188,18 +60,6 @@ app.listen(PORT, function () {
 
 // functions!!!!!!!!!!!!!
 
-function getQueries(req, res) {
-  var qOb = {};
-  var queries = req && req._parsedUrl && req._parsedUrl.query && req._parsedUrl.query.split("&") ? req._parsedUrl.query.split("&") : [];
-  if (queries.length) {
-    queries.forEach(function (x) {
-      var y = x.split("=");
-      qOb[y[0]] = y[1];
-    });
-  }
-  return qOb;
-}
-
 function fetcher(url) {
   return (0, _nodeFetch2.default)(url).then(function (response) {
     if (response.status !== 200) throw Error(response.statusText);
@@ -212,11 +72,7 @@ function fetcher(url) {
 function returnHTML(data, Root) {
   var dataString = JSON.stringify(data);
   var sheet = new _styledComponents.ServerStyleSheet();
-  var body = (0, _server.renderToString)(sheet.collectStyles(_react2.default.createElement(
-    _reactRedux.Provider,
-    { store: store },
-    _react2.default.createElement(Root, { data: data })
-  )));
+  var body = (0, _server.renderToString)(sheet.collectStyles(_react2.default.createElement(Root, { data: data })));
   var styles = sheet.getStyleTags();
   return "\n    <!DOCTYPE html>\n      <html lang=\"en\">\n        <head>\n          <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n          <title>Room Ideas</title>\n          <meta name=\"Description\" content=\"Room Ideas. Explore hundreds of room ideas to inspire your style.\">\n        </head>\n        <script>window.__LPO__=" + dataString + "</script>\n        " + styles + "\n        <style>body {margin: 0;}</style>\n        <div id=\"app\">" + body + "</div>\n        <script defer>" + bundle + "</script>\n      </html>\n    ";
 }
