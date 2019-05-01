@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import Navbar from './Navbar';
-import {MainDiv} from './styled-components/Main'
+import {MainDiv} from './styled-components/Main';
+import Hero from './Hero';
+import Services from './Services';
+import About from './About';
 
 class Main extends Component {
   constructor(props) {
@@ -12,8 +15,11 @@ class Main extends Component {
 
   render() {
     return (
-      <MainDiv className="room-ideas-div">
-        <Navbar/>
+      <MainDiv className="main-div">
+        {/* <Navbar/> */}
+        <Hero className="hero"/>
+        <Services className="services"/>
+        <About className="about"/>
       </MainDiv>
     )
   }

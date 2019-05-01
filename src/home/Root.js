@@ -4,7 +4,7 @@ import Main from './components/Main';
 class Root extends Component {
     render() {
         return (
-          <div id="userActiveRooms">
+          <div id="bd">
             <Main {...this.props}/>
           </div>
         )

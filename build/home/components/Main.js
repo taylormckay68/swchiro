@@ -16,6 +16,18 @@ var _Navbar2 = _interopRequireDefault(_Navbar);
 
 var _Main = require('./styled-components/Main');
 
+var _Hero = require('./Hero');
+
+var _Hero2 = _interopRequireDefault(_Hero);
+
+var _Services = require('./Services');
+
+var _Services2 = _interopRequireDefault(_Services);
+
+var _About = require('./About');
+
+var _About2 = _interopRequireDefault(_About);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -41,8 +53,10 @@ var Main = function (_Component) {
     value: function render() {
       return _react2.default.createElement(
         _Main.MainDiv,
-        { className: 'room-ideas-div' },
-        _react2.default.createElement(_Navbar2.default, null)
+        { className: 'main-div' },
+        _react2.default.createElement(_Hero2.default, { className: 'hero' }),
+        _react2.default.createElement(_Services2.default, { className: 'services' }),
+        _react2.default.createElement(_About2.default, { className: 'about' })
       );
     }
   }]);

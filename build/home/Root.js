@@ -36,7 +36,7 @@ var Root = function (_Component) {
     value: function render() {
       return _react2.default.createElement(
         'div',
-        { id: 'userActiveRooms' },
+        { id: 'bd' },
         _react2.default.createElement(_Main2.default, this.props)
       );
     }
