@@ -7,7 +7,7 @@ export default function Main() {
     return(
         <div>
             <Navbar/>
-            {router}
+            {/* {router} */}
         </div>
     )
 }

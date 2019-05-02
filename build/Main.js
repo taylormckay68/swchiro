@@ -25,7 +25,6 @@ function Main() {
     return _react2.default.createElement(
         'div',
         null,
-        _react2.default.createElement(_Navbar2.default, null),
-        _router2.default
+        _react2.default.createElement(_Navbar2.default, null)
     );
 }
