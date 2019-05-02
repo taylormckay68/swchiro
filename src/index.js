@@ -35,7 +35,11 @@ app.get("/*", (req, res) => {
 
 app.get("/health", (req, res) => res.send("OK"));
 
-app.listen(PORT, function() {
+// app.listen(PORT, function() {
+//   console.log(`Running on http://localhost:${PORT}`);
+// });
+
+app.listen(process.env.PORT || 3000, function(){
   console.log(`Running on http://localhost:${PORT}`);
 });
 
