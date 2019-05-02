@@ -1,6 +1,7 @@
 import React from 'react'
 import Navbar from './Navbar';
 import router from './router';
+import {Route, Switch} from 'react-router-dom';
 // import {} from './styled-components/Root';
 
 export default function Main() {
@@ -8,6 +9,14 @@ export default function Main() {
         <div>
             <Navbar/>
             {/* {router} */}
+            <Switch>
+                <Route exact path="/" render={() => {
+                    return(
+                        <div>home</div>
+                    )
+                }}/>
+            </Switch>
+
         </div>
     )
 }

@@ -17,6 +17,8 @@ var _router = require('./router');
 
 var _router2 = _interopRequireDefault(_router);
 
+var _reactRouterDom = require('react-router-dom');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // import {} from './styled-components/Root';
@@ -25,6 +27,17 @@ function Main() {
     return _react2.default.createElement(
         'div',
         null,
-        _react2.default.createElement(_Navbar2.default, null)
+        _react2.default.createElement(_Navbar2.default, null),
+        _react2.default.createElement(
+            _reactRouterDom.Switch,
+            null,
+            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', render: function render() {
+                    return _react2.default.createElement(
+                        'div',
+                        null,
+                        'home'
+                    );
+                } })
+        )
     );
 }
