@@ -2,7 +2,7 @@ import React from 'react'
 import Navbar from './Navbar';
 import router from './router';
 import {Route, Switch} from 'react-router-dom';
-import Test from './Test.js';
+import Test from './Home/Test';
 // import {} from './styled-components/Root';
 
 export default function Main() {
