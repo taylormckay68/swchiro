@@ -19,16 +19,15 @@ var _router2 = _interopRequireDefault(_router);
 
 var _reactRouterDom = require('react-router-dom');
 
-var _Home = require('./Home/Home.js');
+var _Test = require('./Test.js');
 
-var _Home2 = _interopRequireDefault(_Home);
+var _Test2 = _interopRequireDefault(_Test);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // import {} from './styled-components/Root';
 
 function Main() {
-    console.log('home: ', _Home2.default);
     return _react2.default.createElement(
         'div',
         null,
@@ -36,13 +35,7 @@ function Main() {
         _react2.default.createElement(
             _reactRouterDom.Switch,
             null,
-            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', render: function render() {
-                    return _react2.default.createElement(
-                        'div',
-                        null,
-                        'home'
-                    );
-                } }),
+            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _Test2.default }),
             _react2.default.createElement(_reactRouterDom.Route, { path: '/services', render: function render() {
                     return _react2.default.createElement(
                         'div',
