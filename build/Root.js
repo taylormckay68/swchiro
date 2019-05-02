@@ -10,7 +10,7 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Main = require('./components/Main');
+var _Main = require('./Main');
 
 var _Main2 = _interopRequireDefault(_Main);
 
@@ -37,7 +37,7 @@ var Root = function (_Component) {
       return _react2.default.createElement(
         'div',
         { id: 'bd' },
-        _react2.default.createElement(_Main2.default, this.props)
+        _react2.default.createElement(_Main2.default, null)
       );
     }
   }]);

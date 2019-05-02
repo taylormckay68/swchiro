@@ -3,12 +3,16 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "watch": {
+    "go": "src/"
+  },
   "scripts": {
     "go": "rm -rf dist && NODE_ENV=production webpack -p && rm -rf build && NODE_ENV=production babel src --out-dir build && node build/index.js",
     "bundle": "rm -rf dist && NODE_ENV=production webpack -p",
     "build": "rm -rf build && NODE_ENV=production babel src --out-dir build",
     "start": "node build/index.js",
-    "test": "echo 'done'"
+    "test": "echo 'done'",
+    "watch": "npm-watch"
   },
   "dependencies": {
     "babel-polyfill": "^6.23.0",
@@ -18,9 +22,11 @@
     "fetch": "^1.1.0",
     "file-loader": "^2.0.0",
     "node-fetch": "^2.2.0",
+    "npm-watch": "^0.6.0",
     "react": "^16.4.2",
     "react-dom": "^16.0.0",
     "react-redux": "^5.0.7",
+    "react-router-dom": "^5.0.0",
     "redux": "^4.0.0",
     "redux-devtools-extension": "^2.13.5",
     "redux-logger": "^3.0.6",

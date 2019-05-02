@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import Main from './components/Main';
+import Main from './Main';
 
 class Root extends Component {
     render() {
         return (
           <div id="bd">
-            <Main {...this.props}/>
+            <Main/>
           </div>
         )
     }

@@ -14,7 +14,9 @@ var _react2 = _interopRequireDefault(_react);
 
 var _server = require("react-dom/server");
 
-var _Root = require("./home/Root");
+var _reactRouterDom = require("react-router-dom");
+
+var _Root = require("./Root");
 
 var _Root2 = _interopRequireDefault(_Root);
 
@@ -48,7 +50,11 @@ function serverPageLoader(req, res) {
   res.send(returnHTML(data, _Root2.default));
 }
 
-app.get("/", serverPageLoader);
+app.get("/*", function (req, res) {
+  var context = {};
+  res.set("Cache-Control", "public, max-age=31557600");
+  res.send(returnHTML(context, _Root2.default, req));
+});
 
 app.get("/health", function (req, res) {
   return res.send("OK");
@@ -69,12 +75,15 @@ function fetcher(url) {
   }).catch(errHandle);
 }
 
-function returnHTML(data, Root) {
-  var dataString = JSON.stringify(data);
+function returnHTML(data, Root, req) {
   var sheet = new _styledComponents.ServerStyleSheet();
-  var body = (0, _server.renderToString)(sheet.collectStyles(_react2.default.createElement(Root, { data: data })));
+  var body = (0, _server.renderToString)(sheet.collectStyles(_react2.default.createElement(
+    _reactRouterDom.StaticRouter,
+    { location: req.url, context: {} },
+    _react2.default.createElement(Root, { data: data })
+  )));
   var styles = sheet.getStyleTags();
-  return "\n    <!DOCTYPE html>\n      <html lang=\"en\">\n        <head>\n          <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n          <title>Room Ideas</title>\n          <meta name=\"Description\" content=\"Room Ideas. Explore hundreds of room ideas to inspire your style.\">\n        </head>\n        <script>window.__LPO__=" + dataString + "</script>\n        " + styles + "\n        <style>body {margin: 0;}</style>\n        <div id=\"app\">" + body + "</div>\n        <script defer>" + bundle + "</script>\n      </html>\n    ";
+  return "\n    <!DOCTYPE html>\n      <html lang=\"en\">\n        <head>\n          <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n          <title>Southwest Chiropractic</title>\n          <meta name=\"Description\" content=\"Chiropractic office located in South Jordan, UT\">\n        </head>\n        " + styles + "\n        <style>body {margin: 0;}</style>\n        <div id=\"app\">" + body + "</div>\n        <script defer>" + bundle + "</script>\n      </html>\n    ";
 }
 
 function errHandle(err) {

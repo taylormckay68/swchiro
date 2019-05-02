@@ -1,11 +1,11 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
-exports.MainDiv = undefined;
+exports.HomeWrapper = undefined;
 
-var _templateObject = _taggedTemplateLiteral(['\n    \n'], ['\n    \n']);
+var _templateObject = _taggedTemplateLiteral(['\n\n'], ['\n\n']);
 
 var _styledComponents = require('styled-components');
 
@@ -15,4 +15,4 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-var MainDiv = exports.MainDiv = _styledComponents2.default.div(_templateObject);
+var HomeWrapper = exports.HomeWrapper = _styledComponents2.default.div(_templateObject);

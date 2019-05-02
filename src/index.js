@@ -2,7 +2,8 @@ import express from "express";
 import fetch from "node-fetch";
 import React from "react";
 import { renderToString } from "react-dom/server";
-import Root from "./home/Root";
+import { StaticRouter } from 'react-router-dom';
+import Root from "./Root";
 import { ServerStyleSheet } from "styled-components";
 import fs from "fs";
 import compression from "compression";
@@ -26,7 +27,11 @@ function serverPageLoader(req, res) {
     res.send(returnHTML(data, Root));
 }
 
-app.get("/", serverPageLoader);
+app.get("/*", (req, res) => {
+  const context = {};
+  res.set("Cache-Control", "public, max-age=31557600");
+  res.send(returnHTML(context, Root, req));
+});
 
 app.get("/health", (req, res) => res.send("OK"));
 
@@ -48,12 +53,13 @@ function fetcher(url) {
     .catch(errHandle);
 }
 
-function returnHTML(data, Root) {
-  const dataString = JSON.stringify(data);
+function returnHTML(data, Root, req) {
   const sheet = new ServerStyleSheet();
   const body = renderToString(
     sheet.collectStyles(
+      <StaticRouter location={req.url} context={{}}>
         <Root data={data} />
+      </StaticRouter>
     )
   );
   const styles = sheet.getStyleTags();
@@ -62,10 +68,9 @@ function returnHTML(data, Root) {
       <html lang="en">
         <head>
           <meta name="viewport" content="width=device-width, initial-scale=1">
-          <title>Room Ideas</title>
-          <meta name="Description" content="Room Ideas. Explore hundreds of room ideas to inspire your style.">
+          <title>Southwest Chiropractic</title>
+          <meta name="Description" content="Chiropractic office located in South Jordan, UT">
         </head>
-        <script>window.__LPO__=${dataString}</script>
         ${styles}
         <style>body {margin: 0;}</style>
         <div id="app">${body}</div>

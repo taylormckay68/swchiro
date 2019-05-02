@@ -1,5 +1,6 @@
-import React from 'react';
-import {NavbarCont, LogoCont, Logo, LogoText} from './styled-components/Navbar'
+import React, { Component } from 'react'
+
+import {NavbarCont, LogoCont, Logo, LogoText} from './styled-components/Navbar';
 
 export default function() {
     return(

@@ -3,20 +3,18 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.default = About;
+exports.default = Contact;
 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _About = require('./styled-components/About');
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function About() {
+function Contact() {
     return _react2.default.createElement(
-        _About.AboutWrapper,
+        'div',
         null,
-        'About'
+        'Contact'
     );
 }
