@@ -19,7 +19,7 @@ var _router2 = _interopRequireDefault(_router);
 
 var _reactRouterDom = require('react-router-dom');
 
-var _Home = require('./Home/Home');
+var _Home = require('./Home/Home.js');
 
 var _Home2 = _interopRequireDefault(_Home);
 
