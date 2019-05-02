@@ -6,12 +6,17 @@ import Home from './Home/Home.js';
 // import {} from './styled-components/Root';
 
 export default function Main() {
+    console.log('home: ', Home);
     return(
         <div>
             <Navbar/>
             {/* {router} */}
             <Switch>
-                <Route exact path="/" render={() => <Home/>}/>
+                <Route exact path="/" render={() => {
+                    return(
+                        <div>home</div>
+                    )
+                }}/>
                 <Route path="/services" render={() => {
                     return(
                         <div>services</div>

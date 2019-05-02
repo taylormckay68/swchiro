@@ -28,6 +28,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // import {} from './styled-components/Root';
 
 function Main() {
+    console.log('home: ', _Home2.default);
     return _react2.default.createElement(
         'div',
         null,
@@ -36,7 +37,11 @@ function Main() {
             _reactRouterDom.Switch,
             null,
             _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', render: function render() {
-                    return _react2.default.createElement(_Home2.default, null);
+                    return _react2.default.createElement(
+                        'div',
+                        null,
+                        'home'
+                    );
                 } }),
             _react2.default.createElement(_reactRouterDom.Route, { path: '/services', render: function render() {
                     return _react2.default.createElement(
